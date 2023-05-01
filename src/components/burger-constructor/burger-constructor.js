@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -91,3 +92,12 @@ export default function BurgerConstructor(props) {
         </section>
     );
 }
+
+BurgerConstructor.propTypes = {
+    _id: PropTypes.string,
+    type: PropTypes.string,
+    isLocked: PropTypes.bool,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    thumbnail: PropTypes.string
+};

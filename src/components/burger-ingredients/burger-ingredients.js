@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
 
@@ -58,3 +59,7 @@ export default function BurgerIngredients(props) {
         </>
     );
 }
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.array
+};
