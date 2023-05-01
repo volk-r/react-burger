@@ -1,12 +1,9 @@
 import React from 'react';
+import { burgerAttributes } from "../../utils/burger-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
-import {
-    CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function BurgerIngredientsList(props) {
     return (
@@ -34,11 +31,6 @@ export default function BurgerIngredientsList(props) {
     );
 }
 
-// BurgerIngredientsList.propTypes = {
-//     _id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     image: PropTypes.string.isRequired,
-//     isLocked: PropTypes.bool.isRequired,
-//     price: PropTypes.number.isRequired,
-//     thumbnail: PropTypes.string.isRequired,
-// };
+BurgerIngredientsList.propTypes = {
+    burgerAttributes
+};

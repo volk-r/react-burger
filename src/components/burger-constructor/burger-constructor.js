@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { burgerAttributes } from '../../utils/burger-attributes';
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -10,7 +10,7 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function BurgerConstructor(props) {
+export default function BurgerConstructor() {
     return (
         <section className={ BurgerConstructorStyles.container }>
             <p className="m-20"></p>
@@ -93,11 +93,6 @@ export default function BurgerConstructor(props) {
     );
 }
 
-// BurgerConstructor.propTypes = {
-//     _id: PropTypes.string.isRequired,
-//     type: PropTypes.string.isRequired,
-//     isLocked: PropTypes.bool.isRequired,
-//     name: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     thumbnail: PropTypes.string.isRequired,
-// };
+BurgerConstructor.propTypes = {
+    burgerAttributes
+};
