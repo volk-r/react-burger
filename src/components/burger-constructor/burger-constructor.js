@@ -14,7 +14,7 @@ export default function BurgerConstructor(props) {
         <section className={ BurgerConstructorStyles.container }>
             <p className="m-20"></p>
             <ul>
-                <li className={` ${ BurgerConstructorStyles.listItem } pl-57 mr-5 mb-1`}>
+                <li className={` ${ BurgerConstructorStyles.listItem } pl-59 mr-4 mb-1`}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -67,7 +67,7 @@ export default function BurgerConstructor(props) {
                 </li>
             </ul>
             <ul>
-                <li className={` ${ BurgerConstructorStyles.listItem } pl-57 mr-5`}>
+                <li className={` ${ BurgerConstructorStyles.listItem } pl-59 mr-4`}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}

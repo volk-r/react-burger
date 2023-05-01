@@ -8,7 +8,7 @@
 }
 
 .listContainer {
-    height: 550px;
+    max-height: 550px;
     overflow: auto;
 
     display: flex;
