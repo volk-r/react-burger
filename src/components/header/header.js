@@ -24,6 +24,7 @@ class AppHeader extends React.Component {
                             <p className="text text_type_main-default">Лента заказов</p>
                         </div>
                     </nav>
+                    <div className="ml-1"></div>
                     <Logo />
                     <div className={ AppHeaderStyles.navlink }>
                     </div>
