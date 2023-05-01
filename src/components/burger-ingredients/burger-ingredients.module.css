@@ -1,0 +1,34 @@
+.container {
+    width: 47%;
+    height: 730px;
+    /* interface/bg */
+    background: #131316;
+    /* interface/accent */
+    border: 2px solid #4C4CFF;
+}
+
+.listContainer {
+    height: 550px;
+    overflow: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin: 0; /* убираем отступы вокруг списка */
+    padding-left: 16px; /* убираем отступы внутри списка */
+    padding-right: 5px;
+
+    list-style: none; /* убираем маркеры списка */
+}
+
+.listItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: flex-end;
+
+    height: 80px;
+    width: 80px;
+}
