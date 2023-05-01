@@ -3,9 +3,7 @@ import React from 'react';
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-
 import { data } from '../../utils/data';
-import BurgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
 
 export default function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('one')
@@ -69,7 +67,6 @@ export default function BurgerIngredients(props) {
                         <p className="text text_type_main-large p-5">
                             ingridients
                         </p>
-
                     </li>
                 </ul>
             </section>

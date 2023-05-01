@@ -1,6 +1,7 @@
 .container {
     width: 47%;
     height: 730px;
+    min-height: 200px;
     /* interface/bg */
     background: #131316;
     /* interface/accent */
@@ -30,17 +31,7 @@
     justify-content: center;
 
     height: 80px;
-    /*max-width: 98%;*/
-    /*width: 99%;*/
 }
-
-/*.listItem:first-child {*/
-/*    margin-left: 27px; !* отступы вокруг списка *!*/
-/*}*/
-
-/*.listItem:last-child {*/
-/*    margin-left: 27px; !* отступы вокруг списка *!*/
-/*}*/
 
 .priceContainer {
     display: flex;

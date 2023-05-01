@@ -77,7 +77,6 @@ export default function BurgerConstructor(props) {
                     />
                 </li>
             </ul>
-            {/*<section className={ BurgerConstructorStyles.priceContainer }>*/}
             <section className={` ${ BurgerConstructorStyles.priceContainer } mt-7 mr-4 mb-5`}>
                 <p className="text text_type_digits-medium">
                     12345670

@@ -1,6 +1,7 @@
 .container {
     width: 47%;
     height: 730px;
+    min-height: 200px;
     /* interface/bg */
     background: #131316;
     /* interface/accent */
