@@ -15,22 +15,22 @@ class AppHeader extends React.Component {
             <>
                 <nav className={ AppHeaderStyles.menu }>
                     <nav className={ AppHeaderStyles.nav }>
-                        <navlink className={ AppHeaderStyles.navlink }>
+                        <div className={ AppHeaderStyles.navlink }>
                             <BurgerIcon type="primary" />
                             <p className="text text_type_main-default">Конструктор</p>
-                        </navlink>
-                        <navlink className={ AppHeaderStyles.navlink }>
+                        </div>
+                        <div className={ AppHeaderStyles.navlink }>
                             <ListIcon type="secondary" />
                             <p className="text text_type_main-default">Лента заказов</p>
-                        </navlink>
+                        </div>
                     </nav>
                     <Logo />
-                    <navlink className={ AppHeaderStyles.navlink }>
-                    </navlink>
-                    <navlink className={ AppHeaderStyles.navlink }>
+                    <div className={ AppHeaderStyles.navlink }>
+                    </div>
+                    <div className={ AppHeaderStyles.navlink }>
                         <ProfileIcon type="secondary" />
                         <p className="text text_type_main-default">Личный кабинет</p>
-                    </navlink>
+                    </div>
                 </nav>
             </>
         );

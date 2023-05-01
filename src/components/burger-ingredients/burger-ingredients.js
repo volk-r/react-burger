@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
+
+import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list'
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { data } from '../../utils/data';
@@ -8,13 +10,19 @@ import { data } from '../../utils/data';
 export default function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('one')
 
-    // state = {
-    //     current: 'sause',
-    //     data: data,
-    // };
-    // getTypes = () => {
-    //     return this.state.data.map(el => el.type)
-    // };
+    let [bun, setBun] = React.useState([])
+    let [main, setMain] = React.useState([])
+    let [sauce, setSauce] = React.useState([])
+
+    useEffect(() => {
+        setBun(getList('bun'));
+        setSauce(getList('sauce'));
+        setMain(getList('main'));
+    }, [data])
+
+    const getList = ((type) => {
+        return data.filter(ingridient => ( ingridient.type === type ))
+    });
 
     return (
         <>
@@ -23,51 +31,22 @@ export default function BurgerIngredients(props) {
                     Соберите бургер
                 </p>
                 <div style={{ display: 'flex' }}>
-                    <Tab value="sause" active={current === 'sause'} onClick={setCurrent}>
-                        Соусы
-                    </Tab>
                     <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                         Булки
                     </Tab>
                     <Tab value="main" active={current === 'main'} onClick={setCurrent}>
                         Начинка
                     </Tab>
+                    <Tab value="sause" active={current === 'sause'} onClick={setCurrent}>
+                        Соусы
+                    </Tab>
                 </div>
                 <p className="text text_type_main-medium mb-5">
                 </p>
                 <ul className={` ${ BurgerIngredientsStyles.listContainer } custom-scroll`}>
-                    <li>
-                        <p className="text text_type_main-medium">
-                            Булки
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                        <p className="text text_type_main-large p-5">
-                            ingridients
-                        </p>
-                    </li>
+                    <BurgerIngredientsList title={"Булки"} list={bun} />
+                    <BurgerIngredientsList title={"Начинка"} list={main}/>
+                    <BurgerIngredientsList title={"Соусы"} list={sauce} />
                 </ul>
             </section>
         </>
