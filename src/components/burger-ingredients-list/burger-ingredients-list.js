@@ -9,7 +9,7 @@ import {
 export default function BurgerIngredientsList(props) {
     return (
         <li>
-            <p className="text text_type_main-medium pb-4">
+            <p id={props.id} className="text text_type_main-medium pb-4">
                 {props.title}
             </p>
             <div className={ BurgerIngredientsListStyles.containerBox }>
