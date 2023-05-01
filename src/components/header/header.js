@@ -9,33 +9,31 @@ import {
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-class AppHeader extends React.Component {
-    render() {
-        return (
-            <>
-                <nav className={ AppHeaderStyles.menu }>
-                    <nav className={ AppHeaderStyles.nav }>
-                        <div className={ AppHeaderStyles.navlink }>
-                            <BurgerIcon type="primary" />
-                            <p className="text text_type_main-default">Конструктор</p>
-                        </div>
-                        <div className={ AppHeaderStyles.navlink }>
-                            <ListIcon type="secondary" />
-                            <p className="text text_type_main-default">Лента заказов</p>
-                        </div>
-                    </nav>
-                    <div className="ml-1"></div>
-                    <Logo />
-                    <div className={ AppHeaderStyles.navlink }>
-                    </div>
-                    <div className={ AppHeaderStyles.navlink }>
-                        <ProfileIcon type="secondary" />
-                        <p className="text text_type_main-default">Личный кабинет</p>
-                    </div>
+export default function AppHeader() {
+    return (
+        <>
+            <nav className={ AppHeaderStyles.menu }>
+                <nav className={ AppHeaderStyles.nav }>
+                    <a href="#" className={ AppHeaderStyles.navlink }>
+                        <BurgerIcon type="primary" />
+                        <p className="text text_type_main-default">Конструктор</p>
+                    </a>
+                    <a href="http://localhost:3000/#bun" className={ AppHeaderStyles.navlink }>
+                        <ListIcon type="secondary" />
+                        <p className="text text_type_main-default">Лента заказов</p>
+                    </a>
                 </nav>
-            </>
-        );
-    }
+                <div className="ml-1"></div>
+                <a href="#" >
+                    <Logo />
+                </a>
+                <div className={ AppHeaderStyles.navlink }>
+                </div>
+                <a href="#" className={ AppHeaderStyles.navlink }>
+                    <ProfileIcon type="secondary" />
+                    <p className="text text_type_main-default">Личный кабинет</p>
+                </a>
+            </nav>
+        </>
+    );
 }
-
-export default AppHeader;

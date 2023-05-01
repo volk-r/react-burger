@@ -39,3 +39,8 @@
     background: #1C1C21;
     border-radius: 40px;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;  /* наследуем цвет */
+}

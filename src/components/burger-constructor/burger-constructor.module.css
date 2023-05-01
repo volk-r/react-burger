@@ -1,5 +1,6 @@
 .container {
     width: 47%;
+    max-width: 50%;
     height: 730px;
     min-height: 200px;
     /* interface/bg */

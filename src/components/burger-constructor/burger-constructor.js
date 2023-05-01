@@ -93,11 +93,11 @@ export default function BurgerConstructor(props) {
     );
 }
 
-BurgerConstructor.propTypes = {
-    _id: PropTypes.string,
-    type: PropTypes.string,
-    isLocked: PropTypes.bool,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    thumbnail: PropTypes.string
-};
+// BurgerConstructor.propTypes = {
+//     _id: PropTypes.string.isRequired,
+//     type: PropTypes.string.isRequired,
+//     isLocked: PropTypes.bool.isRequired,
+//     name: PropTypes.string.isRequired,
+//     price: PropTypes.number.isRequired,
+//     thumbnail: PropTypes.string.isRequired,
+// };

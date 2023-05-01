@@ -9,7 +9,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { data } from '../../utils/data';
 
 export default function BurgerIngredients(props) {
-    const [current, setCurrent] = React.useState('one')
+    const [current, setCurrent] = React.useState('bun')
 
     let [bun, setBun] = React.useState([])
     let [main, setMain] = React.useState([])
