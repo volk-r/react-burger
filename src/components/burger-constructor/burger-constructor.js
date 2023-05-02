@@ -9,6 +9,7 @@ import {
     DragIcon,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from "prop-types";
 
 export default function BurgerConstructor() {
     return (
@@ -94,5 +95,5 @@ export default function BurgerConstructor() {
 }
 
 BurgerConstructor.propTypes = {
-    burgerAttributes
+    burgerAttributes: PropTypes.exact(burgerAttributes)
 };

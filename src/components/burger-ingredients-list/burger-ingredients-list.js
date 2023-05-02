@@ -4,6 +4,7 @@ import { burgerAttributes } from "../../utils/burger-attributes";
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from "prop-types";
 
 export default function BurgerIngredientsList(props) {
     return (
@@ -32,5 +33,5 @@ export default function BurgerIngredientsList(props) {
 }
 
 BurgerIngredientsList.propTypes = {
-    burgerAttributes
+    burgerAttributes: PropTypes.exact(burgerAttributes)
 };
