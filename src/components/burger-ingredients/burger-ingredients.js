@@ -10,7 +10,7 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function BurgerIngredients(props) {
-    const [current, setCurrent] = React.useState('bun')
+    const [current, setCurrent] = React.useState(IngredientCategories[0].type)
 
     const getList = ((type) => {
         return props.data.filter(ingridient => ( ingridient.type === type ))
