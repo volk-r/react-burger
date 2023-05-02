@@ -95,5 +95,5 @@ export default function BurgerConstructor() {
 }
 
 BurgerConstructor.propTypes = {
-    burgerAttributes: PropTypes.exact(burgerAttributes).isRequired
+    burgerIngridients: PropTypes.exact(burgerAttributes).isRequired
 };

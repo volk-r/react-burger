@@ -13,7 +13,7 @@ export default function App() {
             <AppHeader />
             <main className={ AppStyles.box }>
                 <BurgerIngredients data={data} />
-                <BurgerConstructor />
+                <BurgerConstructor burgerIngridients={data[0]} />
             </main>
         </>
     );
