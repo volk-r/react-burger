@@ -33,5 +33,5 @@ export default function BurgerIngredientsList(props) {
 }
 
 BurgerIngredientsList.propTypes = {
-    burgerAttributes: PropTypes.exact(burgerAttributes)
+    burgerAttributes: PropTypes.exact(burgerAttributes).isRequired
 };
