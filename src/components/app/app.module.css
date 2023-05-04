@@ -1,0 +1,13 @@
+.box {
+    display: flex;
+    position: absolute;
+
+    max-width: 85%;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-top: 5.9%;
+    padding-bottom: 5%;
+
+    align-items: center;
+    justify-content: space-evenly;
+}

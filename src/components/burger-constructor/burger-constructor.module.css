@@ -1,0 +1,42 @@
+.container {
+    width: 47%;
+    max-width: 50%;
+    height: 730px;
+    min-height: 200px;
+    /* interface/bg */
+    background: #131316;
+    /* interface/accent */
+    /*border: 2px solid #4C4CFF;*/
+}
+
+.listContainer {
+    max-height: 350px;
+    overflow: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin: 0; /* убираем отступы вокруг списка */
+    padding-left: 16px; /* убираем отступы внутри списка */
+    padding-right: 7px;
+
+    list-style: none; /* убираем маркеры списка */
+}
+
+.listItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: center;
+
+    height: 80px;
+}
+
+.priceContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
