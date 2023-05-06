@@ -1,5 +1,5 @@
 import React from 'react';
-import { burgerAttributes } from "../../utils/burger-attributes";
+import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
@@ -35,5 +35,5 @@ export default function BurgerIngredientsList(props) {
 BurgerIngredientsList.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    list: PropTypes.exact(burgerAttributes).isRequired,
+    list: PropTypes.arrayOf(ingredientAttributes).isRequired,
 };

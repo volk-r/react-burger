@@ -1,0 +1,9 @@
+.errorBlock {
+    position: absolute;
+    background-color: red;
+    padding: 25px;
+    border-radius: 50px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
