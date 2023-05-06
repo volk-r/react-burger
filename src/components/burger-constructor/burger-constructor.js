@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
+import DoneLogo from '../../images/done.svg';
+import Modal from "../modal/modal";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -13,8 +15,14 @@ import PropTypes from "prop-types";
 import {IngredientCategories} from "../../utils/constants";
 
 export default function BurgerConstructor(props) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const bun = props.burgerIngridients[0];
+
+    const handleOpenModal = () => {
+        console.log("Complete order clicked");
+        setIsModalOpen(true);
+    };
 
     return (
         <section className={ BurgerConstructorStyles.container }>
@@ -63,10 +71,24 @@ export default function BurgerConstructor(props) {
                 <p className="ml-2 mr-4 text text_type_main-large">
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button htmlType="button" type="primary" size="large">
+                <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
                     Оформить заказ
                 </Button>
             </section>
+            {isModalOpen
+            && <Modal header="" show={ isModalOpen } onClose={() => setIsModalOpen(false)} >
+                <p className="text text_type_digits-large">123456</p>
+                <p className="text text_type_main-medium p-1">
+                    идентификатора заказа
+                </p>
+                <img src={DoneLogo} alt="Success" />
+                <p className="text text_type_main-default p-2">
+                    Ваш заказа начали готовить
+                </p>
+                <p className="text text_type_main-default text_color_inactive p-1">
+                    Дождитесь готовности на орбитальной станции
+                </p>
+            </Modal>}
         </section>
     );
 }
