@@ -13,11 +13,6 @@ export default function Modal({
 }) {
     const modalRoot =  document.getElementById('react-modals')
 
-    const handleClose = () => {
-        console.log("[Modal]: close modal");
-        onClose();
-    };
-
     const onKeydown = ({ key }) => {
         switch (key) {
             case 'Escape':
@@ -34,22 +29,23 @@ export default function Modal({
         return () => document.removeEventListener('keydown', onKeydown)
     })
 
+    if (show === false) {
+        return null;
+    }
+
     return ReactDOM.createPortal(
         (
             <>
-                <ModalBackDrop show={ show } onClick={ handleClose } />
-                {show
-                &&
-                    <div className={ ModalStyles.content }>
-                        <div className={ ModalStyles.headerBlock }>
-                            <h3 className={`${ModalStyles.header} text text_type_main-medium pr-2`}>{ header }</h3>
-                            <CloseIcon type="primary" onClick={ handleClose } />
-                        </div>
-                        <div className={`${ ModalStyles.childContent } `}>
-                            {children}
-                        </div>
+                <ModalBackDrop onClick={ onClose } />
+                <div className={ ModalStyles.content }>
+                    <div className={ ModalStyles.headerBlock }>
+                        <h3 className={`${ModalStyles.header} text text_type_main-medium pr-2`}>{ header }</h3>
+                        <CloseIcon type="primary" onClick={ onClose } />
                     </div>
-                }
+                    <div className={`${ ModalStyles.childContent } `}>
+                        { children }
+                    </div>
+                </div>
             </>
         ),
         modalRoot

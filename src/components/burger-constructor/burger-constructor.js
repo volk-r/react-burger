@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
 import DoneLogo from '../../images/done.svg';
 import Modal from "../modal/modal";
@@ -80,8 +80,7 @@ export default function BurgerConstructor(props) {
                     Оформить заказ
                 </Button>
             </section>
-            {isModalOpen
-            && <Modal header="" show={ isModalOpen } onClose={ handleCloseModal } >
+            <Modal header="" show={ isModalOpen } onClose={ handleCloseModal } >
                 <p className="text text_type_digits-large">123456</p>
                 <p className="text text_type_main-medium p-1">
                     идентификатора заказа
@@ -93,7 +92,7 @@ export default function BurgerConstructor(props) {
                 <p className="text text_type_main-default text_color_inactive p-1">
                     Дождитесь готовности на орбитальной станции
                 </p>
-            </Modal>}
+            </Modal>
         </section>
     );
 }
