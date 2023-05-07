@@ -20,12 +20,10 @@ export default function BurgerConstructor(props) {
     const bun = props.burgerIngridients[0];
 
     const handleOpenModal = () => {
-        console.log("Complete order clicked");
         setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        console.log("[BurgerConstructor]: Close modal");
         setIsModalOpen(false)
     };
 

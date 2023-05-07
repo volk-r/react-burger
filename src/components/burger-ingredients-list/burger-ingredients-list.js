@@ -29,7 +29,7 @@ export default function BurgerIngredientsList(props) {
 
     const ListItem = React.memo(({ item, handleItemClick }) => {
         const handleClick = () => handleItemClick(item);
-        // Передаём в обработчик handleListItemClick проп item
+
         return (
             <div key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
                 {
