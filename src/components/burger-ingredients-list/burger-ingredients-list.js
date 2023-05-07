@@ -13,7 +13,6 @@ export default function BurgerIngredientsList(props) {
 
     const handleItemClick = React.useCallback(
       (item) => {
-            console.log(item, 'По этому элементу кликнули')
             setSelectedItem(item);
             setShowModal(true);
         },
@@ -29,7 +28,6 @@ export default function BurgerIngredientsList(props) {
     );
 
     const ListItem = React.memo(({ item, handleItemClick }) => {
-        console.log('Детишки компонента List тоже заново родились!')
         const handleClick = () => handleItemClick(item);
         // Передаём в обработчик handleListItemClick проп item
         return (
