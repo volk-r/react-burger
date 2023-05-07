@@ -14,12 +14,9 @@ export default function Modal({
 }) {
     const modalRoot =  document.getElementById('react-modals')
 
-    console.log("[Modal]: called");
-
     React.useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.keyCode === 27) {
-                console.log("[Modal]: close modal");
                 onClose();
             }
         };
