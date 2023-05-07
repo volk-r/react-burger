@@ -4,6 +4,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import ModalBackDrop from '../modal-back-drop/modal-back-drop'
 
 import ModalStyles from './modal.module.css';
+import PropTypes from "prop-types";
 
 export default function Modal({
     show,
@@ -13,21 +14,22 @@ export default function Modal({
 }) {
     const modalRoot =  document.getElementById('react-modals')
 
-    const onKeydown = ({ key }) => {
-        switch (key) {
-            case 'Escape':
-                console.log("[Modal]: close modal");
-                onClose()
-                break
-            default:
-                break;
-        }
-    }
+    console.log("[Modal]: called");
 
     React.useEffect(() => {
-        document.addEventListener('keydown', onKeydown)
-        return () => document.removeEventListener('keydown', onKeydown)
-    })
+        const handleKeyDown = (event) => {
+            if (event.keyCode === 27) {
+                console.log("[Modal]: close modal");
+                onClose();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [onClose])
 
     if (show === false) {
         return null;
@@ -51,3 +53,9 @@ export default function Modal({
         modalRoot
     );
 }
+
+Modal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    header: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
