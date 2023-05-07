@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
 import DoneLogo from '../../images/done.svg';
 import Modal from "../modal/modal";
@@ -12,10 +12,10 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
-import {IngredientCategories} from "../../utils/constants";
 
 export default function BurgerConstructor(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const bun = props.burgerIngridients[0];
 
@@ -26,6 +26,19 @@ export default function BurgerConstructor(props) {
     const handleCloseModal = () => {
         setIsModalOpen(false)
     };
+
+    useEffect(() => {
+        const getTotalPrice = () => {
+            setTotalPrice(props.burgerIngridients.reduce((total, item) => {
+                if (item.type !== bun.type) {
+                    return total + item.price;
+                }
+                return total;
+            }, 0) + bun.price);
+        }
+
+        getTotalPrice()
+    }, [bun, props.burgerIngridients])
 
     return (
         <section className={ BurgerConstructorStyles.container }>
@@ -43,9 +56,9 @@ export default function BurgerConstructor(props) {
             </ul>
             <ul className={` ${ BurgerConstructorStyles.listContainer } custom-scroll m-1 pr-5`}>
                 {
-                    props.burgerIngridients.map((item, index) =>
-                        item.type !== IngredientCategories[0].type
-                        && <li key={index} className={ BurgerConstructorStyles.listItem }>
+                    props.burgerIngridients.map((item) =>
+                        item.type !== bun.type
+                        && <li key={ item._id } className={ BurgerConstructorStyles.listItem }>
                             <DragIcon type="primary" />
                             <ConstructorElement
                                 text={ item.name }
@@ -69,7 +82,7 @@ export default function BurgerConstructor(props) {
             </ul>
             <section className={` ${ BurgerConstructorStyles.priceContainer } mt-7 mr-4 mb-5`}>
                 <p className="text text_type_digits-medium">
-                    12345670
+                    {totalPrice}
                 </p>
                 <p className="ml-2 mr-4 text text_type_main-large">
                     <CurrencyIcon type="primary" />
@@ -79,7 +92,9 @@ export default function BurgerConstructor(props) {
                 </Button>
             </section>
             <Modal header="" show={ isModalOpen } onClose={ handleCloseModal } >
-                <p className="text text_type_digits-large">123456</p>
+                <p className="text text_type_digits-large">
+                    {totalPrice}
+                </p>
                 <p className="text text_type_main-medium p-1">
                     идентификатора заказа
                 </p>
