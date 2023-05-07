@@ -24,6 +24,11 @@ export default function BurgerConstructor(props) {
         setIsModalOpen(true);
     };
 
+    const handleCloseModal = () => {
+        console.log("[BurgerConstructor]: Close modal");
+        setIsModalOpen(false)
+    };
+
     return (
         <section className={ BurgerConstructorStyles.container }>
             <p className="m-20"></p>
@@ -71,12 +76,12 @@ export default function BurgerConstructor(props) {
                 <p className="ml-2 mr-4 text text_type_main-large">
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
+                <Button htmlType="button" type="primary" size="large" onClick={ handleOpenModal }>
                     Оформить заказ
                 </Button>
             </section>
             {isModalOpen
-            && <Modal header="" show={ isModalOpen } onClose={() => setIsModalOpen(false)} >
+            && <Modal header="" show={ isModalOpen } onClose={ handleCloseModal } >
                 <p className="text text_type_digits-large">123456</p>
                 <p className="text text_type_main-medium p-1">
                     идентификатора заказа

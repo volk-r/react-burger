@@ -2,9 +2,15 @@ import React from 'react';
 
 import ModalBackDropStyles from './modal-back-drop.module.css';
 
-export default function ModalBackDrop (props) {
+const ModalBackDrop = ({onClick}) => {
+    const handleClick = () => {
+        console.log("[ModalBackDrop]: close modal");
+        onClick();
+    }
+
     return (
-        props.show
-        && <div className={ ModalBackDropStyles.modalWindow } onClick={ props.handleCloseModal } ></div> // TODO: onClick not working
+        <div className={ ModalBackDropStyles.modalWindow } onClick={ handleClick } ></div>
    );
 }
+
+export default ModalBackDrop
