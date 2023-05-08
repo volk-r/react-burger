@@ -1,33 +1,97 @@
-import React from 'react';
-import { burgerAttributes } from "../../utils/burger-attributes";
+import React, { useState, useMemo, useCallback } from 'react';
+import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
+import Modal from "../modal/modal";
 
 export default function BurgerIngredientsList(props) {
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const handleItemClick = useCallback(
+        (item) => {
+            setSelectedItem(item);
+        },
+        []
+    );
+
+    const handleCloseModal = useCallback(
+        () => {
+            setSelectedItem(null);
+        },
+        []
+    );
+
+    const isModalVisible = useMemo(() => selectedItem !== null, [selectedItem]);
+
+    const ListItem = React.memo(({ item, handleItemClick }) => {
+        const handleClick = () => handleItemClick(item);
+
+        return (
+            <div key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
+                {
+                    item.__v === 0
+                        ? <div className={ BurgerIngredientsListStyles.default }></div>
+                        : <Counter count={ item.__v } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
+                }
+                <img src={ item.image } alt={ item.name }/>
+                <div className={ BurgerIngredientsListStyles.priceContainer }>
+                    <p className="text text_type_digits-default pr-1">
+                        { item.price }
+                    </p>
+                    <CurrencyIcon type={"primary"}/>
+                </div>
+                <p className="text text_type_main-small">
+                    { item.name }
+                </p>
+            </div>
+        );
+    });
+
     return (
         <li>
-            <p id={props.id} className="text text_type_main-medium pb-4">
+            <p id={props.id} className="text text_type_main-medium">
                 {props.title}
             </p>
             <div className={ BurgerIngredientsListStyles.containerBox }>
-                {props.list.map((item, index) =>
-                    <div key={index} className={ BurgerIngredientsListStyles.box }>
-                        <img src={item.image} alt={item.name}/>
-                        <div className={ BurgerIngredientsListStyles.priceContainer }>
-                            <p className="text text_type_digits-default pr-1">
-                                {item.price}
-                            </p>
-                            <CurrencyIcon type={"primary"}/>
-                        </div>
-                        <p className="text text_type_main-small">
-                            {item.name}
+                {
+                    props.list.map((item) =>
+                        <ListItem key={ item._id } item={item} handleItemClick={handleItemClick} />
+                    )
+                }
+            </div>
+            {isModalVisible === true && (
+                <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
+                    <img src={selectedItem.image_large} alt={selectedItem.name} />
+                    <p className="text text_type_main-medium m-1 pb-2">
+                        {selectedItem.name}
+                    </p>
+                    <div className={ BurgerIngredientsListStyles.list }>
+                        <p className="text text_type_main-default text_color_inactive">
+                            Калории,ккал
+                            <br/>
+                            {selectedItem.calories}
+                        </p>
+                        <p className="text text_type_main-default text_color_inactive">
+                            Белки, г
+                            <br/>
+                            {selectedItem.proteins}
+                        </p>
+                        <p className="text text_type_main-default text_color_inactive">
+                            Жиры, г
+                            <br/>
+                            {selectedItem.fat}
+                        </p>
+                        <p className="text text_type_main-default text_color_inactive">
+                            Углеводы, г
+                            <br/>
+                            {selectedItem.carbohydrates}
                         </p>
                     </div>
-                )}
-            </div>
+                </Modal>
+            )}
         </li>
     );
 }
@@ -35,5 +99,5 @@ export default function BurgerIngredientsList(props) {
 BurgerIngredientsList.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    list: PropTypes.exact(burgerAttributes).isRequired,
+    list: PropTypes.arrayOf(ingredientAttributes).isRequired,
 };

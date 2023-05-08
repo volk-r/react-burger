@@ -1,4 +1,4 @@
-export const IngredientCategories = [
+export const INGREDIENT_CATEGORIES = [
     {
         "type":"bun",
         "name":"Булки",
@@ -12,3 +12,5 @@ export const IngredientCategories = [
         "name":"Соусы",
     },
 ];
+
+export const BUN_TYPE = 'bun';

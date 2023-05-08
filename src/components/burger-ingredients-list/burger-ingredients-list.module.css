@@ -1,18 +1,16 @@
 .containerBox {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /*grid-template-rows: repeat(2, 1fr);*/
     grid-gap: 10px;
+    padding-bottom: var(--offset-base-size);
 }
 
 .box {
-    /*background-color: #ccc;*/
     text-align: center;
     height: 190px;
 }
 
 .img {
-    position: absolute;
     left: 0;
     right: 0;
     top: 0;
@@ -28,4 +26,26 @@
 
 a {
     text-decoration: none;
+}
+
+.count {
+    position: relative;
+    display: inline-list-item;
+    top: 17%;
+    right: -77%;
+    width: 10px;
+}
+
+.default {
+    font-size: 28px;
+    min-width: 16px;
+    height: 32px;
+    padding: 0 8px;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
 }
