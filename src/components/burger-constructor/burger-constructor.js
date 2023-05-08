@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
 import DoneLogo from '../../images/done.svg';
 import Modal from "../modal/modal";
@@ -20,13 +20,17 @@ export default function BurgerConstructor(props) {
 
     const bun = burgerIngridients.find(element => element.type === BUN_TYPE);//todo: temporarily gag
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-    };
+    const handleOpenModal = useCallback(
+        () => {
+            setIsModalOpen(true);
+        }, []
+    );
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false)
-    };
+    const handleCloseModal = useCallback(
+        () => {
+            setIsModalOpen(false)
+        }, []
+    );
 
     const totalPrice = useMemo(
         () =>

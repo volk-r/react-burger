@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
 import { INGREDIENT_CATEGORIES, BUN_TYPE } from '../../utils/constants';
@@ -13,9 +13,10 @@ export default function BurgerIngredients(props) {
     const {burgerIngridients} = props
     const [current, setCurrent] = React.useState(BUN_TYPE)
 
-    const getList = (type) => {
+    const getList = useCallback(
+        (type) => {
         return burgerIngridients.filter(ingridient => ( ingridient.type === type ))
-    };
+    }, [burgerIngridients]);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
@@ -10,14 +10,14 @@ import Modal from "../modal/modal";
 export default function BurgerIngredientsList(props) {
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const handleItemClick = React.useCallback(
+    const handleItemClick = useCallback(
         (item) => {
             setSelectedItem(item);
         },
         []
     );
 
-    const handleCloseModal = React.useCallback(
+    const handleCloseModal = useCallback(
         () => {
             setSelectedItem(null);
         },

@@ -9,21 +9,21 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 
 export default function App() {
-    const [state, setState] = useState({
-        ingredients: [],
-        isLoading: true,
-        hasError: false
-    })
+    const [ingredients, setIngredients] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setError] = useState(false);
 
     useEffect(() => {
         const getProducts = () => {
-            setState({ ...state, hasError: false, isLoading: true });
-
             fetch(DATA_URL)
                 .then(res => res.json())
-                .then(data => setState({ ...state, ingredients: data.data, isLoading: false }))
+                .then(data => {
+                    setIsLoading(false);
+                    setIngredients(data.data);
+                })
                 .catch(e => {
-                    setState({ ...state, hasError: true, isLoading: false });
+                    setError(true);
+                    setIsLoading(false);
             });
         }
 
@@ -33,15 +33,15 @@ export default function App() {
     return (
         <>
             <AppHeader />
-            {state.isLoading === true && <p className={ AppStyles.loading }>Loading...</p>}
+            {isLoading === true && <p className={ AppStyles.loading }>Loading...</p>}
             <ErrorBoundary>
                 <main className={ AppStyles.box }>
                         {
-                            state.isLoading === false
-                            && state.hasError === false
+                            isLoading === false
+                            && hasError === false
                             && <>
-                                <BurgerIngredients burgerIngridients={ state.ingredients } />
-                                <BurgerConstructor burgerIngridients={ state.ingredients } />
+                                <BurgerIngredients burgerIngridients={ ingredients } />
+                                <BurgerConstructor burgerIngridients={ ingredients } />
                             </>
                         }
                 </main>
