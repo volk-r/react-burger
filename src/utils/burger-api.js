@@ -30,7 +30,6 @@ export async function getIngredients() {
         data
         && typeof data.success !== "undefined"
         && data.success === true
-        && typeof data.data === 'object'
     ) {
         return data.data;
     }
