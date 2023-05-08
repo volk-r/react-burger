@@ -1,4 +1,4 @@
-export const IngredientCategories = [
+export const INGREDIENT_CATEGORIES = [
     {
         "type":"bun",
         "name":"Булки",
@@ -14,3 +14,4 @@ export const IngredientCategories = [
 ];
 
 export const DATA_URL = 'https://norma.nomoreparties.space/api/ingredients';
+export const BUN_TYPE = 'bun';

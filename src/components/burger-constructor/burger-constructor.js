@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useMemo } from 'react';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
 import DoneLogo from '../../images/done.svg';
 import Modal from "../modal/modal";
+import { BUN_TYPE } from "../../utils/constants";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -14,10 +15,10 @@ import {
 import PropTypes from "prop-types";
 
 export default function BurgerConstructor(props) {
+    const { burgerIngridients } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [totalPrice, setTotalPrice] = useState(0);
 
-    const bun = props.burgerIngridients[0];
+    const bun = burgerIngridients.find(element => element.type === BUN_TYPE);//todo: temporarily gag
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -27,18 +28,16 @@ export default function BurgerConstructor(props) {
         setIsModalOpen(false)
     };
 
-    useEffect(() => {
-        const getTotalPrice = () => {
-            setTotalPrice(props.burgerIngridients.reduce((total, item) => {
+    const totalPrice = useMemo(
+        () =>
+            burgerIngridients.reduce((total, item) => {
                 if (item.type !== bun.type) {
                     return total + item.price;
                 }
                 return total;
-            }, 0) + bun.price);
-        }
-
-        getTotalPrice()
-    }, [bun, props.burgerIngridients])
+            }, 0) + bun.price
+        ,[bun, burgerIngridients]
+    );
 
     return (
         <section className={ BurgerConstructorStyles.container }>
@@ -56,8 +55,8 @@ export default function BurgerConstructor(props) {
             </ul>
             <ul className={` ${ BurgerConstructorStyles.listContainer } custom-scroll m-1 pr-5`}>
                 {
-                    props.burgerIngridients.map((item) =>
-                        item.type !== bun.type
+                    burgerIngridients.map((item) =>
+                        item.type !== BUN_TYPE
                         && <li key={ item._id } className={ BurgerConstructorStyles.listItem }>
                             <DragIcon type="primary" />
                             <ConstructorElement
@@ -91,7 +90,8 @@ export default function BurgerConstructor(props) {
                     Оформить заказ
                 </Button>
             </section>
-            <Modal header="" show={ isModalOpen } onClose={ handleCloseModal } >
+            {isModalOpen === true &&
+            <Modal header="" onClose={ handleCloseModal } >
                 <p className="text text_type_digits-large">
                     {totalPrice}
                 </p>
@@ -105,7 +105,7 @@ export default function BurgerConstructor(props) {
                 <p className="text text_type_main-default text_color_inactive p-1">
                     Дождитесь готовности на орбитальной станции
                 </p>
-            </Modal>
+            </Modal>}
         </section>
     );
 }

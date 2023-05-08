@@ -33,14 +33,14 @@ export default function App() {
     return (
         <>
             <AppHeader />
-            {state.isLoading && <p className={ AppStyles.loading }>Loading...</p>}
+            {state.isLoading === true && <p className={ AppStyles.loading }>Loading...</p>}
             <ErrorBoundary>
                 <main className={ AppStyles.box }>
                         {
-                            !state.isLoading
-                            && !state.hasError
+                            state.isLoading === false
+                            && state.hasError === false
                             && <>
-                                <BurgerIngredients data={ state.ingredients } />
+                                <BurgerIngredients burgerIngridients={ state.ingredients } />
                                 <BurgerConstructor burgerIngridients={ state.ingredients } />
                             </>
                         }

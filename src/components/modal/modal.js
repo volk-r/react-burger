@@ -6,17 +6,15 @@ import ModalBackDrop from '../modal-back-drop/modal-back-drop'
 import ModalStyles from './modal.module.css';
 import PropTypes from "prop-types";
 
-export default function Modal({
-    show,
-    header,
-    onClose,
-    children,
-}) {
+export default function Modal(props) {
+    const {header, onClose, children } = props
     const modalRoot =  document.getElementById('react-modals')
+
+    const ECK_KEYCODE = 27
 
     React.useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.keyCode === 27) {
+            if (event.keyCode === ECK_KEYCODE) {
                 onClose();
             }
         };
@@ -27,10 +25,6 @@ export default function Modal({
             document.removeEventListener('keydown', handleKeyDown);
         }
     }, [onClose])
-
-    if (show === false) {
-        return null;
-    }
 
     return ReactDOM.createPortal(
         (
@@ -52,7 +46,6 @@ export default function Modal({
 }
 
 Modal.propTypes = {
-    show: PropTypes.bool.isRequired,
     header: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
 };

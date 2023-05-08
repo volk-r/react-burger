@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
@@ -8,24 +8,23 @@ import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 
 export default function BurgerIngredientsList(props) {
-    const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
     const handleItemClick = React.useCallback(
-      (item) => {
+        (item) => {
             setSelectedItem(item);
-            setShowModal(true);
         },
         []
     );
 
     const handleCloseModal = React.useCallback(
-            () => {
-            setShowModal(false);
+        () => {
             setSelectedItem(null);
         },
         []
     );
+
+    const isModalVisible = useMemo(() => selectedItem !== null, [selectedItem]);
 
     const ListItem = React.memo(({ item, handleItemClick }) => {
         const handleClick = () => handleItemClick(item);
@@ -63,8 +62,8 @@ export default function BurgerIngredientsList(props) {
                     )
                 }
             </div>
-            {showModal && selectedItem && (
-                <Modal header="Детали ингредиента" show={ showModal } onClose={ handleCloseModal } >
+            {isModalVisible === true && (
+                <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
                     <img src={selectedItem.image_large} alt={selectedItem.name} />
                     <p className="text text_type_main-medium m-1 pb-2">
                         {selectedItem.name}

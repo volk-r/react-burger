@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ingredientAttributes } from '../../utils/ingredient-attributes';
-import { IngredientCategories } from '../../utils/constants';
+import { INGREDIENT_CATEGORIES, BUN_TYPE } from '../../utils/constants';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
 
@@ -10,10 +10,11 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function BurgerIngredients(props) {
-    const [current, setCurrent] = React.useState(IngredientCategories[0].type)
+    const {burgerIngridients} = props
+    const [current, setCurrent] = React.useState(BUN_TYPE)
 
     const getList = ((type) => {
-        return props.data.filter(ingridient => ( ingridient.type === type ))
+        return burgerIngridients.filter(ingridient => ( ingridient.type === type ))
     });
 
     return (
@@ -23,7 +24,7 @@ export default function BurgerIngredients(props) {
                     Соберите бургер
                 </p>
                 <div style={{ display: 'flex' }}>
-                    {IngredientCategories.map((item, index) =>
+                    {INGREDIENT_CATEGORIES.map((item, index) =>
                         <a key={index} href={`#${item.type}`}>
                             <Tab value={item.type} active={current === item.type} onClick={setCurrent}>
                                 { item.name }
@@ -34,7 +35,7 @@ export default function BurgerIngredients(props) {
                 <p className="text text_type_main-medium mb-5">
                 </p>
                 <ul className={` ${ BurgerIngredientsStyles.listContainer } custom-scroll`}>
-                    {IngredientCategories.map((item, index) =>
+                    {INGREDIENT_CATEGORIES.map((item, index) =>
                         <a key={index} href={`#${item.type}`}>
                             <BurgerIngredientsList title={ item.name } list={ getList(item.type) } id={ item.type } />
                         </a>
@@ -46,5 +47,5 @@ export default function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientAttributes).isRequired,
+    burgerIngridients: PropTypes.arrayOf(ingredientAttributes).isRequired,
 };
