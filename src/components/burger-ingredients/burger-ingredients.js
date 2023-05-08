@@ -13,9 +13,9 @@ export default function BurgerIngredients(props) {
     const {burgerIngridients} = props
     const [current, setCurrent] = React.useState(BUN_TYPE)
 
-    const getList = ((type) => {
+    const getList = (type) => {
         return burgerIngridients.filter(ingridient => ( ingridient.type === type ))
-    });
+    };
 
     return (
         <>
