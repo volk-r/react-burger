@@ -39,7 +39,7 @@ export default function BurgerConstructor(props) {
                     return total + item.price;
                 }
                 return total;
-            }, 0) + bun.price
+            }, 0) + bun.price * 2
         ,[bun, burgerIngridients]
     );
 
