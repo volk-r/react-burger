@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { ingredientAttributes } from '../../utils/ingredient-attributes';
+import React, {useState, useMemo, useCallback, useContext} from 'react';
 import DoneLogo from '../../images/done.svg';
 import Modal from "../modal/modal";
 import { BUN_TYPE } from "../../utils/constants";
@@ -12,17 +11,35 @@ import {
     DragIcon,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
 
-export default function BurgerConstructor(props) {
-    const { burgerIngridients } = props;
+import { IngredientsContext } from "../../contexts/ingredients-context";
+import { makeOrder } from "../../utils/burger-api";
+
+export default function BurgerConstructor() {
+    const burgerIngridients = useContext(IngredientsContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const bun = burgerIngridients.find(element => element.type === BUN_TYPE);//todo: temporarily gag
 
+    const [orderNumber, setorderNumber] = useState(null)
+    const [hasError, setError] = useState(false);
+
+    {/*todo: need to pass ingredients ids*/}
+
     const handleOpenModal = useCallback(
         () => {
-            setIsModalOpen(true);
+            console.log();
+            makeOrder().then(data => {
+                setorderNumber(data);
+                setError(false);
+                setIsModalOpen(true);
+            })
+            .catch(e => {
+                setError(true);
+                setIsModalOpen(true);
+
+                throw new Error(e);
+            })
         }, []
     );
 
@@ -42,6 +59,17 @@ export default function BurgerConstructor(props) {
             }, 0) + bun.price * 2
         ,[bun, burgerIngridients]
     );
+
+    const ErrorBlock = () => {
+        return (
+            <section className={ BurgerConstructorStyles.errorBlock }>
+                <h1>Что-то пошло не так :(</h1>
+                <p>
+                    Ваш заказ потерялся в дороге. Попробуйте поискать официанта.
+                </p>
+            </section>
+        );
+    }
 
     return (
         <section className={ BurgerConstructorStyles.container }>
@@ -94,13 +122,19 @@ export default function BurgerConstructor(props) {
                     Оформить заказ
                 </Button>
             </section>
+
+            {/*todo: need to pass ingredients ids*/}
+
             {isModalOpen === true &&
-            <Modal header="" onClose={ handleCloseModal } >
-                <p className="text text_type_digits-large">
-                    {totalPrice}
+            <Modal header="" onClose={ handleCloseModal() } >
+                {hasError === true && <ErrorBlock/>}
+                {orderNumber !== null
+                 && hasError === false && <>
+                 <p className="text text_type_digits-large">
+                    {orderNumber}
                 </p>
                 <p className="text text_type_main-medium p-1">
-                    идентификатора заказа
+                    идентификатор заказа
                 </p>
                 <img src={DoneLogo} alt="Success" />
                 <p className="text text_type_main-default p-2">
@@ -109,11 +143,9 @@ export default function BurgerConstructor(props) {
                 <p className="text text_type_main-default text_color_inactive p-1">
                     Дождитесь готовности на орбитальной станции
                 </p>
+                </>
+                }
             </Modal>}
         </section>
     );
 }
-
-BurgerConstructor.propTypes = {
-    burgerIngridients: PropTypes.arrayOf(ingredientAttributes).isRequired,
-};

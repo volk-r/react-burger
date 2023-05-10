@@ -7,6 +7,7 @@ import ErrorBoundary from '../error-boundary/error-boundary'
 
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
+import {IngredientsContext} from "../../contexts/ingredients-context";
 
 export default function App() {
     const [ingredients, setIngredients] = useState([])
@@ -56,8 +57,10 @@ export default function App() {
                             isLoading === false
                             && hasError === false
                             && <>
-                                <BurgerIngredients burgerIngridients={ ingredients } />
-                                <BurgerConstructor burgerIngridients={ ingredients } />
+                                <IngredientsContext.Provider value={ ingredients }>
+                                    <BurgerIngredients />
+                                    <BurgerConstructor />
+                                </IngredientsContext.Provider>
                             </>
                         }
                 </main>

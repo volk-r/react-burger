@@ -1,6 +1,6 @@
 const API_URL = 'https://norma.nomoreparties.space/api';
 
-async function fetchData(path) {
+async function fetchData(path, parameters = {}) {
     const getErrorMessage = (error) => {
         if (error instanceof Error) {
             return error.message;
@@ -9,7 +9,7 @@ async function fetchData(path) {
     };
 
     try {
-        let response = await fetch(`${API_URL}/${path}`);
+        let response = await fetch(`${API_URL}/${path}`, parameters);
 
         if (response.ok) {
             const jsonData = await response.json();
@@ -35,4 +35,28 @@ export async function getIngredients() {
     }
 
     throw "[getIngredients]: data not found";
+}
+
+export async function makeOrder(ingredientIDs) {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "ingredients": ["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa0941"]
+            // "ingredients": ingredientIDs
+        })
+    };
+    const data = await fetchData('orders', parameters);
+
+    if (
+        data
+        && typeof data.success !== "undefined"
+        && data.success === true
+    ) {
+        return data.order.number;
+    }
+
+    throw "[makeOrder]: data not found";
 }
