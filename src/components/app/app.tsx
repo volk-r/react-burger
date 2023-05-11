@@ -7,17 +7,21 @@ import ErrorBoundary from '../error-boundary/error-boundary'
 
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
-import {IngredientsContext} from "../../contexts/ingredients-context";
+import { IngredientsContext } from "../../contexts/ingredients-context";
+
+import { BUN_TYPE } from '../../utils/constants';
 
 export default function App() {
-    const [ingredients, setIngredients] = useState([])
+    const [ingredients, setIngredients] = useState({ bun: {}, ingredients: [] })
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setError] = useState(false);
 
     const getProducts = useCallback(() => {
-        getIngredients().then(data => {
+        getIngredients().then((data) => {
             setIsLoading(false);
-            setIngredients(data);
+
+            const buns = data.filter((item: any) => item.type === BUN_TYPE);
+            setIngredients({ bun: buns.pop(), ingredients: data });
         })
         .catch(e => {
             setError(true);

@@ -9,6 +9,7 @@ import Modal from "../modal/modal";
 
 export default function BurgerIngredientsList(props) {
     const [selectedItem, setSelectedItem] = useState(null);
+    const { id, title, list } = props;
 
     const handleItemClick = useCallback(
         (item) => {
@@ -52,12 +53,12 @@ export default function BurgerIngredientsList(props) {
 
     return (
         <li>
-            <p id={props.id} className="text text_type_main-medium">
-                {props.title}
+            <p id={id} className="text text_type_main-medium">
+                {title}
             </p>
             <div className={ BurgerIngredientsListStyles.containerBox }>
                 {
-                    props.list.map((item) =>
+                    list.map((item) =>
                         <ListItem key={ item._id } item={item} handleItemClick={handleItemClick} />
                     )
                 }

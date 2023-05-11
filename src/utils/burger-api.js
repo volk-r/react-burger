@@ -44,8 +44,7 @@ export async function makeOrder(ingredientIDs) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "ingredients": ["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa0941"]
-            // "ingredients": ingredientIDs
+            "ingredients": ingredientIDs
         })
     };
     const data = await fetchData('orders', parameters);

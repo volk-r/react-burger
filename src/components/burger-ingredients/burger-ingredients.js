@@ -10,13 +10,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientsContext } from "../../contexts/ingredients-context";
 
 export default function BurgerIngredients() {
-    const burgerIngridients = useContext(IngredientsContext);
+    const { ingredients } = useContext(IngredientsContext);
     const [current, setCurrent] = React.useState(BUN_TYPE)
 
     const getList = useCallback(
         (type) => {
-        return burgerIngridients.filter(ingridient => ( ingridient.type === type ))
-    }, [burgerIngridients]);
+        return ingredients.filter(ingridient => ( ingridient.type === type ))
+    }, [ingredients]);
 
     return (
         <>

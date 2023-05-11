@@ -16,32 +16,32 @@ import { IngredientsContext } from "../../contexts/ingredients-context";
 import { makeOrder } from "../../utils/burger-api";
 
 export default function BurgerConstructor() {
-    const burgerIngridients = useContext(IngredientsContext);
+    const { bun, ingredients } = useContext(IngredientsContext);
+    console.log(bun);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const bun = burgerIngridients.find(element => element.type === BUN_TYPE);//todo: temporarily gag
 
     const [orderNumber, setorderNumber] = useState(null)
     const [hasError, setError] = useState(false);
 
-    {/*todo: need to pass ingredients ids*/}
+    const handleOpenModal = () => {
+        const ids = [...ingredients
+          .filter(item => item.type !== BUN_TYPE)
+          .map(item => item._id),
+          bun._id
+        ];
 
-    const handleOpenModal = useCallback(
-        () => {
-            console.log();
-            makeOrder().then(data => {
-                setorderNumber(data);
-                setError(false);
-                setIsModalOpen(true);
-            })
-            .catch(e => {
-                setError(true);
-                setIsModalOpen(true);
+        makeOrder(ids).then(data => {
+            setorderNumber(data);
+            setError(false);
+            setIsModalOpen(true);
+        })
+        .catch(e => {
+            setError(true);
+            setIsModalOpen(true);
 
-                throw new Error(e);
-            })
-        }, []
-    );
+            throw new Error(e);
+        })
+    };
 
     const handleCloseModal = useCallback(
         () => {
@@ -51,13 +51,13 @@ export default function BurgerConstructor() {
 
     const totalPrice = useMemo(
         () =>
-            burgerIngridients.reduce((total, item) => {
-                if (item.type !== bun.type) {
+            ingredients.reduce((total, item) => {
+                if (item.type !== BUN_TYPE) {
                     return total + item.price;
                 }
                 return total;
             }, 0) + bun.price * 2
-        ,[bun, burgerIngridients]
+        ,[bun, ingredients]
     );
 
     const ErrorBlock = () => {
@@ -87,7 +87,7 @@ export default function BurgerConstructor() {
             </ul>
             <ul className={` ${ BurgerConstructorStyles.listContainer } custom-scroll m-1 pr-5`}>
                 {
-                    burgerIngridients.map((item) =>
+                    ingredients.map((item) =>
                         item.type !== BUN_TYPE
                         && <li key={ item._id } className={ BurgerConstructorStyles.listItem }>
                             <DragIcon type="primary" />
@@ -122,11 +122,8 @@ export default function BurgerConstructor() {
                     Оформить заказ
                 </Button>
             </section>
-
-            {/*todo: need to pass ingredients ids*/}
-
             {isModalOpen === true &&
-            <Modal header="" onClose={ handleCloseModal() } >
+            <Modal header="" onClose={ handleCloseModal } >
                 {hasError === true && <ErrorBlock/>}
                 {orderNumber !== null
                  && hasError === false && <>
