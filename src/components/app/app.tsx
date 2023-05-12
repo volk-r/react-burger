@@ -26,8 +26,6 @@ export default function App() {
         .catch(e => {
             setError(true);
             setIsLoading(false);
-
-            throw new Error(e);
         })
     }, [])
 

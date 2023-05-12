@@ -17,7 +17,7 @@ import { makeOrder } from "../../utils/burger-api";
 
 export default function BurgerConstructor() {
     const { bun, ingredients } = useContext(IngredientsContext);
-    console.log(bun);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [orderNumber, setorderNumber] = useState(null)
@@ -38,8 +38,6 @@ export default function BurgerConstructor() {
         .catch(e => {
             setError(true);
             setIsModalOpen(true);
-
-            throw new Error(e);
         })
     };
 

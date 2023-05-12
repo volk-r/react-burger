@@ -12,7 +12,7 @@ import {
 export default function AppHeader() {
     return (
         <>
-            <nav className={ AppHeaderStyles.menu }>
+            <header className={ AppHeaderStyles.menu }>
                 <nav className={ AppHeaderStyles.nav }>
                     <a href="#" className={ AppHeaderStyles.navlink }>
                         <BurgerIcon type="primary" />
@@ -33,7 +33,7 @@ export default function AppHeader() {
                     <ProfileIcon type="secondary" />
                     <p className="text text_type_main-default">Личный кабинет</p>
                 </a>
-            </nav>
+            </header>
         </>
     );
 }

@@ -1,40 +1,35 @@
 const API_URL = 'https://norma.nomoreparties.space/api';
 
-async function fetchData(path, parameters = {}) {
-    const getErrorMessage = (error) => {
-        if (error instanceof Error) {
-            return error.message;
-        }
-        return String(error);
-    };
+const request = (endpoint, options) => {
+    return fetch(`${API_URL}/${endpoint}`, options)
+        .then(checkResponse)
+        .then(checkSuccess);
+};
 
-    try {
-        let response = await fetch(`${API_URL}/${path}`, parameters);
-
-        if (response.ok) {
-            const jsonData = await response.json();
-            return jsonData;
-        }
-
-        throw "something went wrong, mailformed json, status: " + response.status;
+const checkResponse = (response) => {
+    if (response.ok) {
+        const jsonData = response.json();
+        console.log(jsonData);
+        return jsonData;
     }
-    catch (e) {
-        throw "[fetchData failed]: " + getErrorMessage(e);
+
+    console.log(`something went wrong, mailformed json, status ${response.status}`)
+    return Promise.reject(`something went wrong, mailformed json, status ${response.status}`);
+};
+
+const checkSuccess = (response) => {
+    if (response && response.success) {
+        return response;
     }
-}
+
+    console.log(`[fetchData failed]: ${response}`)
+    return Promise.reject(`[fetchData failed]: ${response}`);
+};
 
 export async function getIngredients() {
-    const data = await fetchData('ingredients');
+    const data = await request('ingredients');
 
-    if (
-        data
-        && typeof data.success !== "undefined"
-        && data.success === true
-    ) {
-        return data.data;
-    }
-
-    throw "[getIngredients]: data not found";
+    return data.data;
 }
 
 export async function makeOrder(ingredientIDs) {
@@ -47,15 +42,7 @@ export async function makeOrder(ingredientIDs) {
             "ingredients": ingredientIDs
         })
     };
-    const data = await fetchData('orders', parameters);
+    const data = await request('orders', parameters);
 
-    if (
-        data
-        && typeof data.success !== "undefined"
-        && data.success === true
-    ) {
-        return data.order.number;
-    }
-
-    throw "[makeOrder]: data not found";
+    return data.order.number;
 }
