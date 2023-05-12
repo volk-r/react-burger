@@ -1,5 +1,4 @@
 import React, {useState, useMemo, useCallback, useContext} from 'react';
-import DoneLogo from '../../images/done.svg';
 import Modal from "../modal/modal";
 import { BUN_TYPE } from "../../utils/constants";
 
@@ -14,6 +13,7 @@ import {
 
 import { IngredientsContext } from "../../contexts/ingredients-context";
 import { makeOrder } from "../../utils/burger-api";
+import OrderDetails from "../order-details/order-details";
 
 export default function BurgerConstructor() {
     const { bun, ingredients } = useContext(IngredientsContext);
@@ -124,21 +124,8 @@ export default function BurgerConstructor() {
             <Modal header="" onClose={ handleCloseModal } >
                 {hasError === true && <ErrorBlock/>}
                 {orderNumber !== null
-                 && hasError === false && <>
-                 <p className="text text_type_digits-large">
-                    {orderNumber}
-                </p>
-                <p className="text text_type_main-medium p-1">
-                    идентификатор заказа
-                </p>
-                <img src={DoneLogo} alt="Success" />
-                <p className="text text_type_main-default p-2">
-                    Ваш заказа начали готовить
-                </p>
-                <p className="text text_type_main-default text_color_inactive p-1">
-                    Дождитесь готовности на орбитальной станции
-                </p>
-                </>
+                 && hasError === false
+                 && <OrderDetails orderNumber={orderNumber} />
                 }
             </Modal>}
         </section>

@@ -6,6 +6,7 @@ import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 export default function BurgerIngredientsList(props) {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -65,32 +66,7 @@ export default function BurgerIngredientsList(props) {
             </div>
             {isModalVisible === true && (
                 <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
-                    <img src={selectedItem.image_large} alt={selectedItem.name} />
-                    <p className="text text_type_main-medium m-1 pb-2">
-                        {selectedItem.name}
-                    </p>
-                    <div className={ BurgerIngredientsListStyles.list }>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Калории,ккал
-                            <br/>
-                            {selectedItem.calories}
-                        </p>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Белки, г
-                            <br/>
-                            {selectedItem.proteins}
-                        </p>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Жиры, г
-                            <br/>
-                            {selectedItem.fat}
-                        </p>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Углеводы, г
-                            <br/>
-                            {selectedItem.carbohydrates}
-                        </p>
-                    </div>
+                    <IngredientDetails selectedItem={selectedItem} />
                 </Modal>
             )}
         </li>
