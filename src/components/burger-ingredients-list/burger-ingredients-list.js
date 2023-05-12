@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
@@ -6,14 +6,17 @@ import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
+import { useModal } from "../../hooks/useModal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
 export default function BurgerIngredientsList(props) {
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [ selectedItem, setSelectedItem ] = useState(null);
+    const { isModalOpen, openModal, closeModal } = useModal();
     const { id, title, list } = props;
 
     const handleItemClick = useCallback(
         (item) => {
+            openModal()
             setSelectedItem(item);
         },
         []
@@ -21,12 +24,11 @@ export default function BurgerIngredientsList(props) {
 
     const handleCloseModal = useCallback(
         () => {
+            closeModal()
             setSelectedItem(null);
         },
         []
     );
-
-    const isModalVisible = useMemo(() => selectedItem !== null, [selectedItem]);
 
     const ListItem = React.memo(({ item, handleItemClick }) => {
         const handleClick = () => handleItemClick(item);
@@ -64,7 +66,7 @@ export default function BurgerIngredientsList(props) {
                     )
                 }
             </div>
-            {isModalVisible === true && (
+            {isModalOpen === true && (
                 <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
                     <IngredientDetails selectedItem={selectedItem} />
                 </Modal>

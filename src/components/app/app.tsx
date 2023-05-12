@@ -8,6 +8,7 @@ import ErrorBoundary from '../error-boundary/error-boundary'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 import { IngredientsContext } from "../../contexts/ingredients-context";
+import { OrderContext } from "../../contexts/order-context";
 
 import { BUN_TYPE } from '../../utils/constants';
 
@@ -15,6 +16,8 @@ export default function App() {
     const [ingredients, setIngredients] = useState({ bun: {}, ingredients: [] })
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setError] = useState(false);
+
+    const orderState = useState({ orderNumber: null });
 
     const getProducts = useCallback(() => {
         getIngredients().then((data) => {
@@ -61,7 +64,9 @@ export default function App() {
                             && <>
                                 <IngredientsContext.Provider value={ ingredients }>
                                     <BurgerIngredients />
-                                    <BurgerConstructor />
+                                    <OrderContext.Provider value={ orderState }>
+                                        <BurgerConstructor />
+                                    </OrderContext.Provider>
                                 </IngredientsContext.Provider>
                             </>
                         }

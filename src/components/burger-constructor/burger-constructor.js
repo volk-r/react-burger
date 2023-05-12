@@ -14,13 +14,14 @@ import {
 import { IngredientsContext } from "../../contexts/ingredients-context";
 import { makeOrder } from "../../utils/burger-api";
 import OrderDetails from "../order-details/order-details";
+import { useModal } from "../../hooks/useModal";
+import { OrderContext } from "../../contexts/order-context";
 
 export default function BurgerConstructor() {
     const { bun, ingredients } = useContext(IngredientsContext);
+    const { isModalOpen, openModal, closeModal } = useModal();
+    const [ order, setOrder ] = useContext(OrderContext);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [orderNumber, setorderNumber] = useState(null)
     const [hasError, setError] = useState(false);
 
     const handleOpenModal = () => {
@@ -31,19 +32,19 @@ export default function BurgerConstructor() {
         ];
 
         makeOrder(ids).then(data => {
-            setorderNumber(data);
+            setOrder({ orderNumber: data });
             setError(false);
-            setIsModalOpen(true);
+            openModal();
         })
         .catch(e => {
             setError(true);
-            setIsModalOpen(true);
+            openModal();
         })
     };
 
     const handleCloseModal = useCallback(
         () => {
-            setIsModalOpen(false)
+            closeModal()
         }, []
     );
 
@@ -123,9 +124,9 @@ export default function BurgerConstructor() {
             {isModalOpen === true &&
             <Modal header="" onClose={ handleCloseModal } >
                 {hasError === true && <ErrorBlock/>}
-                {orderNumber !== null
+                {order.orderNumber !== null
                  && hasError === false
-                 && <OrderDetails orderNumber={orderNumber} />
+                 && <OrderDetails orderNumber={order.orderNumber} />
                 }
             </Modal>}
         </section>
