@@ -1,6 +1,4 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { ingredientAttributes } from '../../utils/ingredient-attributes';
+import React, { useCallback, useContext } from 'react';
 import { INGREDIENT_CATEGORIES, BUN_TYPE } from '../../utils/constants';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
@@ -9,14 +7,16 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function BurgerIngredients(props) {
-    const {burgerIngridients} = props
+import { IngredientsContext } from "../../contexts/ingredients-context";
+
+export default function BurgerIngredients() {
+    const { ingredients } = useContext(IngredientsContext);
     const [current, setCurrent] = React.useState(BUN_TYPE)
 
     const getList = useCallback(
         (type) => {
-        return burgerIngridients.filter(ingridient => ( ingridient.type === type ))
-    }, [burgerIngridients]);
+        return ingredients.filter(ingridient => ( ingridient.type === type ))
+    }, [ingredients]);
 
     return (
         <>
@@ -46,7 +46,3 @@ export default function BurgerIngredients(props) {
         </>
     );
 }
-
-BurgerIngredients.propTypes = {
-    burgerIngridients: PropTypes.arrayOf(ingredientAttributes).isRequired,
-};

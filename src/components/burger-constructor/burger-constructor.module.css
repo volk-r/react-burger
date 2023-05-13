@@ -40,3 +40,9 @@
     align-items: center;
     justify-content: flex-end;
 }
+
+.errorBlock {
+    background-color: red;
+    padding: 25px;
+    border-radius: 50px;
+}

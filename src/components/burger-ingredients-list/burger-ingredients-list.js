@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
@@ -6,12 +6,17 @@ import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
+import { useModal } from "../../hooks/useModal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 export default function BurgerIngredientsList(props) {
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [ selectedItem, setSelectedItem ] = useState(null);
+    const { isModalOpen, openModal, closeModal } = useModal();
+    const { id, title, list } = props;
 
     const handleItemClick = useCallback(
         (item) => {
+            openModal()
             setSelectedItem(item);
         },
         []
@@ -19,12 +24,11 @@ export default function BurgerIngredientsList(props) {
 
     const handleCloseModal = useCallback(
         () => {
+            closeModal()
             setSelectedItem(null);
         },
         []
     );
-
-    const isModalVisible = useMemo(() => selectedItem !== null, [selectedItem]);
 
     const ListItem = React.memo(({ item, handleItemClick }) => {
         const handleClick = () => handleItemClick(item);
@@ -52,44 +56,19 @@ export default function BurgerIngredientsList(props) {
 
     return (
         <li>
-            <p id={props.id} className="text text_type_main-medium">
-                {props.title}
+            <p id={id} className="text text_type_main-medium">
+                {title}
             </p>
             <div className={ BurgerIngredientsListStyles.containerBox }>
                 {
-                    props.list.map((item) =>
+                    list.map((item) =>
                         <ListItem key={ item._id } item={item} handleItemClick={handleItemClick} />
                     )
                 }
             </div>
-            {isModalVisible === true && (
+            {isModalOpen === true && (
                 <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
-                    <img src={selectedItem.image_large} alt={selectedItem.name} />
-                    <p className="text text_type_main-medium m-1 pb-2">
-                        {selectedItem.name}
-                    </p>
-                    <div className={ BurgerIngredientsListStyles.list }>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Калории,ккал
-                            <br/>
-                            {selectedItem.calories}
-                        </p>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Белки, г
-                            <br/>
-                            {selectedItem.proteins}
-                        </p>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Жиры, г
-                            <br/>
-                            {selectedItem.fat}
-                        </p>
-                        <p className="text text_type_main-default text_color_inactive">
-                            Углеводы, г
-                            <br/>
-                            {selectedItem.carbohydrates}
-                        </p>
-                    </div>
+                    <IngredientDetails selectedItem={selectedItem} />
                 </Modal>
             )}
         </li>

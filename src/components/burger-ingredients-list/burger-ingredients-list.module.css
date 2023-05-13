@@ -42,10 +42,3 @@ a {
     height: 32px;
     padding: 0 8px;
 }
-
-.list {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    text-align: center;
-}
