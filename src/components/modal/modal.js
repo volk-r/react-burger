@@ -32,7 +32,7 @@ export default function Modal(props) {
                 <ModalBackDrop onClick={ onClose } />
                 <div className={ ModalStyles.content }>
                     <div className={ ModalStyles.headerBlock }>
-                        <h3 className={`${ModalStyles.header} text text_type_main-medium pr-2`}>{ header }</h3>
+                        <h3 className={`${ModalStyles.header} text text_type_main-large m-2 pr-2 pt-1`}>{ header }</h3>
                         <CloseIcon type="primary" onClick={ onClose } />
                     </div>
                     <div className={`${ ModalStyles.childContent } `}>
