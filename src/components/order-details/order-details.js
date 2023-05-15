@@ -2,11 +2,12 @@ import React from 'react';
 
 import DoneLogo from "../../images/done.svg";
 import PropTypes from "prop-types";
+import OrderDetailsStyles from "./order-details.module.css";
 
 export default function OrderDetails({orderNumber}) {
     return (
         <>
-            <p className="text text_type_digits-large pt-5">
+            <p className={`${OrderDetailsStyles.orderNumber} text text_type_digits-large pt-5`}>
                 {orderNumber}
             </p>
             <p className="text text_type_main-default p-5">
