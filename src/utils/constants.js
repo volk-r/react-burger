@@ -14,3 +14,4 @@ export const INGREDIENT_CATEGORIES = [
 ];
 
 export const BUN_TYPE = 'bun';
+export const BUN_COUNT = 2;

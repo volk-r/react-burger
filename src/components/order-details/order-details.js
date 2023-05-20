@@ -3,8 +3,12 @@ import React from 'react';
 import DoneLogo from "../../images/done.svg";
 import PropTypes from "prop-types";
 import OrderDetailsStyles from "./order-details.module.css";
+import {useSelector} from "react-redux";
+import {orderNumberSelector, selectedItemSelector} from "../../services/selectors";
 
 export default function OrderDetails({orderNumber}) {
+    // const orderNumber = useSelector(orderNumberSelector);//TODO
+
     return (
         <>
             <p className={`${OrderDetailsStyles.orderNumber} text text_type_digits-large pt-5`}>

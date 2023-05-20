@@ -1,40 +1,32 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppStyles from './app.module.css';
-import { getIngredients } from '../../utils/burger-api';
 
 import AppHeader from '../header/header'
 import ErrorBoundary from '../error-boundary/error-boundary'
 
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
-import { IngredientsContext } from "../../contexts/ingredients-context";
 import { OrderContext } from "../../contexts/order-context";
 
-import { BUN_TYPE } from '../../utils/constants';
+import { getIngredientsList } from '../../services/thunk/burger-ingredients';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    hasErrorIngredientsSelector,
+    isLoadingIngredientsSelector
+} from "../../services/selectors";
 
 export default function App() {
-    const [ingredients, setIngredients] = useState({ bun: {}, ingredients: [] })
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setError] = useState(false);
+    const isLoading = useSelector(isLoadingIngredientsSelector);
+    const hasError = useSelector(hasErrorIngredientsSelector);
+    const dispatch = useDispatch();
 
     const orderState = useState({ orderNumber: null });
 
-    const getProducts = useCallback(() => {
-        getIngredients().then((data) => {
-            setIsLoading(false);
-
-            const buns = data.filter((item: any) => item.type === BUN_TYPE);
-            setIngredients({ bun: buns.pop(), ingredients: data });
-        })
-        .catch(e => {
-            setError(true);
-            setIsLoading(false);
-        })
-    }, [])
-
     useEffect(() => {
-        getProducts()
-    }, [])
+        // TODO: i don't know why there is error here
+        // @ts-ignore
+        dispatch(getIngredientsList())
+    }, [dispatch])
 
     const ErrorBlock = () => {
         return (
@@ -62,12 +54,10 @@ export default function App() {
                             isLoading === false
                             && hasError === false
                             && <>
-                                <IngredientsContext.Provider value={ ingredients }>
-                                    <BurgerIngredients />
-                                    <OrderContext.Provider value={ orderState }>
-                                        <BurgerConstructor />
-                                    </OrderContext.Provider>
-                                </IngredientsContext.Provider>
+                                <BurgerIngredients />
+                                <OrderContext.Provider value={ orderState }>
+                                    <BurgerConstructor />
+                                </OrderContext.Provider>
                             </>
                         }
                 </main>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
@@ -8,16 +8,18 @@ import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { setIngredientDetails, resetIngredientDetails } from "../../services/thunk/ingredient-details";
+import { useDispatch } from 'react-redux';
 
 export default function BurgerIngredientsList(props) {
-    const [ selectedItem, setSelectedItem ] = useState(null);
+    const dispatch = useDispatch();
     const { isModalOpen, openModal, closeModal } = useModal();
     const { id, title, list } = props;
 
     const handleItemClick = useCallback(
         (item) => {
             openModal()
-            setSelectedItem(item);
+            dispatch(setIngredientDetails(item));
         },
         []
     );
@@ -25,7 +27,7 @@ export default function BurgerIngredientsList(props) {
     const handleCloseModal = useCallback(
         () => {
             closeModal()
-            setSelectedItem(null);
+            dispatch(resetIngredientDetails());
         },
         []
     );
@@ -68,7 +70,7 @@ export default function BurgerIngredientsList(props) {
             </div>
             {isModalOpen === true && (
                 <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
-                    <IngredientDetails selectedItem={selectedItem} />
+                    <IngredientDetails />
                 </Modal>
             )}
         </li>

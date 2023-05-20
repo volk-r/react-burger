@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { INGREDIENT_CATEGORIES, BUN_TYPE } from '../../utils/constants';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
@@ -7,10 +7,11 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { IngredientsContext } from "../../contexts/ingredients-context";
+import {useSelector} from "react-redux";
+import {ingredientsSelector} from "../../services/selectors";
 
 export default function BurgerIngredients() {
-    const { ingredients } = useContext(IngredientsContext);
+    const ingredients = useSelector(ingredientsSelector);
     const [current, setCurrent] = React.useState(BUN_TYPE)
 
     const getList = useCallback(

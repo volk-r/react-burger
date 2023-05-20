@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useCallback, useContext} from 'react';
 import Modal from "../modal/modal";
-import { BUN_TYPE } from "../../utils/constants";
+import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -11,16 +11,22 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { IngredientsContext } from "../../contexts/ingredients-context";
 import { makeOrder } from "../../utils/burger-api";
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
 import { OrderContext } from "../../contexts/order-context";
+import {useDispatch, useSelector} from "react-redux";
+import { burgerConstructorIngredientsSelector } from "../../services/selectors";
+import {getOrderNumber} from "../../services/thunk/order-details";
+// import { burgerIngredientsSelector } from "../../services/selectors";
 
 export default function BurgerConstructor() {
-    const { bun, ingredients } = useContext(IngredientsContext);
+    const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);
+    const dispatch = useDispatch();
+    // const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
+
     const { isModalOpen, openModal, closeModal } = useModal();
-    const [ order, setOrder ] = useContext(OrderContext);
+    const [ order, setOrder ] = useContext(OrderContext);//todo
 
     const [hasError, setError] = useState(false);
 
@@ -31,7 +37,9 @@ export default function BurgerConstructor() {
           bun._id
         ];
 
-        makeOrder(ids).then(data => {
+        // dispatch(getOrderNumber(ids))//todo
+
+        makeOrder(ids).then(data => {//todo
             setOrder({ orderNumber: data });
             setError(false);
             openModal();
@@ -55,7 +63,7 @@ export default function BurgerConstructor() {
                     return total + item.price;
                 }
                 return total;
-            }, 0) + bun.price * 2
+            }, 0) + bun.price * BUN_COUNT
         ,[bun, ingredients]
     );
 
@@ -86,6 +94,12 @@ export default function BurgerConstructor() {
             </ul>
             <ul className={` ${ BurgerConstructorStyles.listContainer } custom-scroll m-1 pr-5`}>
                 {
+                    ingredients.length === 0
+                        ?
+                        <li className={ BurgerConstructorStyles.listItem }>
+                        Просто добавь воды
+                        </li>
+                    :
                     ingredients.map((item) =>
                         item.type !== BUN_TYPE
                         && <li key={ item._id } className={ BurgerConstructorStyles.listItem }>
@@ -122,6 +136,7 @@ export default function BurgerConstructor() {
                 </Button>
             </section>
             {isModalOpen === true &&
+             //todo: failed request
             <Modal header="" onClose={ handleCloseModal } >
                 {hasError === true && <ErrorBlock/>}
                 {order.orderNumber !== null
