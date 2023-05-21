@@ -3,11 +3,11 @@ import React from 'react';
 import DoneLogo from "../../images/done.svg";
 import PropTypes from "prop-types";
 import OrderDetailsStyles from "./order-details.module.css";
-import {useSelector} from "react-redux";
-import {orderNumberSelector, selectedItemSelector} from "../../services/selectors";
+import { useSelector } from "react-redux";
+import { orderSelector } from "../../services/selectors";
 
-export default function OrderDetails({orderNumber}) {
-    // const orderNumber = useSelector(orderNumberSelector);//TODO
+export default function OrderDetails() {
+    const { orderNumber } = useSelector(orderSelector);
 
     return (
         <>

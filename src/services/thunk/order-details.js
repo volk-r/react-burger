@@ -9,11 +9,14 @@ export function getOrderNumber(ids) {
         makeOrder(ids).then( data  => {
             dispatch({
                 type: GET_ORDER_NUMBER_SUCCESS,
-                orderNumber: data
+                orderNumber: data,
+                hasError: false,
             })
         }).catch( err => {
             dispatch({
-                type: GET_ORDER_NUMBER_FAILED
+                type: GET_ORDER_NUMBER_FAILED,
+                orderNumber: null,
+                hasError: true,
             })
         })
     }

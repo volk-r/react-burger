@@ -1,6 +1,7 @@
-import React, {useState, useMemo, useCallback, useContext} from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
+import UnknownBun from "../../images/bun-unknown-large.png";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -11,24 +12,20 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { makeOrder } from "../../utils/burger-api";
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
-import { OrderContext } from "../../contexts/order-context";
-import {useDispatch, useSelector} from "react-redux";
-import { burgerConstructorIngredientsSelector } from "../../services/selectors";
-import {getOrderNumber} from "../../services/thunk/order-details";
-// import { burgerIngredientsSelector } from "../../services/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { burgerConstructorIngredientsSelector, orderSelector } from "../../services/selectors";
+import { getOrderNumber } from "../../services/thunk/order-details";
+import { burgerIngredientsSelector } from "../../services/selectors";
 
 export default function BurgerConstructor() {
-    const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);
+    // const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);// TODO
+    const { orderNumber, hasError } = useSelector(orderSelector);
     const dispatch = useDispatch();
-    // const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
+    const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
 
     const { isModalOpen, openModal, closeModal } = useModal();
-    const [ order, setOrder ] = useContext(OrderContext);//todo
-
-    const [hasError, setError] = useState(false);
 
     const handleOpenModal = () => {
         const ids = [...ingredients
@@ -37,17 +34,8 @@ export default function BurgerConstructor() {
           bun._id
         ];
 
-        // dispatch(getOrderNumber(ids))//todo
-
-        makeOrder(ids).then(data => {//todo
-            setOrder({ orderNumber: data });
-            setError(false);
-            openModal();
-        })
-        .catch(e => {
-            setError(true);
-            openModal();
-        })
+        dispatch(getOrderNumber(ids))
+        openModal();
     };
 
     const handleCloseModal = useCallback(
@@ -70,10 +58,11 @@ export default function BurgerConstructor() {
     const ErrorBlock = () => {
         return (
             <section className={ BurgerConstructorStyles.errorBlock }>
-                <h1>Что-то пошло не так :(</h1>
-                <p>
-                    Ваш заказ потерялся в дороге. Попробуйте поискать официанта.
+                <h1 className="m-4 text text_type_main-large">Что-то пошло не так :(</h1>
+                <p className="ml-2 mr-4 p-1 text text_type_main-medium">
+                    Возможно, вы забыли выбрать булочку или Ваш заказ потерялся в дороге. Попробуйте еще раз или позовите официанта.
                 </p>
+                <img src={UnknownBun} alt="А это что за булка?" className={ BurgerConstructorStyles.img } />
             </section>
         );
     }
@@ -97,7 +86,7 @@ export default function BurgerConstructor() {
                     ingredients.length === 0
                         ?
                         <li className={ BurgerConstructorStyles.listItem }>
-                        Просто добавь воды
+                            Просто добавь воды
                         </li>
                     :
                     ingredients.map((item) =>
@@ -135,15 +124,17 @@ export default function BurgerConstructor() {
                     Оформить заказ
                 </Button>
             </section>
-            {isModalOpen === true &&
-             //todo: failed request
-            <Modal header="" onClose={ handleCloseModal } >
-                {hasError === true && <ErrorBlock/>}
-                {order.orderNumber !== null
-                 && hasError === false
-                 && <OrderDetails orderNumber={order.orderNumber} />
-                }
-            </Modal>}
+            {
+                isModalOpen === true &&
+                <Modal header="" onClose={ handleCloseModal } >
+                    {hasError === true && <ErrorBlock/>}
+                    {
+                        orderNumber !== null
+                        && hasError === false
+                        && <OrderDetails orderNumber={orderNumber} />
+                    }
+                </Modal>
+            }
         </section>
     );
 }

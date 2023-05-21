@@ -5,4 +5,4 @@ export const hasErrorIngredientsSelector = (store) => store.ingredients.ingredie
 
 export const burgerConstructorIngredientsSelector = (store) => store.constructorIngredients
 export const selectedItemSelector = (store) => store.currentIngredient.selectedItem
-export const orderNumberSelector = (store) => store.order.orderNumber
+export const orderSelector = (store) => store.order

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import AppStyles from './app.module.css';
 
 import AppHeader from '../header/header'
@@ -6,7 +6,6 @@ import ErrorBoundary from '../error-boundary/error-boundary'
 
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
-import { OrderContext } from "../../contexts/order-context";
 
 import { getIngredientsList } from '../../services/thunk/burger-ingredients';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,8 +18,6 @@ export default function App() {
     const isLoading = useSelector(isLoadingIngredientsSelector);
     const hasError = useSelector(hasErrorIngredientsSelector);
     const dispatch = useDispatch();
-
-    const orderState = useState({ orderNumber: null });
 
     useEffect(() => {
         // TODO: i don't know why there is error here
@@ -55,9 +52,7 @@ export default function App() {
                             && hasError === false
                             && <>
                                 <BurgerIngredients />
-                                <OrderContext.Provider value={ orderState }>
-                                    <BurgerConstructor />
-                                </OrderContext.Provider>
+                                <BurgerConstructor />
                             </>
                         }
                 </main>

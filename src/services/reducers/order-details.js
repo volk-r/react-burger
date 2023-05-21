@@ -5,7 +5,7 @@ import {
 
 const initialState = {
     orderNumber: null,
-    // todo: failed request
+    hasError: false,
 }
 
 export const orderDetailsReducer = (state = initialState, action) => {
@@ -14,10 +14,15 @@ export const orderDetailsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderNumber: action.orderNumber,
+                hasError: false,
             };
         }
         case GET_ORDER_NUMBER_FAILED: {
-            return initialState;
+            return {
+                ...state,
+                orderNumber: null,
+                hasError: true,
+            }
         }
         default: {
             return state
