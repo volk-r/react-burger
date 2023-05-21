@@ -37,7 +37,7 @@ export default function BurgerIngredients() {
                 }
             })
         }, {
-            threshold: 0.25
+            threshold: 1
         })
 
         pages.forEach(page => {
