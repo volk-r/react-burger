@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { INGREDIENT_CATEGORIES, BUN_TYPE } from '../../utils/constants';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
@@ -12,12 +12,46 @@ import {ingredientsSelector} from "../../services/selectors";
 
 export default function BurgerIngredients() {
     const ingredients = useSelector(ingredientsSelector);
-    const [current, setCurrent] = React.useState(BUN_TYPE)
+    const [activeTab, setActiveTab] = React.useState(BUN_TYPE)
 
     const getList = useCallback(
         (type) => {
         return ingredients.filter(ingridient => ( ingridient.type === type ))
     }, [ingredients]);
+
+    const onTabClick = (tab) => {
+        setActiveTab(tab);
+        const element = document.getElementById("section_" + tab);
+        if (element) element.scrollIntoView({behavior: "smooth"});
+    }
+
+    const handleScroll = () => {
+        const tabs = document.querySelectorAll('[id *= "tab_"]')
+        const pages = document.querySelectorAll('[id *= "section"]')
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(pages).indexOf(entry.target)
+                    setActiveTab(tabs[index].dataset.tab);
+                }
+            })
+        }, {
+            threshold: 0.25
+        })
+
+        pages.forEach(page => {
+            observer.observe(page)
+        })
+    };
+
+    useEffect(() => {
+        const container = document.getElementById('ingredients-container');
+        container.addEventListener('scroll', handleScroll);
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <>
@@ -27,8 +61,8 @@ export default function BurgerIngredients() {
                 </p>
                 <div style={{ display: 'flex' }}>
                     {INGREDIENT_CATEGORIES.map((item, index) =>
-                        <a key={index} href={`#${item.type}`}>
-                            <Tab value={item.type} active={current === item.type} onClick={setCurrent}>
+                        <a key={item.type} href={`#${item.type}`} id={`tab_${item.type}`} data-tab={item.type} >
+                            <Tab value={item.type} active={activeTab === item.type} onClick={onTabClick}>
                                 { item.name }
                             </Tab>
                         </a>
@@ -36,10 +70,10 @@ export default function BurgerIngredients() {
                 </div>
                 <p className="text text_type_main-medium mb-5">
                 </p>
-                <ul className={` ${ BurgerIngredientsStyles.listContainer } custom-scroll`}>
-                    {INGREDIENT_CATEGORIES.map((item, index) =>
-                        <a key={index} href={`#${item.type}`}>
-                            <BurgerIngredientsList title={ item.name } list={ getList(item.type) } id={ item.type } />
+                <ul id="ingredients-container" className={` ${ BurgerIngredientsStyles.listContainer } custom-scroll`}>
+                    {INGREDIENT_CATEGORIES.map((item) =>
+                        <a key={item.type} href={`#${item.type}`}  >
+                            <BurgerIngredientsList title={ item.name } list={ getList(item.type) } id={`section_${item.type}`} />
                         </a>
                     )}
                 </ul>

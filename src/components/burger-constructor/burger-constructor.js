@@ -20,10 +20,10 @@ import { getOrderNumber } from "../../services/thunk/order-details";
 import { burgerIngredientsSelector } from "../../services/selectors";
 
 export default function BurgerConstructor() {
-    // const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);// TODO
-    const { orderNumber, hasError } = useSelector(orderSelector);
+    const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);// TODO
+    const { hasError } = useSelector(orderSelector);
     const dispatch = useDispatch();
-    const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
+    // const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
 
     const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -127,12 +127,7 @@ export default function BurgerConstructor() {
             {
                 isModalOpen === true &&
                 <Modal header="" onClose={ handleCloseModal } >
-                    {hasError === true && <ErrorBlock/>}
-                    {
-                        orderNumber !== null
-                        && hasError === false
-                        && <OrderDetails orderNumber={orderNumber} />
-                    }
+                    {hasError === true ? <ErrorBlock/> : <OrderDetails />}
                 </Modal>
             }
         </section>

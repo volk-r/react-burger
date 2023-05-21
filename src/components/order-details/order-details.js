@@ -1,7 +1,6 @@
 import React from 'react';
 
 import DoneLogo from "../../images/done.svg";
-import PropTypes from "prop-types";
 import OrderDetailsStyles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 import { orderSelector } from "../../services/selectors";
@@ -27,7 +26,3 @@ export default function OrderDetails() {
         </>
     );
 }
-
-OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired,
-};
