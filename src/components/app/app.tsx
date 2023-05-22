@@ -20,10 +20,10 @@ export default function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // TODO: i don't know why there is error here
+        // TODO: tsx gap
         // @ts-ignore
         dispatch(getIngredientsList())
-    }, [dispatch])
+    }, [])
 
     const ErrorBlock = () => {
         return (
