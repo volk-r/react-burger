@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
+import WaitImage from "../../images/wait.gif";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -16,12 +17,12 @@ import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { burgerConstructorIngredientsSelector, orderSelector } from "../../services/selectors";
-import { getOrderNumber } from "../../services/thunk/order-details";
+import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
 import { burgerIngredientsSelector } from "../../services/selectors";
 
 export default function BurgerConstructor() {
     const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);// TODO
-    const { hasError } = useSelector(orderSelector);
+    const { hasError, isLoading } = useSelector(orderSelector);
     const dispatch = useDispatch();
     // const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
 
@@ -41,6 +42,7 @@ export default function BurgerConstructor() {
     const handleCloseModal = useCallback(
         () => {
             closeModal()
+            dispatch(resetOrderNumber())
         }, []
     );
 
@@ -62,7 +64,7 @@ export default function BurgerConstructor() {
                 <p className="ml-2 mr-4 p-1 text text_type_main-medium">
                     Возможно, вы забыли выбрать булочку или Ваш заказ потерялся в дороге. Попробуйте еще раз или позовите официанта.
                 </p>
-                <img src={UnknownBun} alt="А это что за булка?" className={ BurgerConstructorStyles.img } />
+                <img src={ UnknownBun } alt="А это что за булка?" className={ BurgerConstructorStyles.img } />
             </section>
         );
     }
@@ -115,7 +117,7 @@ export default function BurgerConstructor() {
             </ul>
             <section className={` ${ BurgerConstructorStyles.priceContainer } mt-7 mr-4 mb-5`}>
                 <p className="text text_type_digits-medium">
-                    {totalPrice}
+                    {totalPrice.toString()}
                 </p>
                 <p className="ml-2 mr-4 text text_type_main-large">
                     <CurrencyIcon type="primary" />
@@ -127,7 +129,15 @@ export default function BurgerConstructor() {
             {
                 isModalOpen === true &&
                 <Modal header="" onClose={ handleCloseModal } >
-                    {hasError === true ? <ErrorBlock/> : <OrderDetails />}
+                    {
+                        isLoading === true
+                        && hasError === false
+                        && <img src={ WaitImage } alt="Loading.." className={ BurgerConstructorStyles.loading } />
+                    }
+                    {
+                        isLoading === false
+                        && (hasError === true ? <ErrorBlock/> : <OrderDetails />)
+                    }
                 </Modal>
             }
         </section>
