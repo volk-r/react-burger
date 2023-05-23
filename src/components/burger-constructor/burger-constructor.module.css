@@ -6,7 +6,8 @@
     /* interface/bg */
     background: #131316;
     /* interface/accent */
-    /*border: 2px solid #4C4CFF;*/
+    border: 2px solid;
+    border-radius: 4px;
 }
 
 .listContainer {

@@ -10,6 +10,7 @@ import { useModal } from "../../hooks/useModal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { setIngredientDetails, resetIngredientDetails } from "../../services/thunk/ingredient-details";
 import { useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 export default function BurgerIngredientsList(props) {
     const dispatch = useDispatch();
@@ -35,12 +36,17 @@ export default function BurgerIngredientsList(props) {
     const ListItem = React.memo(({ item, handleItemClick }) => {
         const handleClick = () => handleItemClick(item);
 
+        const [, dragRef] = useDrag({
+            type: "ingredient",
+            item: item
+        });
+
         return (
-            <div key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
+            <div ref={dragRef} key={ item.uuid } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
                 {
-                    item.__v === 0
+                    typeof item.qty === 'undefined' || item.qty === 0
                         ? <div className={ BurgerIngredientsListStyles.default }></div>
-                        : <Counter count={ item.__v } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
+                        : <Counter count={ item.qty } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
                 }
                 <img src={ item.image } alt={ item.name }/>
                 <div className={ BurgerIngredientsListStyles.priceContainer }>

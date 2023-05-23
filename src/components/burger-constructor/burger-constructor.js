@@ -16,17 +16,39 @@ import {
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
 import { burgerConstructorIngredientsSelector, orderSelector } from "../../services/selectors";
 import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
-import { burgerIngredientsSelector } from "../../services/selectors";
+import { addItemToConstructor, removeItemFromConstructor } from "../../services/thunk/burger-constructor";
+import { decreaseIngrideintsCount, increaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
 
 export default function BurgerConstructor() {
-    const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);// TODO
+    const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
     const dispatch = useDispatch();
-    // const { bun, ingredients } = useSelector(burgerIngredientsSelector);// TODO
 
     const { isModalOpen, openModal, closeModal } = useModal();
+
+    const [{isHover}, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(item) {
+            dispatch(addItemToConstructor(item))
+            dispatch(increaseIngrideintsCount(item));
+        },
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        })
+    });
+
+    const borderColor = isHover ? 'lightgreen' : 'transparent';
+
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+    const handleDeleteItem = (item) => {
+        dispatch(removeItemFromConstructor(item));
+        dispatch(decreaseIngrideintsCount(item));
+        forceUpdate();
+    };
 
     const handleOpenModal = () => {
         const ids = [...ingredients
@@ -70,7 +92,7 @@ export default function BurgerConstructor() {
     }
 
     return (
-        <section className={ BurgerConstructorStyles.container }>
+        <section ref={dropTarget} className={ BurgerConstructorStyles.container } style={{ borderColor }}>
             <p className="m-20"></p>
             <ul>
                 <li className={` ${ BurgerConstructorStyles.listItem } pl-59 mr-4 mb-1`}>
@@ -87,18 +109,19 @@ export default function BurgerConstructor() {
                 {
                     ingredients.length === 0
                         ?
-                        <li className={ BurgerConstructorStyles.listItem }>
+                        <li className={` ${ BurgerConstructorStyles.listItem } ml-6 mr-2`}>
                             Просто добавь воды
                         </li>
                     :
                     ingredients.map((item) =>
                         item.type !== BUN_TYPE
-                        && <li key={ item._id } className={ BurgerConstructorStyles.listItem }>
+                        && <li key={ item.uuid } className={ BurgerConstructorStyles.listItem }>
                             <DragIcon type="primary" />
                             <ConstructorElement
                                 text={ item.name }
                                 price={ item.price }
                                 thumbnail={ item.image }
+                                handleClose={ () => handleDeleteItem(item) }
                             />
                         </li>
                     )
