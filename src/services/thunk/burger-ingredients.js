@@ -11,7 +11,7 @@ import { BUN_TYPE } from "../../utils/constants";
 
 export function getIngredientsList() {
     return function(dispatch) {
-        // // TODO: for debug, when api no accesible
+        // // TODO: for debug, when api not accesible
         // dispatch({
         //     type: GET_INGREDIENTS_SUCCESS,
         //     ingredients: { bun: data.filter((item) => item.type === BUN_TYPE).pop(), ingredients: data }
