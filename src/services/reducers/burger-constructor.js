@@ -4,6 +4,7 @@ import {
 } from '../actions/burger-constructor';
 import { BUN_TYPE } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown.png";
+import uuid from 'react-uuid'
 
 const initialState = {
     bun: {_id: "0", name: "Нет булка, совсем нет", price: 0, image: UnknownBun },
@@ -16,19 +17,17 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             if (action.item.type === BUN_TYPE) {
                 state.bun = action.item;
             } else {
-                state.ingredients = [...state.ingredients, action.item];
+                action.item.uuid = uuid();
+                [...state.ingredients] = [...state.ingredients, action.item];
             }
 
             return state;
         }
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
-            if (action.item.type === BUN_TYPE) {
-                state.bun = {};
-            } else {
-                state.ingredients = state.ingredients.filter(item => item._id !== action.item._id);
-            }
-
-            return state;
+            return {
+                ...state,
+                ingredients: state.ingredients.filter(item => item.uuid !== action.item.uuid)
+            };
         }
         default: {
             return state

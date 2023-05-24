@@ -42,7 +42,7 @@ export default function BurgerIngredientsList(props) {
         });
 
         return (
-            <div ref={dragRef} key={ item.uuid } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
+            <div ref={dragRef} key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
                 {
                     typeof item.qty === 'undefined' || item.qty === 0
                         ? <div className={ BurgerIngredientsListStyles.default }></div>

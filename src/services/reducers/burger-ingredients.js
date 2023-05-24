@@ -5,6 +5,7 @@ import {
     INCREASE_INGREDIENTS_ITEM,
     DECREASE_INGREDIENTS_ITEM,
 } from '../actions/burger-ingredients';
+import { BUN_TYPE } from "../../utils/constants";
 
 const initialState = {
     ingredientsRequest: false,
@@ -36,13 +37,23 @@ export const ingredientsReducer = (state = initialState, action) => {
             };
         }
         case INCREASE_INGREDIENTS_ITEM: {
+            let ingredients = state.burgerIngredients.ingredients;
+
+            if (action.item.type === BUN_TYPE) {
+                ingredients = ingredients.map(item =>
+                    item.type === BUN_TYPE ? { ...item, qty: item.qty ? --item.qty : 0 } : item
+                )
+            }
+
+            ingredients = ingredients.map(item =>
+                item._id === action.item._id ? { ...item, qty: item.qty ? ++item.qty : 1 } : item
+            )
+
             return {
                 ...state,
                 burgerIngredients: {
                     ...state.burgerIngredients,
-                    ingredients: state.burgerIngredients.ingredients.map(item =>
-                        item._id === action._id ? { ...item, qty: item.qty ? ++item.qty : 1 } : item
-                    )
+                    ingredients: ingredients
                 }
             };
         }
@@ -52,7 +63,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 burgerIngredients: {
                     ...state.burgerIngredients,
                     ingredients: state.burgerIngredients.ingredients.map(item =>
-                        item._id === action._id ? { ...item, qty: item.qty ? --item.qty : 0 } : item
+                        item._id === action.item._id ? { ...item, qty: item.qty ? --item.qty : 0 } : item
                     )
                 }
             };
