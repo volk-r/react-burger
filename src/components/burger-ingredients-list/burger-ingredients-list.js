@@ -3,10 +3,11 @@ import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
-import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
+import { ITEM_TYPES } from "../../utils/constants";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { setIngredientDetails, resetIngredientDetails } from "../../services/thunk/ingredient-details";
 import { useDispatch } from 'react-redux';
@@ -37,7 +38,7 @@ export default function BurgerIngredientsList(props) {
         const handleClick = () => handleItemClick(item);
 
         const [, dragRef] = useDrag({
-            type: "ingredient",
+            type: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
             item: item
         });
 

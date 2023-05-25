@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import Modal from "../modal/modal";
 import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
@@ -15,12 +15,15 @@ import {
 
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
+import { ITEM_TYPES } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { burgerConstructorIngredientsSelector, orderSelector } from "../../services/selectors";
 import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
 import { addItemToConstructor, removeItemFromConstructor } from "../../services/thunk/burger-constructor";
 import { decreaseIngrideintsCount, increaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
+import { changeIngrideintPosition } from "../../services/thunk/burger-constructor";
+import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 
 export default function BurgerConstructor() {
     const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);
@@ -30,7 +33,7 @@ export default function BurgerConstructor() {
     const { isModalOpen, openModal, closeModal } = useModal();
 
     const [{isHover}, dropTarget] = useDrop({
-        accept: "ingredient",
+        accept: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
         drop(item) {
             dispatch(addItemToConstructor(item))
             dispatch(increaseIngrideintsCount(item));
@@ -41,6 +44,23 @@ export default function BurgerConstructor() {
     });
 
     const borderColor = isHover ? 'lightgreen' : 'transparent';
+
+    // sorting inside constructor
+    // Коллбэк, в котором ингредиенты меняются местами,
+    // если один накладывается на другой
+    const moveIngredient = useCallback((dragIndex, hoverIndex) => {
+        // Получаем перетаскиваемый ингредиент
+        const dragIngredient = ingredients.filter((item) => `${item.uuid}` === dragIndex)[0];
+        const newdragIngredientsList = [...ingredients]
+        // Удаляем перетаскиваемый элемент из массива
+        newdragIngredientsList.splice(dragIndex, 1);
+        // Вставляем элемент на место того элемента,
+        // над которым мы навели мышку с "перетаскиванием"
+        // Тут просто создается новый массив, в котором изменен порядок наших элементов
+        newdragIngredientsList.splice(hoverIndex, 0, dragIngredient)
+        dispatch(changeIngrideintPosition(newdragIngredientsList))// todo: не работает ! ! !
+    }, [ingredients, dispatch]);
+    // sorting inside constructor
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -116,13 +136,21 @@ export default function BurgerConstructor() {
                     ingredients.map((item) =>
                         item.type !== BUN_TYPE
                         && <li key={ item.uuid } className={ BurgerConstructorStyles.listItem }>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text={ item.name }
-                                price={ item.price }
-                                thumbnail={ item.image }
-                                handleClose={ () => handleDeleteItem(item) }
+                            <BurgerConstructorItem
+                                ref={dropTarget}
+                                key={ item.uuid }
+                                index={ item.uuid }
+                                burgerConstructorItem={item}
+                                moveIngredient={moveIngredient}
+                                handleDeleteItem={ () => handleDeleteItem(item) }
                             />
+                            {/*<DragIcon type="primary" />*/}
+                            {/*<ConstructorElement*/}
+                            {/*    text={ item.name }*/}
+                            {/*    price={ item.price }*/}
+                            {/*    thumbnail={ item.image }*/}
+                            {/*    handleClose={ () => handleDeleteItem(item) }*/}
+                            {/*/>*/}
                         </li>
                     )
                 }

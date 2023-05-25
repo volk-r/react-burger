@@ -1,6 +1,7 @@
 import {
     ADD_INGREDIENT_TO_CONSTRUCTOR,
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+    UPDATE_INGREDIENT_POSITION,
 } from '../actions/burger-constructor';
 import { BUN_TYPE } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown.png";
@@ -27,6 +28,12 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: state.ingredients.filter(item => item.uuid !== action.item.uuid)
+            };
+        }
+        case UPDATE_INGREDIENT_POSITION: {
+            return {
+                ...state,
+                ingredients: action.item
             };
         }
         default: {
