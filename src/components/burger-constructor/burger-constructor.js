@@ -59,7 +59,10 @@ export default function BurgerConstructor() {
         newdragIngredientsList.splice(hoverIndex, 0, dragIngredient)
         dispatch(changeIngrideintPosition(newdragIngredientsList))// todo: не работает ! ! !
     }, [ingredients, dispatch]);
-    // sorting inside constructor
+
+    // const moveIngredient = useCallback((dragIndex, hoverIndex) => {
+    //     dispatch(changeIngrideintPosition(dragIndex, hoverIndex))
+    // }, [ingredients, dispatch])
 
     const handleOpenModal = () => {
         const ids = [...ingredients
@@ -131,7 +134,6 @@ export default function BurgerConstructor() {
                                 className={ BurgerConstructorStyles.listItem }
                             >
                             <BurgerConstructorItem
-                                forwardRef={dropTarget}
                                 key={ item.uuid }
                                 index={ item.uuid }
                                 burgerConstructorItem={item}

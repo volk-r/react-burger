@@ -22,3 +22,8 @@ export const changeIngrideintPosition = (item) => ({
     type: UPDATE_INGREDIENT_POSITION,
     item
 });
+// export const changeIngrideintPosition = (dragIndex, hoverIndex) => ({
+//     type: UPDATE_INGREDIENT_POSITION,
+//     dragIndex,
+//     hoverIndex,
+// });

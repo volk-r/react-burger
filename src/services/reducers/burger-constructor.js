@@ -5,6 +5,7 @@ import {
 } from '../actions/burger-constructor';
 import { BUN_TYPE } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown.png";
+// import update from 'immutability-helper';
 
 const initialState = {
     bun: {_id: "0", name: "Нет булка, совсем нет", price: 0, image: UnknownBun },
@@ -37,6 +38,27 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 ingredients: action.item
             };
         }
+        // case UPDATE_INGREDIENT_POSITION : {
+        //     console.log()
+        //     if (action.dragIndex > action.hoverIndex) {
+        //         return update(state, {
+        //             ingredients: {
+        //                 $splice: [
+        //                     [ action.hoverIndex, 1],
+        //                     [action.dragIndex, 0, ...state.ingredients.slice(action.hoverIndex, action.dragIndex)],
+        //                 ],
+        //             }
+        //         })} else {
+        //         return update(state, {
+        //             ingredients: {
+        //                 $splice: [
+        //                     [action.dragIndex, 1],
+        //                     [action.hoverIndex, 0, ...state.ingredients.slice(action.dragIndex, action.hoverIndex)],
+        //                 ],
+        //             }
+        //         })
+        //     }
+        // }
         default: {
             return state
         }
