@@ -1,4 +1,4 @@
-import React, {useMemo, useCallback, useEffect} from 'react';
+import React, {useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
