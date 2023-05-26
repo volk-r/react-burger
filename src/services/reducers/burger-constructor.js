@@ -16,8 +16,13 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
                 ...state,
-                bun: action.payload.type === BUN_TYPE ? action.payload : state.bun,
-                ingredients: [...state.ingredients, action.payload]
+                bun: action.payload.type === BUN_TYPE
+                        ? action.payload
+                        : state.bun,
+                ingredients:
+                    action.payload.type === BUN_TYPE
+                        ? state.ingredients
+                        : [...state.ingredients, action.payload]
             };
         }
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
