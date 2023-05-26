@@ -137,10 +137,10 @@ export default function BurgerConstructor() {
                         item.type !== BUN_TYPE
                         && <li
                                 key={ item.uuid }
-                                ref={dropTarget}
                                 className={ BurgerConstructorStyles.listItem }
                             >
                             <BurgerConstructorItem
+                                ref={dropTarget}
                                 key={ item.uuid }
                                 index={ item.uuid }
                                 burgerConstructorItem={item}
