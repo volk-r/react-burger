@@ -3,10 +3,14 @@ import {
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
     UPDATE_INGREDIENT_POSITION,
 } from '../actions/burger-constructor';
+import uuid from 'react-uuid'
 
 export const addItemToConstructor = (item) => ({
     type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-    item,
+    payload: {
+        ...item,
+        uuid: uuid()
+    }
 });
 
 export const removeItemFromConstructor = (item) => ({
