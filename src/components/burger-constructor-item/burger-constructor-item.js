@@ -5,11 +5,20 @@ import {
     ConstructorElement,
     DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { decreaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
+import { removeItemFromConstructor } from "../../services/thunk/burger-constructor";
+import { useDispatch } from "react-redux";
 const style = {
     cursor: 'move',
 }
 export const BurgerConstructorItem = memo((props) => {
-    const { index, burgerConstructorItem, handleDeleteItem, moveIngredient } = props;
+    const { index, burgerConstructorItem, moveIngredient } = props;
+    const dispatch = useDispatch();
+
+    const handleDeleteItem = (item) => {
+        dispatch(decreaseIngrideintsCount(item));
+        dispatch(removeItemFromConstructor(item));
+    };
 
     const ref = useRef(null);
 

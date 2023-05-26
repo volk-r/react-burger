@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
@@ -9,7 +9,6 @@ import BurgerConstructorStyles from './burger-constructor.module.css'
 import {
     ConstructorElement,
     CurrencyIcon,
-    DragIcon,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -20,8 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { burgerConstructorIngredientsSelector, orderSelector } from "../../services/selectors";
 import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
-import { addItemToConstructor, removeItemFromConstructor } from "../../services/thunk/burger-constructor";
-import { decreaseIngrideintsCount, increaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
+import { addItemToConstructor } from "../../services/thunk/burger-constructor";
+import { increaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
 import { changeIngrideintPosition } from "../../services/thunk/burger-constructor";
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 
@@ -61,11 +60,6 @@ export default function BurgerConstructor() {
         dispatch(changeIngrideintPosition(newdragIngredientsList))// todo: не работает ! ! !
     }, [ingredients, dispatch]);
     // sorting inside constructor
-
-    const handleDeleteItem = (item) => {
-        dispatch(decreaseIngrideintsCount(item));
-        dispatch(removeItemFromConstructor(item));
-    };
 
     const handleOpenModal = () => {
         const ids = [...ingredients
@@ -142,15 +136,7 @@ export default function BurgerConstructor() {
                                 index={ item.uuid }
                                 burgerConstructorItem={item}
                                 moveIngredient={moveIngredient}
-                                handleDeleteItem={ () => handleDeleteItem(item) }
                             />
-                            {/*<DragIcon type="primary" />*/}
-                            {/*<ConstructorElement*/}
-                            {/*    text={ item.name }*/}
-                            {/*    price={ item.price }*/}
-                            {/*    thumbnail={ item.image }*/}
-                            {/*    handleClose={ () => handleDeleteItem(item) }*/}
-                            {/*/>*/}
                         </li>
                     )
                 }
