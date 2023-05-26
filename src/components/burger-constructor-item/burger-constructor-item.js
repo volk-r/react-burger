@@ -141,7 +141,6 @@ export const BurgerConstructorItem = memo((props) => {
             style={{ ...style, opacity }}
             onDrop={preventDefault}
             data-handler-id={handlerId}
-            // style
         >
             <DragIcon type="primary" />
             <ConstructorElement

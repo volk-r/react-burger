@@ -50,7 +50,7 @@ export default function BurgerConstructor() {
     // если один накладывается на другой
     const moveIngredient = useCallback((dragIndex, hoverIndex) => {
         // Получаем перетаскиваемый ингредиент
-        const dragIngredient = ingredients.filter((item) => `${item.uuid}` === dragIndex)[0];
+        const dragIngredient = ingredients.find((element) => element.uuid === dragIndex);
         const newdragIngredientsList = [...ingredients]
         // Удаляем перетаскиваемый элемент из массива
         newdragIngredientsList.splice(dragIndex, 1);
@@ -62,12 +62,9 @@ export default function BurgerConstructor() {
     }, [ingredients, dispatch]);
     // sorting inside constructor
 
-    const [, updateState] = React.useState();
-    const forceUpdate = React.useCallback(() => updateState({}), []);
     const handleDeleteItem = (item) => {
-        dispatch(removeItemFromConstructor(item));
         dispatch(decreaseIngrideintsCount(item));
-        forceUpdate();
+        dispatch(removeItemFromConstructor(item));
     };
 
     const handleOpenModal = () => {
