@@ -8,9 +8,9 @@ import UnknownBun from "../../images/bun-unknown.png";
 // import update from 'immutability-helper';
 
 const initialState = {
-    bun: {_id: "0", name: "Нет булка, совсем нет", price: 0, image: UnknownBun },
-    ingredients: [],
-    isDisabledOrderButtonn: false,
+    bun                  : {_id: "0", name: "Нет булка, совсем нет", price: 0, image: UnknownBun },
+    ingredients          : [],
+    isDisabledOrderButton: false,
 }
 
 export const burgerConstructorReducer = (state = initialState, action) => {
@@ -25,7 +25,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                     action.payload.type === BUN_TYPE
                         ? state.ingredients
                         : [...state.ingredients, action.payload],
-                isDisabledOrderButtonn: action.payload.type === BUN_TYPE
+                isDisabledOrderButton: action.payload.type === BUN_TYPE
             };
         }
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {

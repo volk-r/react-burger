@@ -25,7 +25,7 @@ import { changeIngrideintPosition } from "../../services/thunk/burger-constructo
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 
 export default function BurgerConstructor() {
-    const { bun, ingredients, isDisabledOrderButtonn } = useSelector(burgerConstructorIngredientsSelector);
+    const { bun, ingredients, isDisabledOrderButton } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
     const dispatch = useDispatch();
 
@@ -161,7 +161,7 @@ export default function BurgerConstructor() {
                 <p className="ml-2 mr-4 text text_type_main-large">
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button htmlType="button" type="primary" size="large" onClick={ handleOpenModal } disabled={!isDisabledOrderButtonn}>
+                <Button htmlType="button" type="primary" size="large" onClick={ handleOpenModal } disabled={!isDisabledOrderButton}>
                     Оформить заказ
                 </Button>
             </section>
