@@ -53,12 +53,10 @@ export default function App() {
                         {
                             isLoading === false
                             && hasError === false
-                            && <>
-                                <DndProvider backend={HTML5Backend}>
+                            && <DndProvider backend={HTML5Backend}>
                                     <BurgerIngredients />
                                     <BurgerConstructor />
                                 </DndProvider>
-                            </>
                         }
                 </main>
             </ErrorBoundary>

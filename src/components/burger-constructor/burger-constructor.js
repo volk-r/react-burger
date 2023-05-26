@@ -137,7 +137,7 @@ export default function BurgerConstructor() {
                                 className={ BurgerConstructorStyles.listItem }
                             >
                             <BurgerConstructorItem
-                                ref={dropTarget}
+                                forwardRef={dropTarget}
                                 key={ item.uuid }
                                 index={ item.uuid }
                                 burgerConstructorItem={item}
