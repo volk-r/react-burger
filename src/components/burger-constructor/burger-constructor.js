@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, {useMemo, useCallback, useEffect} from 'react';
 import Modal from "../modal/modal";
 import {BUN_COUNT, BUN_TYPE} from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
@@ -25,7 +25,7 @@ import { changeIngrideintPosition } from "../../services/thunk/burger-constructo
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 
 export default function BurgerConstructor() {
-    const { bun, ingredients } = useSelector(burgerConstructorIngredientsSelector);
+    const { bun, ingredients, isDisabledOrderButtonn } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
     const dispatch = useDispatch();
 
@@ -161,7 +161,7 @@ export default function BurgerConstructor() {
                 <p className="ml-2 mr-4 text text_type_main-large">
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button htmlType="button" type="primary" size="large" onClick={ handleOpenModal }>
+                <Button htmlType="button" type="primary" size="large" onClick={ handleOpenModal } disabled={!isDisabledOrderButtonn}>
                     Оформить заказ
                 </Button>
             </section>

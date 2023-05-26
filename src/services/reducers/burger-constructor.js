@@ -10,6 +10,7 @@ import UnknownBun from "../../images/bun-unknown.png";
 const initialState = {
     bun: {_id: "0", name: "Нет булка, совсем нет", price: 0, image: UnknownBun },
     ingredients: [],
+    isDisabledOrderButtonn: false,
 }
 
 export const burgerConstructorReducer = (state = initialState, action) => {
@@ -23,7 +24,8 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 ingredients:
                     action.payload.type === BUN_TYPE
                         ? state.ingredients
-                        : [...state.ingredients, action.payload]
+                        : [...state.ingredients, action.payload],
+                isDisabledOrderButtonn: action.payload.type === BUN_TYPE
             };
         }
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
