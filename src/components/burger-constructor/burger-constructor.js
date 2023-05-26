@@ -136,10 +136,10 @@ export default function BurgerConstructor() {
                     ingredients.map((item) =>
                         item.type !== BUN_TYPE
                         && <li
-                            key={ item.uuid }
-                            ref={dropTarget}
-                            className={ BurgerConstructorStyles.listItem }
-                        >
+                                key={ item.uuid }
+                                ref={dropTarget}
+                                className={ BurgerConstructorStyles.listItem }
+                            >
                             <BurgerConstructorItem
                                 key={ item.uuid }
                                 index={ item.uuid }
