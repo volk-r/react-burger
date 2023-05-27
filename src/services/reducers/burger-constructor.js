@@ -25,7 +25,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                     action.payload.type === BUN_TYPE
                         ? state.ingredients
                         : [...state.ingredients, action.payload],
-                isDisabledOrderButton: action.payload.type === BUN_TYPE
+                isDisabledOrderButton: action.payload.type === BUN_TYPE || state.bun !== initialState.bun
             };
         }
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
