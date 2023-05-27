@@ -39,7 +39,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 return update(state, {
                     ingredients: {
                         $splice: [
-                            [ action.hoverIndex, 1],
+                            [action.hoverIndex, 1],
                             [action.dragIndex, 0, ...state.ingredients.slice(action.hoverIndex, action.dragIndex)],
                         ],
                     }
