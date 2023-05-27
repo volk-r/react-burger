@@ -116,6 +116,6 @@ export const BurgerConstructorItem = memo((props) => {
 
 BurgerConstructorItem.propTypes = {
     burgerConstructorItem: ingredientAttributes.isRequired,
-    index: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
     moveIngredient: PropTypes.func.isRequired
 }

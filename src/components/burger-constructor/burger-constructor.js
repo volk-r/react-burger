@@ -45,24 +45,9 @@ export default function BurgerConstructor() {
     const borderColor = isHover ? 'lightgreen' : 'transparent';
 
     // sorting inside constructor
-    // Коллбэк, в котором ингредиенты меняются местами,
-    // если один накладывается на другой
     const moveIngredient = useCallback((dragIndex, hoverIndex) => {
-        // Получаем перетаскиваемый ингредиент
-        const dragIngredient = ingredients.find((element) => element.uuid === dragIndex);
-        const newdragIngredientsList = [...ingredients]
-        // Удаляем перетаскиваемый элемент из массива
-        newdragIngredientsList.splice(dragIndex, 1);
-        // Вставляем элемент на место того элемента,
-        // над которым мы навели мышку с "перетаскиванием"
-        // Тут просто создается новый массив, в котором изменен порядок наших элементов
-        newdragIngredientsList.splice(hoverIndex, 0, dragIngredient)
-        dispatch(changeIngrideintPosition(newdragIngredientsList))// todo: не работает ! ! !
-    }, [ingredients, dispatch]);
-
-    // const moveIngredient = useCallback((dragIndex, hoverIndex) => {
-    //     dispatch(changeIngrideintPosition(dragIndex, hoverIndex))
-    // }, [ingredients, dispatch])
+        dispatch(changeIngrideintPosition(dragIndex, hoverIndex))
+    }, [dispatch]);
 
     const handleOpenModal = () => {
         const ids = [...ingredients
@@ -105,6 +90,22 @@ export default function BurgerConstructor() {
         );
     }
 
+    const renderIngredient = useCallback((item, index) => {
+        return (
+            <li
+                key={ item.uuid }
+                className={ BurgerConstructorStyles.listItem }
+            >
+                <BurgerConstructorItem
+                    key={ item.uuid }
+                    index={ index }
+                    burgerConstructorItem={item}
+                    moveIngredient={moveIngredient}
+                />
+            </li>
+        )
+    }, [])
+
     return (
         <section ref={dropTarget} className={ BurgerConstructorStyles.container } style={{ borderColor }}>
             <p className="m-20"></p>
@@ -126,21 +127,7 @@ export default function BurgerConstructor() {
                         <li className={` ${ BurgerConstructorStyles.listItem } ml-6 mr-2`}>
                             Просто добавь воды
                         </li>
-                    :
-                    ingredients.map((item) =>
-                        item.type !== BUN_TYPE
-                        && <li
-                                key={ item.uuid }
-                                className={ BurgerConstructorStyles.listItem }
-                            >
-                            <BurgerConstructorItem
-                                key={ item.uuid }
-                                index={ item.uuid }
-                                burgerConstructorItem={item}
-                                moveIngredient={moveIngredient}
-                            />
-                        </li>
-                    )
+                    : ingredients.map((item, index) => renderIngredient(item, index))
                 }
             </ul>
             <ul>
