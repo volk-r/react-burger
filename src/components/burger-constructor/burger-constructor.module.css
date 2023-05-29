@@ -6,7 +6,8 @@
     /* interface/bg */
     background: #131316;
     /* interface/accent */
-    /*border: 2px solid #4C4CFF;*/
+    border: 2px solid;
+    border-radius: 4px;
 }
 
 .listContainer {
@@ -41,8 +42,21 @@
     justify-content: flex-end;
 }
 
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .errorBlock {
     background-color: red;
     padding: 25px;
     border-radius: 50px;
+}
+
+.img {
+    width: 480px;
+    height: 240px;
+    padding-top: 15px;
 }

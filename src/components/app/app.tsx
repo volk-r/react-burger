@@ -1,39 +1,31 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import AppStyles from './app.module.css';
-import { getIngredients } from '../../utils/burger-api';
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import AppHeader from '../header/header'
 import ErrorBoundary from '../error-boundary/error-boundary'
 
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
-import { IngredientsContext } from "../../contexts/ingredients-context";
-import { OrderContext } from "../../contexts/order-context";
 
-import { BUN_TYPE } from '../../utils/constants';
+import { getIngredientsList } from '../../services/thunk/burger-ingredients';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    hasErrorIngredientsSelector,
+    isLoadingIngredientsSelector
+} from "../../services/selectors";
 
 export default function App() {
-    const [ingredients, setIngredients] = useState({ bun: {}, ingredients: [] })
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setError] = useState(false);
-
-    const orderState = useState({ orderNumber: null });
-
-    const getProducts = useCallback(() => {
-        getIngredients().then((data) => {
-            setIsLoading(false);
-
-            const buns = data.filter((item: any) => item.type === BUN_TYPE);
-            setIngredients({ bun: buns.pop(), ingredients: data });
-        })
-        .catch(e => {
-            setError(true);
-            setIsLoading(false);
-        })
-    }, [])
+    const isLoading = useSelector(isLoadingIngredientsSelector);
+    const hasError = useSelector(hasErrorIngredientsSelector);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getProducts()
+        // TODO: tsx gap
+        // @ts-ignore
+        dispatch(getIngredientsList())
     }, [])
 
     const ErrorBlock = () => {
@@ -61,14 +53,10 @@ export default function App() {
                         {
                             isLoading === false
                             && hasError === false
-                            && <>
-                                <IngredientsContext.Provider value={ ingredients }>
+                            && <DndProvider backend={HTML5Backend}>
                                     <BurgerIngredients />
-                                    <OrderContext.Provider value={ orderState }>
-                                        <BurgerConstructor />
-                                    </OrderContext.Provider>
-                                </IngredientsContext.Provider>
-                            </>
+                                    <BurgerConstructor />
+                                </DndProvider>
                         }
                 </main>
             </ErrorBoundary>

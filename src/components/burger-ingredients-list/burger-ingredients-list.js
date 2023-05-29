@@ -1,23 +1,27 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
-import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
+import { ITEM_TYPES } from "../../utils/constants";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { setIngredientDetails, resetIngredientDetails } from "../../services/thunk/ingredient-details";
+import { useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 export default function BurgerIngredientsList(props) {
-    const [ selectedItem, setSelectedItem ] = useState(null);
+    const dispatch = useDispatch();
     const { isModalOpen, openModal, closeModal } = useModal();
     const { id, title, list } = props;
 
     const handleItemClick = useCallback(
         (item) => {
             openModal()
-            setSelectedItem(item);
+            dispatch(setIngredientDetails(item));
         },
         []
     );
@@ -25,7 +29,7 @@ export default function BurgerIngredientsList(props) {
     const handleCloseModal = useCallback(
         () => {
             closeModal()
-            setSelectedItem(null);
+            dispatch(resetIngredientDetails());
         },
         []
     );
@@ -33,12 +37,17 @@ export default function BurgerIngredientsList(props) {
     const ListItem = React.memo(({ item, handleItemClick }) => {
         const handleClick = () => handleItemClick(item);
 
+        const [, dragRef] = useDrag({
+            type: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
+            item: item
+        });
+
         return (
-            <div key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
+            <div ref={dragRef} key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
                 {
-                    item.__v === 0
+                    typeof item.qty === 'undefined' || item.qty === 0
                         ? <div className={ BurgerIngredientsListStyles.default }></div>
-                        : <Counter count={ item.__v } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
+                        : <Counter count={ item.qty } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
                 }
                 <img src={ item.image } alt={ item.name }/>
                 <div className={ BurgerIngredientsListStyles.priceContainer }>
@@ -68,7 +77,7 @@ export default function BurgerIngredientsList(props) {
             </div>
             {isModalOpen === true && (
                 <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
-                    <IngredientDetails selectedItem={selectedItem} />
+                    <IngredientDetails />
                 </Modal>
             )}
         </li>
