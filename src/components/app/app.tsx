@@ -1,64 +1,24 @@
-import React, { useEffect } from 'react';
-import AppStyles from './app.module.css';
-
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-import AppHeader from '../header/header'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary'
 
-import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-import BurgerConstructor from '../burger-constructor/burger-constructor'
-
-import { getIngredientsList } from '../../services/thunk/burger-ingredients';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-    hasErrorIngredientsSelector,
-    isLoadingIngredientsSelector
-} from "../../services/selectors";
+import HomePage from '../../pages/home'
+import LoginPage from '../../pages/login'
 
 export default function App() {
-    const isLoading = useSelector(isLoadingIngredientsSelector);
-    const hasError = useSelector(hasErrorIngredientsSelector);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        // TODO: tsx gap
-        // @ts-ignore
-        dispatch(getIngredientsList())
-    }, [])
-
-    const ErrorBlock = () => {
-        return (
-            <section className={ AppStyles.errorBlock }>
-                <h1>Что-то пошло не так :(</h1>
-                <p>
-                    Ошибка загрузки данных. Пожалуйста, перезагрузите страницу или попробуйте позже.
-                </p>
-            </section>
-        );
-    }
-
     return (
         <>
-            <AppHeader />
-            {isLoading === true && <p className={ AppStyles.loading }>Loading...</p>}
-            {
-                isLoading === false
-                && hasError === true
-                && <ErrorBlock />
-            }
             <ErrorBoundary>
-                <main className={ AppStyles.box }>
-                        {
-                            isLoading === false
-                            && hasError === false
-                            && <DndProvider backend={HTML5Backend}>
-                                    <BurgerIngredients />
-                                    <BurgerConstructor />
-                                </DndProvider>
-                        }
-                </main>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        {/*<Route path="/register" element={<RegisterPage />} />*/}
+                        {/*<Route path="/forgot-password" element={<ForgotPasswordPage />} />*/}
+                        {/*<Route path="/reset-password" element={<ResetPasswordPage />} />*/}
+                        {/*<Route path="/ingredients/:id" element={<IngredientPage />} />*/}
+                    </Routes>
+                </Router>
             </ErrorBoundary>
         </>
     );

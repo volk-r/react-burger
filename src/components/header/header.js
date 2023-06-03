@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import AppHeaderStyles from './header.module.css'
 
@@ -14,25 +15,34 @@ export default function AppHeader() {
         <>
             <header className={ AppHeaderStyles.menu }>
                 <nav className={ AppHeaderStyles.nav }>
-                    <a href="#" className={ AppHeaderStyles.navlink }>
+                    <Link
+                        to={{ pathname: `/` }}
+                        className={ AppHeaderStyles.navlink }
+                    >
                         <BurgerIcon type="primary" />
                         <p className="text text_type_main-default">Конструктор</p>
-                    </a>
-                    <a href="http://localhost:3000/#bun" className={ AppHeaderStyles.navlink }>
+                    </Link>
+                    <Link
+                        to={{ pathname: `/orders` }}
+                        className={ AppHeaderStyles.navlink }
+                    >
                         <ListIcon type="secondary" />
                         <p className="text text_type_main-default">Лента заказов</p>
-                    </a>
+                    </Link>
                 </nav>
                 <div className="ml-1"></div>
-                <a href="#" >
+                <Link to={{ pathname: `/` }} >
                     <Logo />
-                </a>
+                </Link>
                 <div className={ AppHeaderStyles.navlink }>
                 </div>
-                <a href="#" className={ AppHeaderStyles.navlink }>
+                <Link
+                    to={{ pathname: `/login` }}//todo
+                    className={ AppHeaderStyles.navlink }
+                >
                     <ProfileIcon type="secondary" />
                     <p className="text text_type_main-default">Личный кабинет</p>
-                </a>
+                </Link>
             </header>
         </>
     );
