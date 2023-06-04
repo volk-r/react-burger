@@ -46,3 +46,34 @@ export async function makeOrder(ingredientIDs) {
 
     return data.order.number;
 }
+
+export async function restorePassword(email) {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "email": email,
+        })
+    };
+    const data = await request('password-reset', parameters);
+
+    return data.message;
+}
+
+export async function resetPassword(password, token) {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "password": password,
+            "token"   : token,
+        })
+    };
+    const data = await request('password-reset/reset', parameters);
+
+    return data.message;
+}
