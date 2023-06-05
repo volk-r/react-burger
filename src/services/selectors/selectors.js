@@ -6,3 +6,5 @@ export const hasErrorIngredientsSelector = (store) => store.ingredients.ingredie
 export const burgerConstructorIngredientsSelector = (store) => store.constructorIngredients
 export const selectedItemSelector = (store) => store.currentIngredient.selectedItem
 export const orderSelector = (store) => store.order
+export const accessTokenSelector = (store) => store.authData.accessToken
+export const userInfoSelector = (store) => store.authData.user

@@ -1,28 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 import {
     Input,
     EmailInput,
     PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import Profile from "../../components/profile";
+
+import { Profile } from "../../components/profile";
+import { getUserData } from "../../services/thunk/authorization";
+import { accessTokenSelector, userInfoSelector } from "../../services/selectors";
 
 export default function ProfilePage() {
-    const [nameValue, setNameValue] = useState('')
+    const token = useSelector(accessTokenSelector);
+    const userData = useSelector(userInfoSelector);
+    const dispatch = useDispatch();
+    const onChange = e => {
+        // TODO: change data in store
+        // setValue({ ...form, [e.target.name]: e.target.value });
+    };
 
-    const nameOnChange = e => {
-        setNameValue(e.target.value)
-    }
-
-    const [emailValue, setEmailValue] = useState('')
-    const emailOnChange = e => {
-        setEmailValue(e.target.value)
-    }
-
-    const [passwordValue, setPasswordValue] = useState('')
-    const onChangePassword = e => {
-        setPasswordValue(e.target.value)
-    }
+    useEffect(() => {
+        if (token) {
+            dispatch(getUserData(token))
+        }
+    }, [dispatch, token])
 
     const nameRef = useRef(null)
     const onIconClick = () => {
@@ -34,12 +37,16 @@ export default function ProfilePage() {
         ref.current.disabled = true;
     }
 
+    if (!userData) {
+        return <Navigate to="/login" replace/>
+    }
+
     return (
         <Profile>
             <Input
                 placeholder={ "Имя" }
-                onChange={ e => nameOnChange(e) }
-                value={ nameValue }
+                onChange={ e => onChange(e) }
+                value={ userData.name }
                 name={ 'name' }
                 extraClass="mb-6"
                 icon="EditIcon"
@@ -50,16 +57,16 @@ export default function ProfilePage() {
             />
             <EmailInput
                 placeholder={ "Логин" }
-                onChange={ e => emailOnChange(e) }
-                value={ emailValue }
+                onChange={ e => onChange(e) }
+                value={ userData.email }
                 name={ 'email' }
                 extraClass="mb-6"
                 icon="EditIcon"
                 isIcon={ true }
             />
             <PasswordInput
-                onChange={ e => onChangePassword(e) }
-                value={ passwordValue }
+                onChange={ e => onChange(e) }
+                value={ userData.password }
                 name={ 'password' }
                 extraClass="mb-6"
                 icon="EditIcon"

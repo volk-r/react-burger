@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "../login/login.module.css";
 import {
@@ -10,11 +11,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import AppHeader from "../../components/header/header";
-import { registerAccount } from "../../utils/burger-api";
+import { userInfoSelector } from "../../services/selectors";
+import { authorization } from "../../services/thunk/authorization";
 
 export default function RegisterPage() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setValue] = useState({ name: '', email: '', password: '' });
+
+    const user = useSelector(userInfoSelector);
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -28,17 +33,18 @@ export default function RegisterPage() {
         return form.name === '' || form.email === '' || form.password === '';
     };
 
-    const handleRegister = () => {
-        registerAccount(form).then (data => {
-            if (data.success === false) {
-                alert("К сожалению нам не удалось вас зарегистрировать, попробуйте позже");
-                return;
-            }
+    const handleRegister = useCallback(
+        () => {
+            dispatch(authorization(form));
+        }, [dispatch, form]
+    )
 
-            navigate('/profile');
-        }).catch( err => {
-            alert("К сожалению нам не удалось вас зарегистрировать, попробуйте позже");
-        });
+    if (user) {
+        return (
+            <Navigate
+                to={'/profile'}
+            />
+        );
     }
 
     return (

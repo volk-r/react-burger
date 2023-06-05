@@ -87,3 +87,31 @@ export async function registerAccount(form) {
 
     return data;
 }
+
+export async function refreshToken(token) {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "token": token
+        })
+    };
+    const data = await request('auth/token', parameters);
+
+    return data;
+}
+
+export async function userData(token) {
+    const parameters = {
+        method: 'GET', // 'PATCH'
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': token,
+        },
+    };
+    const data = await request('auth/user', parameters);
+
+    return data;
+}

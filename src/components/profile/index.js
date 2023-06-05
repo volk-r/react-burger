@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./profile.module.css";
 
 import AppHeader from "../header/header";
 
-export default function Profile({ children }) {
+export const Profile = memo(({ children }) => {
     const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
 
     return (
@@ -59,4 +59,4 @@ export default function Profile({ children }) {
             </main>
         </>
     );
-}
+})
