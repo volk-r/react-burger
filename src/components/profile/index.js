@@ -37,7 +37,7 @@ export default function Profile({ children }) {
                             </li>
                             <li>
                                 <NavLink
-                                    to={{ pathname: `/` }}
+                                    to={{ pathname: `/login` }}
                                     className={setActiveLink}
                                 >
                                     <p className="text text_type_main-medium">
