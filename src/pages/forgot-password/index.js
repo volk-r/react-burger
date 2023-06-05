@@ -12,13 +12,13 @@ import { restorePassword } from "../../utils/burger-api";
 
 export default function ForgotPasswordPage() {
     const navigate = useNavigate();
-    const [value, setValue] = useState('')
-    const onChange = e => {
-        setValue(e.target.value)
+    const [emailValue, setEmailValue] = useState('')
+    const emailOnChange = e => {
+        setEmailValue(e.target.value)
     }
 
     const handleRestorePassword = () => {
-        restorePassword(value).then (message => {
+        restorePassword(emailValue).then (message => {
             if (message === 'Reset email sent') {
                 navigate('/reset-password');
             } else {
@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
     };
 
     const isDisabledButton = () => {
-        return value === '';
+        return emailValue === '';
     };
 
     return (
@@ -44,9 +44,9 @@ export default function ForgotPasswordPage() {
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
                     <EmailInput
-                        onChange={ onChange }
+                        onChange={ e => emailOnChange(e) }
                         placeholder={ "Укажите e-mail" }
-                        value={ value }
+                        value={ emailValue }
                         name={ 'email' }
                         extraClass="mb-7"
                     />

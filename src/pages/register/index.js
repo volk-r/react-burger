@@ -10,6 +10,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import AppHeader from "../../components/header/header";
+import { registerAccount } from "../../utils/burger-api";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function RegisterPage() {
     }
 
     const [emailValue, setEmailValue] = useState('')
-    const onChange = e => {
+    const emailOnChange = e => {
         setEmailValue(e.target.value)
     }
 
@@ -35,8 +36,25 @@ export default function RegisterPage() {
     };
 
     const isDisabledButton = () => {
-        return emailValue === '';
+        return emailValue === '' || nameValue === '' || passwordValue === '';
     };
+
+    const handleRegister = () => {
+        registerAccount({
+            "email": emailValue,
+            "password": passwordValue,
+            "name": nameValue
+        }).then (data => {
+            if (data.success === false) {
+                alert("К сожалению нам не удалось вас зарегистрировать, попробуйте позже");
+                return;
+            }
+
+            navigate('/profile');
+        }).catch( err => {
+            alert("К сожалению нам не удалось вас зарегистрировать, попробуйте позже");
+        });
+    }
 
     return (
         <>
@@ -45,20 +63,20 @@ export default function RegisterPage() {
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Регистрация</p>
                     <Input
-                        placeholder={"Имя"}
-                        onChange={ nameOnChange }
+                        placeholder={ "Имя" }
+                        onChange={ e => nameOnChange(e) }
                         value={ nameValue }
                         name={ 'name' }
                         extraClass="mb-7"
                     />
                     <EmailInput
-                        onChange={ onChange }
+                        onChange={ e => emailOnChange(e) }
                         value={ emailValue }
                         name={ 'email' }
                         extraClass="mb-7"
                     />
                     <PasswordInput
-                        onChange={ onChangePassword }
+                        onChange={ e => onChangePassword(e) }
                         value={ passwordValue }
                         name={ 'password' }
                         extraClass="mb-7"
@@ -69,6 +87,7 @@ export default function RegisterPage() {
                         type="primary"
                         size="large"
                         disabled={ isDisabledButton() }
+                        onClick={ handleRegister }
                     >
                         Зарегистрироваться
                     </Button>

@@ -37,7 +37,7 @@ export default function AppHeader() {
                 <div className={ AppHeaderStyles.navlink }>
                 </div>
                 <Link
-                    to={{ pathname: `/login` }}//todo
+                    to={{ pathname: `/profile` }}
                     className={ AppHeaderStyles.navlink }
                 >
                     <ProfileIcon type="secondary" />

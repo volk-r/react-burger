@@ -38,27 +38,49 @@ export default function LoginPage() {
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Вход</p>
                     <EmailInput
-                        onChange={ emailOnChange }
+                        onChange={ e => emailOnChange(e) }
                         value={ emailValue }
                         name={ 'email' }
                         extraClass="mb-7"
                     />
                     <PasswordInput
-                        onChange={ passwordOnChange }
+                        onChange={ e => passwordOnChange(e) }
                         value={ passwordValue }
                         name={ 'password' }
                         extraClass="mb-7"
                     />
-                    <Button extraClass="mb-20" htmlType="button" type="primary" size="large" disabled={ isDisabledButton() }>
+                    <Button
+                        extraClass="mb-20"
+                        htmlType="button"
+                        type="primary"
+                        size="large"
+                        disabled={ isDisabledButton() }
+                    >
                         Войти
                     </Button>
                     <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
                         Вы — новый пользователь?
-                        <Button style={{paddingLeft: 8}} htmlType="button" type="secondary" size="medium" onClick={ () => handleRedirect("register") }>Зарегистрироваться</Button>
+                        <Button
+                            style={ {paddingLeft: 8} }
+                            htmlType="button"
+                            type="secondary"
+                            size="medium"
+                            onClick={ () => handleRedirect("register") }
+                        >
+                            Зарегистрироваться
+                        </Button>
                     </p>
                     <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
                         Забыли пароль?
-                        <Button style={{paddingLeft: 8}} htmlType="button" type="secondary" size="medium" onClick={ () => handleRedirect("forgot-password") }>Восстановить пароль</Button>
+                        <Button
+                            style={ {paddingLeft: 8} }
+                            htmlType="button"
+                            type="secondary"
+                            size="medium"
+                            onClick={ () => handleRedirect("forgot-password") }
+                        >
+                            Восстановить пароль
+                        </Button>
                     </p>
                 </div>
             </main>

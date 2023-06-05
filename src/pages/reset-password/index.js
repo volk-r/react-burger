@@ -12,20 +12,14 @@ import { resetPassword } from "../../utils/burger-api";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
+    const [form, setValue] = useState({ password: '', token: '' });
 
-    const [passwordValue, setPasswordValue] = useState('')
-    const passwordOnChange = e => {
-        setPasswordValue(e.target.value)
-    }
-
-    const [tokenValue, setTokenValue] = useState('')
-
-    const tokenOnChange = e => {
-        setTokenValue(e.target.value)
-    }
+    const onChange = e => {
+        setValue({ ...form, [e.target.name]: e.target.value });
+    };
 
     const handleResetPassword = () => {
-        resetPassword(passwordValue, tokenValue).then (message => {
+        resetPassword(form).then (message => {
             if (message === 'Password successfully reset') {
                 navigate('/profile');
                 return;
@@ -42,7 +36,9 @@ export default function ResetPasswordPage() {
     };
 
     const isDisabledButton = () => {
-        return passwordValue === '';
+        return form.password === ''
+            || form.token === ''
+        ;
     };
 
     return (
@@ -53,15 +49,15 @@ export default function ResetPasswordPage() {
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
                     <PasswordInput
                         placeholder={ 'Введите новый пароль' }
-                        onChange={ passwordOnChange }
-                        value={ passwordValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.password }
                         name={ 'password' }
                         extraClass="mb-7"
                     />
                     <Input
                         placeholder={ 'Введите код из письма' }
-                        onChange={ tokenOnChange }
-                        value={ tokenValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.token }
                         name={ 'token' }
                         extraClass="mb-7"
                     />

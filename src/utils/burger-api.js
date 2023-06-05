@@ -62,18 +62,28 @@ export async function restorePassword(email) {
     return data.message;
 }
 
-export async function resetPassword(password, token) {
+export async function resetPassword(form) {
     const parameters = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            "password": password,
-            "token"   : token,
-        })
+        body: JSON.stringify(form)
     };
     const data = await request('password-reset/reset', parameters);
 
     return data.message;
+}
+
+export async function registerAccount(form) {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+    };
+    const data = await request('auth/register', parameters);
+
+    return data;
 }
