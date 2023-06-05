@@ -14,37 +14,22 @@ import { registerAccount } from "../../utils/burger-api";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
+    const [form, setValue] = useState({ name: '', email: '', password: '' });
 
-    const [nameValue, setNameValue] = useState('')
-
-    const nameOnChange = e => {
-        setNameValue(e.target.value)
-    }
-
-    const [emailValue, setEmailValue] = useState('')
-    const emailOnChange = e => {
-        setEmailValue(e.target.value)
-    }
-
-    const [passwordValue, setPasswordValue] = useState('')
-    const onChangePassword = e => {
-        setPasswordValue(e.target.value)
-    }
+    const onChange = e => {
+        setValue({ ...form, [e.target.name]: e.target.value });
+    };
 
     const handleRedirect = (redirect) => {
         navigate('/' + redirect);
     };
 
     const isDisabledButton = () => {
-        return emailValue === '' || nameValue === '' || passwordValue === '';
+        return form.name === '' || form.email === '' || form.password === '';
     };
 
     const handleRegister = () => {
-        registerAccount({
-            "email": emailValue,
-            "password": passwordValue,
-            "name": nameValue
-        }).then (data => {
+        registerAccount(form).then (data => {
             if (data.success === false) {
                 alert("К сожалению нам не удалось вас зарегистрировать, попробуйте позже");
                 return;
@@ -64,20 +49,20 @@ export default function RegisterPage() {
                     <p className="text text_type_main-medium mb-7">Регистрация</p>
                     <Input
                         placeholder={ "Имя" }
-                        onChange={ e => nameOnChange(e) }
-                        value={ nameValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.name }
                         name={ 'name' }
                         extraClass="mb-7"
                     />
                     <EmailInput
-                        onChange={ e => emailOnChange(e) }
-                        value={ emailValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.email }
                         name={ 'email' }
                         extraClass="mb-7"
                     />
                     <PasswordInput
-                        onChange={ e => onChangePassword(e) }
-                        value={ passwordValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.password }
                         name={ 'password' }
                         extraClass="mb-7"
                     />
