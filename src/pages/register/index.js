@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import styles from "../login/login.module.css";
+import styles from "../register/register.module.css";
 import {
     Button,
     Input,
@@ -11,7 +11,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import AppHeader from "../../components/header/header";
-import { userInfoSelector } from "../../services/selectors";
+import { authDataErrorSelector, userInfoSelector } from "../../services/selectors";
 import { authorization } from "../../services/thunk/authorization";
 
 export default function RegisterPage() {
@@ -20,6 +20,7 @@ export default function RegisterPage() {
     const [form, setValue] = useState({ name: '', email: '', password: '' });
 
     const user = useSelector(userInfoSelector);
+    const message = useSelector(authDataErrorSelector);
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -53,6 +54,11 @@ export default function RegisterPage() {
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Регистрация</p>
+                    {message &&
+                         <section className={`${ styles.errorBlock } mb-3`}>
+                            <p className="text text_type_main-default">{message}</p>
+                         </section>
+                    }
                     <Input
                         placeholder={ "Имя" }
                         onChange={ e => onChange(e) }

@@ -126,7 +126,7 @@ export async function userData(newUseData) {
     return data;
 }
 
-export const logout = () => {
+export const cleanupTokenData = () => {
     deleteCookie('accessToken');
     localStorage.removeItem('refreshToken');
 }

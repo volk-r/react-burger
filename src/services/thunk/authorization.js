@@ -8,12 +8,14 @@ import {
     UPDATE_USER_DATA,
     UPDATE_USER_DATA_SUCCESS,
     UPDATE_USER_DATA_FAILED,
+    CLEANUP_USER_DATA,
 } from '../actions/authorization';
 import {
     registerAccount,
     userData,
     refreshTokenRequest,
     saveTokens,
+    cleanupTokenData,
 } from "../../utils/burger-api";
 
 export function authorization(form) {
@@ -30,9 +32,12 @@ export function authorization(form) {
                     user: data.user,
                 },
             })
-        }).catch( err => {
+        }).catch( error => {
             dispatch({
-                type: AUTHORIZATION_PROCESS_FAILED
+                type: AUTHORIZATION_PROCESS_FAILED,
+                payload: {
+                    message: error.message,
+                },
             })
         })
     }
@@ -56,7 +61,10 @@ export function getUserData() {
                 dispatch(refreshToken(getUserData()));
             } else {
                 dispatch({
-                    type: GET_USER_DATA_FAILED
+                    type: GET_USER_DATA_FAILED,
+                    payload: {
+                        message: error.message,
+                    },
                 })
             }
         })
@@ -89,9 +97,21 @@ export function updateUserData(newUseData) {
                 dispatch(refreshToken(updateUserData(newUseData)));
             } else {
                 dispatch({
-                    type: UPDATE_USER_DATA_FAILED
+                    type: UPDATE_USER_DATA_FAILED,
+                    payload: {
+                        message: error.message,
+                    },
                 })
             }
+        })
+    }
+}
+
+export function logout() {
+    return function (dispatch) {
+        cleanupTokenData();
+        dispatch({
+            type: CLEANUP_USER_DATA
         })
     }
 }

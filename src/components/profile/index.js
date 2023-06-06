@@ -4,10 +4,16 @@ import { NavLink } from "react-router-dom";
 import styles from "./profile.module.css";
 
 import AppHeader from "../header/header";
-import { logout } from "../../utils/burger-api"
+import { useDispatch } from "react-redux";
+import { logout } from "../../services/thunk/authorization";
 
 export const Profile = memo(({ children }) => {
+    const dispatch = useDispatch();
     const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
+
+    const handleLogout = () => {
+        dispatch(logout());
+    }
 
     return (
         <>
@@ -40,7 +46,7 @@ export const Profile = memo(({ children }) => {
                                 <NavLink
                                     to={{ pathname: `/login` }}
                                     className={ setActiveLink }
-                                    onClick={ logout }
+                                    onClick={ handleLogout }
                                 >
                                     <p className="text text_type_main-medium">
                                         Выход

@@ -7,3 +7,4 @@ export const burgerConstructorIngredientsSelector = (store) => store.constructor
 export const selectedItemSelector = (store) => store.currentIngredient.selectedItem
 export const orderSelector = (store) => store.order
 export const userInfoSelector = (store) => store.authData.user
+export const authDataErrorSelector = (store) => store.authData.message

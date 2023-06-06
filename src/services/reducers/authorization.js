@@ -8,12 +8,14 @@ import {
     UPDATE_USER_DATA,
     UPDATE_USER_DATA_SUCCESS,
     UPDATE_USER_DATA_FAILED,
+    CLEANUP_USER_DATA,
 } from '../actions/authorization';
 
 const initialState = {
     user         : null,
     request      : false,
     requestFailed: false,
+    message      : null,
 }
 
 export const authorizationReducer = (state = initialState, action) => {
@@ -23,13 +25,15 @@ export const authorizationReducer = (state = initialState, action) => {
                 ...state,
                 request      : true,
                 requestFailed: false,
+                message: null,
             };
         }
         case AUTHORIZATION_PROCESS_SUCCESS: {
             return {
                 ...state,
-                user        : action.payload.user,
-                request     : false,
+                user   : action.payload.user,
+                request: false,
+                message: null,
             };
         }
         case AUTHORIZATION_PROCESS_FAILED: {
@@ -37,6 +41,7 @@ export const authorizationReducer = (state = initialState, action) => {
                 ...state,
                 request      : false,
                 requestFailed: true,
+                message      : action.payload.message
             };
         }
         case GET_USER_DATA: {
@@ -44,13 +49,15 @@ export const authorizationReducer = (state = initialState, action) => {
                 ...state,
                 request      : true,
                 requestFailed: false,
+                message: null,
             };
         }
         case GET_USER_DATA_SUCCESS: {
             return {
                 ...state,
-                user        : action.payload.user,
-                request     : false,
+                user   : action.payload.user,
+                request: false,
+                message: null,
             };
         }
         case GET_USER_DATA_FAILED: {
@@ -58,6 +65,7 @@ export const authorizationReducer = (state = initialState, action) => {
                 ...state,
                 request      : false,
                 requestFailed: true,
+                message      : action.payload.message
             };
         }
         case UPDATE_USER_DATA: {
@@ -72,6 +80,7 @@ export const authorizationReducer = (state = initialState, action) => {
                 ...state,
                 user   : action.payload.user,
                 request: false,
+                message: null,
             };
         }
         case UPDATE_USER_DATA_FAILED: {
@@ -79,7 +88,11 @@ export const authorizationReducer = (state = initialState, action) => {
                 ...state,
                 request      : false,
                 requestFailed: true,
+                message      : action.payload.message
             };
+        }
+        case CLEANUP_USER_DATA: {
+            return initialState;
         }
         default: {
             return state
