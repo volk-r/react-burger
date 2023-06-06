@@ -10,10 +10,9 @@ import {
 
 import { Profile } from "../../components/profile";
 import { getUserData } from "../../services/thunk/authorization";
-import { accessTokenSelector, userInfoSelector } from "../../services/selectors";
+import { userInfoSelector } from "../../services/selectors";
 
 export default function ProfilePage() {
-    const token = useSelector(accessTokenSelector);
     const userData = useSelector(userInfoSelector);
     const dispatch = useDispatch();
     const onChange = e => {
@@ -22,10 +21,8 @@ export default function ProfilePage() {
     };
 
     useEffect(() => {
-        if (token) {
-            dispatch(getUserData(token))
-        }
-    }, [dispatch, token])
+        dispatch(getUserData())
+    }, [dispatch])
 
     const nameRef = useRef(null)
     const onIconClick = () => {
@@ -66,7 +63,7 @@ export default function ProfilePage() {
             />
             <PasswordInput
                 onChange={ e => onChange(e) }
-                value={ userData.password }
+                value={ '************' }
                 name={ 'password' }
                 extraClass="mb-6"
                 icon="EditIcon"

@@ -1,3 +1,5 @@
+import { setCookie, getCookie } from './utils';
+
 const API_URL = 'https://norma.nomoreparties.space/api';
 
 const request = (endpoint, options) => {
@@ -7,14 +9,11 @@ const request = (endpoint, options) => {
 };
 
 const checkResponse = (response) => {
-    if (response.ok) {
-        const jsonData = response.json();
-        console.log(jsonData);
-        return jsonData;
-    }
-
-    console.log(`something went wrong, mailformed json, status ${response.status}`)
-    return Promise.reject(`something went wrong, mailformed json, status ${response.status}`);
+    return response.ok
+        ? response.json()
+        : response.json().then((err) => {
+            return Promise.reject(err);
+        });
 };
 
 const checkSuccess = (response) => {
@@ -47,7 +46,7 @@ export async function makeOrder(ingredientIDs) {
     return data.order.number;
 }
 
-export async function restorePassword(email) {
+export async function restorePassword(email) {//todo
     const parameters = {
         method: 'POST',
         headers: {
@@ -62,7 +61,7 @@ export async function restorePassword(email) {
     return data.message;
 }
 
-export async function resetPassword(form) {
+export async function resetPassword(form) {//todo
     const parameters = {
         method: 'POST',
         headers: {
@@ -88,14 +87,19 @@ export async function registerAccount(form) {
     return data;
 }
 
-export async function refreshToken(token) {
+export const saveTokens = (refreshToken, accessToken) => {
+    setCookie('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+}
+
+export async function refreshTokenRequest() {
     const parameters = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "token": token
+            "token": localStorage.getItem('refreshToken')
         })
     };
     const data = await request('auth/token', parameters);
@@ -103,12 +107,12 @@ export async function refreshToken(token) {
     return data;
 }
 
-export async function userData(token) {
+export async function userData() {
     const parameters = {
-        method: 'GET', // 'PATCH'
+        method: 'GET', //'PATCH'
         headers: {
             'Content-Type': 'application/json',
-            'authorization': token,
+            'authorization': getCookie('accessToken'),
         },
     };
     const data = await request('auth/user', parameters);
