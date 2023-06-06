@@ -5,6 +5,9 @@ import {
     GET_USER_DATA,
     GET_USER_DATA_SUCCESS,
     GET_USER_DATA_FAILED,
+    UPDATE_USER_DATA,
+    UPDATE_USER_DATA_SUCCESS,
+    UPDATE_USER_DATA_FAILED,
 } from '../actions/authorization';
 
 const initialState = {
@@ -51,6 +54,27 @@ export const authorizationReducer = (state = initialState, action) => {
             };
         }
         case GET_USER_DATA_FAILED: {
+            return {
+                ...state,
+                request      : false,
+                requestFailed: true,
+            };
+        }
+        case UPDATE_USER_DATA: {
+            return {
+                ...state,
+                request      : true,
+                requestFailed: false,
+            };
+        }
+        case UPDATE_USER_DATA_SUCCESS: {
+            return {
+                ...state,
+                user   : action.payload.user,
+                request: false,
+            };
+        }
+        case UPDATE_USER_DATA_FAILED: {
             return {
                 ...state,
                 request      : false,

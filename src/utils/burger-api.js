@@ -1,4 +1,4 @@
-import { setCookie, getCookie } from './utils';
+import { setCookie, getCookie, deleteCookie } from './utils';
 
 const API_URL = 'https://norma.nomoreparties.space/api';
 
@@ -107,15 +107,26 @@ export async function refreshTokenRequest() {
     return data;
 }
 
-export async function userData() {
+export async function userData(newUseData) {
     const parameters = {
-        method: 'GET', //'PATCH'
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'authorization': getCookie('accessToken'),
         },
     };
+
+    if (newUseData) {
+        parameters.method = 'PATCH';
+        parameters.body = JSON.stringify(newUseData);
+    }
+
     const data = await request('auth/user', parameters);
 
     return data;
+}
+
+export const logout = () => {
+    deleteCookie('accessToken');
+    localStorage.removeItem('refreshToken');
 }

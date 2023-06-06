@@ -1,23 +1,24 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 import {
     Input,
     EmailInput,
-    PasswordInput
+    PasswordInput,
+    Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { Profile } from "../../components/profile";
-import { getUserData } from "../../services/thunk/authorization";
+import { getUserData, updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
 
 export default function ProfilePage() {
     const userData = useSelector(userInfoSelector);
+    const [form, setValue] = useState({...userData, password: '************'});
     const dispatch = useDispatch();
     const onChange = e => {
-        // TODO: change data in store
-        // setValue({ ...form, [e.target.name]: e.target.value });
+        setValue({ ...form, [e.target.name]: e.target.value });
     };
 
     useEffect(() => {
@@ -34,6 +35,18 @@ export default function ProfilePage() {
         ref.current.disabled = true;
     }
 
+    const handleUpdateUserInfo = useCallback(
+        () => {
+            dispatch(updateUserData(form))
+        }, [dispatch, form]
+    );
+
+    const handleCancelUpdateUserInfo = useCallback(
+        () => {
+            setValue({...userData, password: '************'});
+        }, [userData]
+    );
+
     if (!userData) {
         return <Navigate to="/login" replace/>
     }
@@ -43,7 +56,7 @@ export default function ProfilePage() {
             <Input
                 placeholder={ "Имя" }
                 onChange={ e => onChange(e) }
-                value={ userData.name }
+                value={ form.name }
                 name={ 'name' }
                 extraClass="mb-6"
                 icon="EditIcon"
@@ -55,7 +68,7 @@ export default function ProfilePage() {
             <EmailInput
                 placeholder={ "Логин" }
                 onChange={ e => onChange(e) }
-                value={ userData.email }
+                value={ form.email }
                 name={ 'email' }
                 extraClass="mb-6"
                 icon="EditIcon"
@@ -63,11 +76,31 @@ export default function ProfilePage() {
             />
             <PasswordInput
                 onChange={ e => onChange(e) }
-                value={ '************' }
+                value={ form.password }
                 name={ 'password' }
                 extraClass="mb-6"
                 icon="EditIcon"
             />
+            <div style={{float: "right"}}>
+                <Button
+                    extraClass="mb-20 mr-2"
+                    htmlType="button"
+                    type="primary"
+                    size="large"
+                    onClick={ handleUpdateUserInfo }
+                >
+                    Сохранить
+                </Button>
+                <Button
+                    extraClass="mb-20 mr-6"
+                    htmlType="button"
+                    type="primary"
+                    size="large"
+                    onClick={ handleCancelUpdateUserInfo }
+                >
+                    Отмена
+                </Button>
+            </div>
         </Profile>
     );
 }

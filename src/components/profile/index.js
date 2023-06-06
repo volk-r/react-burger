@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./profile.module.css";
 
 import AppHeader from "../header/header";
+import { logout } from "../../utils/burger-api"
 
 export const Profile = memo(({ children }) => {
     const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
@@ -18,7 +19,7 @@ export const Profile = memo(({ children }) => {
                             <li>
                                 <NavLink
                                     to={{ pathname: `/profile` }}
-                                    className={setActiveLink}
+                                    className={ setActiveLink }
                                 >
                                     <p className="text text_type_main-medium">
                                         Профиль
@@ -28,7 +29,7 @@ export const Profile = memo(({ children }) => {
                             <li>
                                 <NavLink
                                     to={{ pathname: `/orders` }}
-                                    className={setActiveLink}
+                                    className={ setActiveLink }
                                 >
                                     <p className="text text_type_main-medium">
                                         История заказов
@@ -38,7 +39,8 @@ export const Profile = memo(({ children }) => {
                             <li>
                                 <NavLink
                                     to={{ pathname: `/login` }}
-                                    className={setActiveLink}
+                                    className={ setActiveLink }
+                                    onClick={ logout }
                                 >
                                     <p className="text text_type_main-medium">
                                         Выход
