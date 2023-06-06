@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "../login/login.module.css";
 import {
@@ -9,25 +10,37 @@ import {
 
 import AppHeader from "../../components/header/header";
 import { resetPassword } from "../../utils/burger-api";
+import { ErrorOnForm } from "../../components/error-on-form";
+import { resetPasswordEmailSelector, userInfoSelector } from "../../services/selectors";
+import { getUserData } from "../../services/thunk/authorization";
 
 export default function ResetPasswordPage() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setValue] = useState({ password: '', token: '' });
+    const [message, setMessage] = useState(null);
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
+    const user = useSelector(userInfoSelector);
+    const resetPasswordEmail = useSelector(resetPasswordEmailSelector);
+
+    useEffect(() => {
+        dispatch(getUserData())
+    }, [])
+
     const handleResetPassword = () => {
-        resetPassword(form).then (message => {
-            if (message === 'Password successfully reset') {
+        resetPassword(form).then (response => {
+            if (response === 'Password successfully reset') {
                 navigate('/profile');
                 return;
             }
 
-            alert("Не удалось установить новый пароль");
-        }).catch( err => {
-            alert("Не удалось установить новый пароль")
+            setMessage(response);
+        }).catch( error => {
+            setMessage(error.message);
         });
     };
 
@@ -35,11 +48,28 @@ export default function ResetPasswordPage() {
         navigate('/login');
     };
 
-    const isDisabledButton = () => {
+    const isDisabledButton = useCallback(
+        () => {
         return form.password === ''
             || form.token === ''
-        ;
-    };
+        }, [form]
+    );
+
+    useEffect(() => {
+        if (!resetPasswordEmail) {
+            navigate('/forgot-password', { replace: true });
+        }
+    }, [resetPasswordEmail])
+
+    console.log(resetPasswordEmail);
+    if (user) {
+        if (window.history.state && window.history.state.idx > 0) {
+            navigate(-1, { replace: true });
+        } else {
+            navigate('/profile', { replace: true });
+        }
+        return null;
+    }
 
     return (
         <>
@@ -47,6 +77,7 @@ export default function ResetPasswordPage() {
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
+                    {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <PasswordInput
                         placeholder={ 'Введите новый пароль' }
                         onChange={ e => onChange(e) }

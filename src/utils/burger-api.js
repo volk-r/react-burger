@@ -46,7 +46,7 @@ export async function makeOrder(ingredientIDs) {
     return data.order.number;
 }
 
-export async function restorePassword(email) {//todo
+export async function restorePassword(email) {
     const parameters = {
         method: 'POST',
         headers: {
@@ -83,6 +83,19 @@ export async function registerAccount(form) {
         body: JSON.stringify(form)
     };
     const data = await request('auth/register', parameters);
+
+    return data;
+}
+
+export async function accountAuthorization(form) {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+    };
+    const data = await request('auth/login', parameters);
 
     return data;
 }

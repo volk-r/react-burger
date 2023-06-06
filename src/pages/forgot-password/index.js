@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../login/login.module.css";
@@ -9,23 +9,37 @@ import {
 
 import AppHeader from "../../components/header/header";
 import { restorePassword } from "../../utils/burger-api";
+import { ErrorOnForm } from "../../components/error-on-form";
+import { useDispatch, useSelector } from "react-redux";
+import { userInfoSelector } from "../../services/selectors";
+import { getUserData, resetPassword } from "../../services/thunk/authorization";
 
 export default function ForgotPasswordPage() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [emailValue, setEmailValue] = useState('')
+    const [message, setMessage] = useState(null);
     const emailOnChange = e => {
         setEmailValue(e.target.value)
     }
 
+    const user = useSelector(userInfoSelector);
+
+    useEffect(() => {
+        dispatch(getUserData())
+    }, [])
+
     const handleRestorePassword = () => {
-        restorePassword(emailValue).then (message => {
-            if (message === 'Reset email sent') {
+        restorePassword(emailValue).then (response => {
+            if (response === 'Reset email sent') {
+                dispatch(resetPassword(emailValue))
                 navigate('/reset-password');
-            } else {
-                alert("Указанный вами e-mail не найден")
+                return;
             }
-        }).catch( err => {
-            alert("Указанный вами e-mail не найден")
+
+            setMessage(response);
+        }).catch( error => {
+            setMessage(error.message);
         });
     };
 
@@ -33,9 +47,20 @@ export default function ForgotPasswordPage() {
         navigate('/login');
     };
 
-    const isDisabledButton = () => {
-        return emailValue === '';
-    };
+    const isDisabledButton =  useCallback(
+        () => {
+            return emailValue === '';
+        }, [emailValue]
+    );
+
+    if (user) {
+        if (window.history.state && window.history.state.idx > 0) {
+            navigate(-1, { replace: true });
+        } else {
+            navigate('/profile', { replace: true });
+        }
+        return null;
+    }
 
     return (
         <>
@@ -43,6 +68,7 @@ export default function ForgotPasswordPage() {
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
+                    {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <EmailInput
                         onChange={ e => emailOnChange(e) }
                         placeholder={ "Укажите e-mail" }

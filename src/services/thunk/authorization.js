@@ -9,6 +9,7 @@ import {
     UPDATE_USER_DATA_SUCCESS,
     UPDATE_USER_DATA_FAILED,
     CLEANUP_USER_DATA,
+    RESET_PASSWORD_EMAIL,
 } from '../actions/authorization';
 import {
     registerAccount,
@@ -16,9 +17,35 @@ import {
     refreshTokenRequest,
     saveTokens,
     cleanupTokenData,
+    accountAuthorization,
 } from "../../utils/burger-api";
 
 export function authorization(form) {
+    return function (dispatch) {
+        dispatch({
+            type: AUTHORIZATION_PROCESS
+        })
+
+        accountAuthorization(form).then( data => {
+            saveTokens(data.refreshToken, data.accessToken);
+            dispatch({
+                type: AUTHORIZATION_PROCESS_SUCCESS,
+                payload: {
+                    user: data.user,
+                },
+            })
+        }).catch( error => {
+            dispatch({
+                type: AUTHORIZATION_PROCESS_FAILED,
+                payload: {
+                    message: error.message,
+                },
+            })
+        })
+    }
+}
+
+export function registration(form) {
     return function (dispatch) {
         dispatch({
             type: AUTHORIZATION_PROCESS
@@ -107,11 +134,23 @@ export function updateUserData(newUseData) {
     }
 }
 
-export function logout() {
+export function cleanupStore() {
     return function (dispatch) {
         cleanupTokenData();
         dispatch({
             type: CLEANUP_USER_DATA
+        })
+    }
+}
+
+export function resetPassword(email) {
+    return function (dispatch) {
+        cleanupTokenData();
+        dispatch({
+            type: RESET_PASSWORD_EMAIL,
+            payload: {
+                resetPasswordEmail: email
+            }
         })
     }
 }

@@ -8,3 +8,5 @@ export const selectedItemSelector = (store) => store.currentIngredient.selectedI
 export const orderSelector = (store) => store.order
 export const userInfoSelector = (store) => store.authData.user
 export const authDataErrorSelector = (store) => store.authData.message
+export const authDataRequestSelector = (store) => store.authData.request
+export const resetPasswordEmailSelector = (store) => store.authData.resetPasswordEmail

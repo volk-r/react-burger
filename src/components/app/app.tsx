@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary'
+import { ProtectedRouteElement } from "../protected-route";
 
 import HomePage from '../../pages/home'
 import LoginPage from '../../pages/login'
@@ -22,8 +23,8 @@ export default function App() {
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/orders" element={<OrdersListPage />} />
+                        <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />}/>} />
+                        <Route path="/orders" element={<ProtectedRouteElement element={<OrdersListPage />}/>} />
                         {/*<Route path="/ingredients/:id" element={<IngredientPage />} />*/}//todo
                         <Route path="*" element={<NotFound404 />} />
                     </Routes>

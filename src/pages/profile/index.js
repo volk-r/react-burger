@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 
 import {
     Input,
@@ -10,7 +9,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { Profile } from "../../components/profile";
-import { getUserData, updateUserData } from "../../services/thunk/authorization";
+import { updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
 
 export default function ProfilePage() {
@@ -20,10 +19,6 @@ export default function ProfilePage() {
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
-
-    useEffect(() => {
-        dispatch(getUserData())
-    }, [dispatch])
 
     const nameRef = useRef(null)
     const onIconClick = () => {
@@ -46,10 +41,6 @@ export default function ProfilePage() {
             setValue({...userData, password: '************'});
         }, [userData]
     );
-
-    if (!userData) {
-        return <Navigate to="/login" replace/>
-    }
 
     return (
         <Profile>

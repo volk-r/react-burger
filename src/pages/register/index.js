@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import React, { useCallback, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "../register/register.module.css";
@@ -12,7 +12,8 @@ import {
 
 import AppHeader from "../../components/header/header";
 import { authDataErrorSelector, userInfoSelector } from "../../services/selectors";
-import { authorization } from "../../services/thunk/authorization";
+import { getUserData, registration } from "../../services/thunk/authorization";
+import { ErrorOnForm } from "../../components/error-on-form";
 
 export default function RegisterPage() {
     const dispatch = useDispatch();
@@ -22,6 +23,10 @@ export default function RegisterPage() {
     const user = useSelector(userInfoSelector);
     const message = useSelector(authDataErrorSelector);
 
+    useEffect(() => {
+        dispatch(getUserData())
+    }, [])
+
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
@@ -30,22 +35,25 @@ export default function RegisterPage() {
         navigate('/' + redirect);
     };
 
-    const isDisabledButton = () => {
-        return form.name === '' || form.email === '' || form.password === '';
-    };
+    const isDisabledButton = useCallback(
+        () => {
+            return form.name === '' || form.email === '' || form.password === '';
+        }, [form]
+    );
 
     const handleRegister = useCallback(
         () => {
-            dispatch(authorization(form));
+            dispatch(registration(form));
         }, [dispatch, form]
     )
 
     if (user) {
-        return (
-            <Navigate
-                to={'/profile'}
-            />
-        );
+        if (window.history.state && window.history.state.idx > 0) {
+            navigate(-1, { replace: true });
+        } else {
+            navigate('/profile', { replace: true });
+        }
+        return null;
     }
 
     return (
@@ -54,11 +62,7 @@ export default function RegisterPage() {
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Регистрация</p>
-                    {message &&
-                         <section className={`${ styles.errorBlock } mb-3`}>
-                            <p className="text text_type_main-default">{message}</p>
-                         </section>
-                    }
+                    {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <Input
                         placeholder={ "Имя" }
                         onChange={ e => onChange(e) }

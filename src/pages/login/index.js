@@ -1,35 +1,64 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "../login/login.module.css";
+
 import {
     Button,
     EmailInput,
     PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components'
-
 import AppHeader from "../../components/header/header";
+import { ErrorOnForm } from "../../components/error-on-form"
+
+import { authorization, getUserData } from "../../services/thunk/authorization";
+import { authDataErrorSelector, userInfoSelector } from "../../services/selectors";
 
 export default function LoginPage() {
+    const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const [emailValue, setEmailValue] = useState('')
-    const emailOnChange = e => {
-        setEmailValue(e.target.value)
-    }
+    const user = useSelector(userInfoSelector);
+    const message = useSelector(authDataErrorSelector);
 
-    const [passwordValue, setPasswordValue] = useState('')
-    const passwordOnChange = e => {
-        setPasswordValue(e.target.value)
-    }
+    const [form, setValue] = useState({ email: '', password: '' });
+
+    useEffect(() => {
+        dispatch(getUserData())
+    }, [])
+
+    const onChange = e => {
+        setValue({ ...form, [e.target.name]: e.target.value });
+    };
 
     const handleRedirect = (redirect) => {
         navigate('/' + redirect);
     };
 
-    const isDisabledButton = () => {
-        return emailValue === '' || passwordValue === '';
-    };
+    const isDisabledButton = useCallback(
+        () => {
+            return form.email === '' || form.password === '';
+        }, [form]
+    );
+
+    const handleLogin = useCallback(
+        () => {
+            dispatch(authorization(form))
+        }, [dispatch, form]
+    );
+
+    if (user) {
+        const state = location.state;
+        if (state?.from) {
+            // Redirects back to the previous unauthenticated routes
+            navigate(state?.from, {replace: true});
+        } else {
+            navigate('/');
+        }
+        return null;
+    }
 
     return (
         <>
@@ -37,15 +66,16 @@ export default function LoginPage() {
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Вход</p>
+                    {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <EmailInput
-                        onChange={ e => emailOnChange(e) }
-                        value={ emailValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.email }
                         name={ 'email' }
                         extraClass="mb-7"
                     />
                     <PasswordInput
-                        onChange={ e => passwordOnChange(e) }
-                        value={ passwordValue }
+                        onChange={ e => onChange(e) }
+                        value={ form.password }
                         name={ 'password' }
                         extraClass="mb-7"
                     />
@@ -55,6 +85,7 @@ export default function LoginPage() {
                         type="primary"
                         size="large"
                         disabled={ isDisabledButton() }
+                        onClick={ handleLogin }
                     >
                         Войти
                     </Button>

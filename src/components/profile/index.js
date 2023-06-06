@@ -5,14 +5,14 @@ import styles from "./profile.module.css";
 
 import AppHeader from "../header/header";
 import { useDispatch } from "react-redux";
-import { logout } from "../../services/thunk/authorization";
+import { cleanupStore } from "../../services/thunk/authorization";
 
 export const Profile = memo(({ children }) => {
     const dispatch = useDispatch();
     const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
 
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(cleanupStore());
     }
 
     return (
