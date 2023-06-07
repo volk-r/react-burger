@@ -32,11 +32,10 @@ export default function AppHeader() {
                         <p className="text text_type_main-default">Лента заказов</p>
                     </NavLink>
                 </nav>
-                <div className="ml-1"></div>
                 <Link to={{ pathname: `/` }} >
                     <Logo />
                 </Link>
-                <div className="ml-1"></div>
+                <div className="ml-30"></div>
                 <NavLink
                     to={{ pathname: `/profile` }}
                     className={setActiveLink}
