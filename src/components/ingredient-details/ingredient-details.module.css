@@ -10,3 +10,8 @@
     height: 240px;
     padding-top: 15px;
 }
+
+.isDisabled {
+    cursor: text;
+    color: inherit;
+}

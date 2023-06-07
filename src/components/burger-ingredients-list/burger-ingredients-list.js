@@ -1,65 +1,50 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
-import Modal from "../modal/modal";
-import { useModal } from "../../hooks/useModal";
 import { ITEM_TYPES } from "../../utils/constants";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import { setIngredientDetails, resetIngredientDetails } from "../../services/thunk/ingredient-details";
-import { useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from 'react-router-dom';
+import IngredientDetailsStyles from "../ingredient-details/ingredient-details.module.css";
 
 export default function BurgerIngredientsList(props) {
-    const dispatch = useDispatch();
-    const { isModalOpen, openModal, closeModal } = useModal();
+    const location = useLocation();
     const { id, title, list } = props;
 
-    const handleItemClick = useCallback(
-        (item) => {
-            openModal()
-            dispatch(setIngredientDetails(item));
-        },
-        []
-    );
-
-    const handleCloseModal = useCallback(
-        () => {
-            closeModal()
-            dispatch(resetIngredientDetails());
-        },
-        []
-    );
-
-    const ListItem = React.memo(({ item, handleItemClick }) => {
-        const handleClick = () => handleItemClick(item);
-
+    const ListItem = React.memo(({ item }) => {
         const [, dragRef] = useDrag({
             type: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
             item: item
         });
 
         return (
-            <div ref={dragRef} key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`} onClick={ handleClick }>
-                {
-                    typeof item.qty === 'undefined' || item.qty === 0
-                        ? <div className={ BurgerIngredientsListStyles.default }></div>
-                        : <Counter count={ item.qty } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
-                }
-                <img src={ item.image } alt={ item.name }/>
-                <div className={ BurgerIngredientsListStyles.priceContainer }>
-                    <p className="text text_type_digits-default pr-1">
-                        { item.price }
+            <Link
+                key={ item._id }
+                to={`/ingredients/${ item._id }`}
+                state={{ background: location }}
+                className={ IngredientDetailsStyles.isDisabled }
+            >
+                <div ref={ dragRef } key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`}>
+                    {
+                        typeof item.qty === 'undefined' || item.qty === 0
+                            ? <div className={ BurgerIngredientsListStyles.default }></div>
+                            : <Counter count={ item.qty } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
+                    }
+                    <img src={ item.image } alt={ item.name }/>
+                    <div className={ BurgerIngredientsListStyles.priceContainer }>
+                        <p className="text text_type_digits-default pr-1">
+                            { item.price }
+                        </p>
+                        <CurrencyIcon type={"primary"}/>
+                    </div>
+                    <p className="text text_type_main-small">
+                        { item.name }
                     </p>
-                    <CurrencyIcon type={"primary"}/>
                 </div>
-                <p className="text text_type_main-small">
-                    { item.name }
-                </p>
-            </div>
+            </Link>
         );
     });
 
@@ -71,15 +56,10 @@ export default function BurgerIngredientsList(props) {
             <div className={ BurgerIngredientsListStyles.containerBox }>
                 {
                     list.map((item) =>
-                        <ListItem key={ item._id } item={item} handleItemClick={handleItemClick} />
+                        <ListItem key={ item._id } item={item} />
                     )
                 }
             </div>
-            {isModalOpen === true && (
-                <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
-                    <IngredientDetails />
-                </Modal>
-            )}
         </li>
     );
 }
