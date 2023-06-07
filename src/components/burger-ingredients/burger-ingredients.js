@@ -72,9 +72,9 @@ export default function BurgerIngredients() {
                 </p>
                 <ul id="ingredients-container" className={` ${ BurgerIngredientsStyles.listContainer } custom-scroll`}>
                     {INGREDIENT_CATEGORIES.map((item) =>
-                        <a key={item.type} href={`#${item.type}`}  >
+                        <section key={item.type}>
                             <BurgerIngredientsList title={ item.name } list={ getList(item.type) } id={`section_${item.type}`} />
-                        </a>
+                        </section>
                     )}
                 </ul>
             </section>

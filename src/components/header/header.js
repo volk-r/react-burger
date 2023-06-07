@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import AppHeaderStyles from './header.module.css'
 
@@ -11,38 +11,40 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function AppHeader() {
+    const setActiveLink = ({ isActive }) => isActive ? AppHeaderStyles.activeLink : AppHeaderStyles.inactiveLink;
+
     return (
         <>
             <header className={ AppHeaderStyles.menu }>
                 <nav className={ AppHeaderStyles.nav }>
-                    <Link
+                    <NavLink
                         to={{ pathname: `/` }}
-                        className={ AppHeaderStyles.navlink }
+                        className={setActiveLink}
+                        extraCla
                     >
                         <BurgerIcon type="primary" />
                         <p className="text text_type_main-default">Конструктор</p>
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to={{ pathname: `/orders` }}
-                        className={ AppHeaderStyles.navlink }
+                        className={setActiveLink}
                     >
                         <ListIcon type="secondary" />
                         <p className="text text_type_main-default">Лента заказов</p>
-                    </Link>
+                    </NavLink>
                 </nav>
                 <div className="ml-1"></div>
                 <Link to={{ pathname: `/` }} >
                     <Logo />
                 </Link>
-                <div className={ AppHeaderStyles.navlink }>
-                </div>
-                <Link
+                <div className="ml-1"></div>
+                <NavLink
                     to={{ pathname: `/profile` }}
-                    className={ AppHeaderStyles.navlink }
+                    className={setActiveLink}
                 >
                     <ProfileIcon type="secondary" />
                     <p className="text text_type_main-default">Личный кабинет</p>
-                </Link>
+                </NavLink>
             </header>
         </>
     );
