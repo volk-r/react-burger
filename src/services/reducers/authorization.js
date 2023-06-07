@@ -8,7 +8,9 @@ import {
     UPDATE_USER_DATA,
     UPDATE_USER_DATA_SUCCESS,
     UPDATE_USER_DATA_FAILED,
-    CLEANUP_USER_DATA,
+    CLOSE_USER_SESSION,
+    CLOSE_USER_SESSION_SUCCESS,
+    CLOSE_USER_SESSION_FAILED,
     RESET_PASSWORD_EMAIL,
 } from '../actions/authorization';
 
@@ -78,6 +80,7 @@ export const authorizationReducer = (state = initialState, action) => {
                 request           : true,
                 requestFailed     : false,
                 resetPasswordEmail: null,
+                message           : null,
             };
         }
         case UPDATE_USER_DATA_SUCCESS: {
@@ -102,8 +105,26 @@ export const authorizationReducer = (state = initialState, action) => {
                 resetPasswordEmail: action.payload.resetPasswordEmail
             };
         }
-        case CLEANUP_USER_DATA: {
+        case CLOSE_USER_SESSION: {
+            return {
+                ...state,
+                request           : true,
+                requestFailed     : false,
+                resetPasswordEmail: null,
+                message           : null,
+            };
+        }
+        case CLOSE_USER_SESSION_SUCCESS: {
             return initialState;
+        }
+        case CLOSE_USER_SESSION_FAILED: {
+            return {
+                ...state,
+                request           : false,
+                requestFailed     : true,
+                resetPasswordEmail: null,
+                message           : action.payload.message
+            };
         }
         default: {
             return state

@@ -8,7 +8,9 @@ import {
     UPDATE_USER_DATA,
     UPDATE_USER_DATA_SUCCESS,
     UPDATE_USER_DATA_FAILED,
-    CLEANUP_USER_DATA,
+    CLOSE_USER_SESSION,
+    CLOSE_USER_SESSION_SUCCESS,
+    CLOSE_USER_SESSION_FAILED,
     RESET_PASSWORD_EMAIL,
 } from '../actions/authorization';
 import {
@@ -18,6 +20,7 @@ import {
     saveTokens,
     cleanupTokenData,
     accountAuthorization,
+    closeSession,
 } from "../../utils/burger-api";
 
 export function authorization(form) {
@@ -134,11 +137,24 @@ export function updateUserData(newUseData) {
     }
 }
 
-export function cleanupStore() {
+export function closeCurrentSession() {
     return function (dispatch) {
-        cleanupTokenData();
         dispatch({
-            type: CLEANUP_USER_DATA
+            type: CLOSE_USER_SESSION
+        })
+
+        closeSession().then( data => {
+            cleanupTokenData();
+            dispatch({
+                type: CLOSE_USER_SESSION_SUCCESS,
+            })
+        }).catch( error => {
+            dispatch({
+                type: CLOSE_USER_SESSION_FAILED,
+                payload: {
+                    message: error.message,
+                },
+            })
         })
     }
 }

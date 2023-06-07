@@ -20,7 +20,6 @@ export default function AppHeader() {
                     <NavLink
                         to={{ pathname: `/` }}
                         className={setActiveLink}
-                        extraCla
                     >
                         <BurgerIcon type="primary" />
                         <p className="text text_type_main-default">Конструктор</p>

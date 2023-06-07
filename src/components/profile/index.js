@@ -4,15 +4,19 @@ import { NavLink } from "react-router-dom";
 import styles from "./profile.module.css";
 
 import AppHeader from "../header/header";
-import { useDispatch } from "react-redux";
-import { cleanupStore } from "../../services/thunk/authorization";
+import { useDispatch, useSelector } from "react-redux";
+import { closeCurrentSession } from "../../services/thunk/authorization";
+import { authDataErrorSelector } from "../../services/selectors";
+import { ErrorOnForm } from "../error-on-form";
 
 export const Profile = memo(({ children }) => {
     const dispatch = useDispatch();
     const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
 
+    const message = useSelector(authDataErrorSelector);
+
     const handleLogout = () => {
-        dispatch(cleanupStore());
+        dispatch(closeCurrentSession());
     }
 
     return (
@@ -44,7 +48,7 @@ export const Profile = memo(({ children }) => {
                             </li>
                             <li>
                                 <NavLink
-                                    to={{ pathname: `/login` }}
+                                    to={{ pathname: `/profile` }}
                                     className={ setActiveLink }
                                     onClick={ handleLogout }
                                 >
@@ -61,6 +65,7 @@ export const Profile = memo(({ children }) => {
                         </p>
                     </div>
                     <div className={ styles.content }>
+                        {message && <ErrorOnForm>{message}</ErrorOnForm>}
                         { children }
                     </div>
                 </div>

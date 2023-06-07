@@ -139,6 +139,21 @@ export async function userData(newUseData) {
     return data;
 }
 
+export async function closeSession() {
+    const parameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "token": localStorage.getItem('refreshToken')
+        })
+    };
+    const data = await request('auth/logout', parameters);
+
+    return data;
+}
+
 export const cleanupTokenData = () => {
     deleteCookie('accessToken');
     localStorage.removeItem('refreshToken');
