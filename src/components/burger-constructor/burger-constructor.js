@@ -1,4 +1,4 @@
-import React, {useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import { BUN_COUNT, BUN_TYPE } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
@@ -17,17 +17,23 @@ import { useModal } from "../../hooks/useModal";
 import { ITEM_TYPES } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { burgerConstructorIngredientsSelector, orderSelector } from "../../services/selectors";
+import { burgerConstructorIngredientsSelector, orderSelector, userInfoSelector } from "../../services/selectors";
 import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
 import { addItemToConstructor } from "../../services/thunk/burger-constructor";
 import { increaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
 import { changeIngrideintPosition } from "../../services/thunk/burger-constructor";
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function BurgerConstructor() {
     const { bun, ingredients, isDisabledOrderButton } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
     const dispatch = useDispatch();
+
+    const userData = useSelector(userInfoSelector);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const currentPath = location.pathname;
 
     const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -50,6 +56,11 @@ export default function BurgerConstructor() {
     }, [dispatch]);
 
     const handleOpenModal = () => {
+        if (!userData) {
+            navigate('/login', { state: { from: currentPath } })
+            return null;
+        }
+
         const ids = [...ingredients
           .filter(item => item.type !== BUN_TYPE)
           .map(item => item._id),

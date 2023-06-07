@@ -35,7 +35,8 @@ export async function makeOrder(ingredientIDs) {
     const parameters = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type' : 'application/json',
+            'authorization': getCookie('accessToken'),
         },
         body: JSON.stringify({
             "ingredients": ingredientIDs
