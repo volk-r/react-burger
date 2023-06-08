@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import styles from "../register/register.module.css";
+import styles from "./registration.module.css";
 import {
     Button,
     Input,
@@ -15,7 +15,7 @@ import { authDataErrorSelector, userInfoSelector } from "../../services/selector
 import { getUserData, registration } from "../../services/thunk/authorization";
 import { ErrorOnForm } from "../../components/error-on-form";
 
-export default function RegisterPage() {
+export default function RegistrationPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setValue] = useState({ name: '', email: '', password: '' });

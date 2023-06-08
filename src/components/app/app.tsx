@@ -6,19 +6,20 @@ import {
     useNavigate,
 } from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary'
-import { ProtectedRouteElement } from "../protected-route";
+import { ProtectedRouteElement } from '../protected-route';
+import { ROUTES } from '../../utils/constants'
 
 import HomePage from '../../pages/home'
 import LoginPage from '../../pages/login'
-import RegisterPage from "../../pages/register";
-import ForgotPasswordPage from "../../pages/forgot-password";
-import ResetPasswordPage from "../../pages/reset-password";
-import NotFound404 from "../../pages/not-found";
-import ProfilePage from "../../pages/profile";
-import OrdersListPage from "../../pages/orders-list";
-import IngredientDetailsPage from "../../pages/ingredient-details/";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
+import RegistrationPage from '../../pages/registration';
+import ForgotPasswordPage from '../../pages/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password';
+import NotFound404 from '../../pages/not-found';
+import ProfilePage from '../../pages/profile';
+import OrdersListPage from '../../pages/orders-list';
+import IngredientDetailsPage from '../../pages/ingredient-details/';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
 export default function App() {
     const navigate = useNavigate();
@@ -33,19 +34,19 @@ export default function App() {
         <>
             <ErrorBoundary>
                 <Routes location={ background || location }>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="/reset-password" element={<ResetPasswordPage />} />
-                    <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />}/>} />
-                    <Route path="/orders" element={<ProtectedRouteElement element={<OrdersListPage />}/>} />
-                    <Route path="/ingredients/:ingredientid" element={<IngredientDetailsPage />} />
+                    <Route path={ ROUTES.ROUTE_HOME_PAGE } element={<HomePage />} />
+                    <Route path={ ROUTES.ROUTE_LOGIN_PAGE } element={<LoginPage />} />
+                    <Route path={ ROUTES.ROUTE_REGISRATION_PAGE } element={<RegistrationPage />} />
+                    <Route path={ ROUTES.ROUTE_FORGOT_PASSWORD_PAGE } element={<ForgotPasswordPage />} />
+                    <Route path={ ROUTES.ROUTE_RESET_PASSWORD_PAGE } element={<ResetPasswordPage />} />
+                    <Route path={ ROUTES.ROUTE_PROFILE_PAGE } element={<ProtectedRouteElement element={<ProfilePage />}/>} />
+                    <Route path={ ROUTES.ROUTE_ORDER_LIST_PAGE } element={<ProtectedRouteElement element={<OrdersListPage />}/>} />
+                    <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />
                     <Route path="*" element={<NotFound404 />} />
                 </Routes>
                 {background && (
                     <Routes>
-                        <Route path="/ingredients/:ingredientid" element={
+                        <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={
                             // TODO: tsx gap
                             // @ts-ignore
                             <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
