@@ -1,19 +1,20 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useCallback, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
-import styles from "../login/login.module.css";
+import styles from '../login/login.module.css';
 
 import {
     Button,
     EmailInput,
     PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import AppHeader from "../../components/header/header";
-import { ErrorOnForm } from "../../components/error-on-form"
+import AppHeader from '../../components/header/header';
+import { ErrorOnForm } from '../../components/error-on-form'
 
-import { authorization, getUserData } from "../../services/thunk/authorization";
-import { authDataErrorSelector, userInfoSelector } from "../../services/selectors";
+import { authorization, getUserData } from '../../services/thunk/authorization';
+import { authDataErrorSelector, userInfoSelector } from '../../services/selectors';
 
 export default function LoginPage() {
     const location = useLocation();
@@ -23,15 +24,11 @@ export default function LoginPage() {
     const user = useSelector(userInfoSelector);
     const message = useSelector(authDataErrorSelector);
 
-    const [form, setValue] = useState({ email: '', password: '' });
+    const { formValues, handleChange } = useForm({ email: '', password: '' });
 
     useEffect(() => {
         dispatch(getUserData())
     }, [])
-
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
 
     const handleRedirect = (redirect) => {
         navigate('/' + redirect);
@@ -39,21 +36,21 @@ export default function LoginPage() {
 
     const isDisabledButton = useCallback(
         () => {
-            return form.email === '' || form.password === '';
-        }, [form]
+            return formValues.email === '' || formValues.password === '';
+        }, [formValues]
     );
 
     const handleLogin = useCallback(
         () => {
-            dispatch(authorization(form))
-        }, [dispatch, form]
+            dispatch(authorization(formValues))
+        }, [dispatch, formValues]
     );
 
     if (user) {
         const state = location.state;
         if (state?.from) {
             // Redirects back to the previous unauthenticated routes
-            navigate(state?.from, {replace: true});
+            navigate(state?.from, { replace: true });
         } else {
             navigate('/');
         }
@@ -68,14 +65,14 @@ export default function LoginPage() {
                     <p className="text text_type_main-medium mb-7">Вход</p>
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <EmailInput
-                        onChange={ e => onChange(e) }
-                        value={ form.email }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.email }
                         name={ 'email' }
                         extraClass="mb-7"
                     />
                     <PasswordInput
-                        onChange={ e => onChange(e) }
-                        value={ form.password }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.password }
                         name={ 'password' }
                         extraClass="mb-7"
                     />

@@ -14,11 +14,12 @@ import AppHeader from "../../components/header/header";
 import { authDataErrorSelector, userInfoSelector } from "../../services/selectors";
 import { getUserData, registration } from "../../services/thunk/authorization";
 import { ErrorOnForm } from "../../components/error-on-form";
+import { useForm } from "../../hooks/useForm";
 
 export default function RegistrationPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [form, setValue] = useState({ name: '', email: '', password: '' });
+    const { formValues, handleChange } = useForm({ name: '', email: '', password: '' });
 
     const user = useSelector(userInfoSelector);
     const message = useSelector(authDataErrorSelector);
@@ -27,24 +28,20 @@ export default function RegistrationPage() {
         dispatch(getUserData())
     }, [])
 
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
-
     const handleRedirect = (redirect) => {
         navigate('/' + redirect);
     };
 
     const isDisabledButton = useCallback(
         () => {
-            return form.name === '' || form.email === '' || form.password === '';
-        }, [form]
+            return formValues.name === '' || formValues.email === '' || formValues.password === '';
+        }, [formValues]
     );
 
     const handleRegister = useCallback(
         () => {
-            dispatch(registration(form));
-        }, [dispatch, form]
+            dispatch(registration(formValues));
+        }, [dispatch, formValues]
     )
 
     if (user) {
@@ -65,20 +62,20 @@ export default function RegistrationPage() {
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <Input
                         placeholder={ "Имя" }
-                        onChange={ e => onChange(e) }
-                        value={ form.name }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.name }
                         name={ 'name' }
                         extraClass="mb-7"
                     />
                     <EmailInput
-                        onChange={ e => onChange(e) }
-                        value={ form.email }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.email }
                         name={ 'email' }
                         extraClass="mb-7"
                     />
                     <PasswordInput
-                        onChange={ e => onChange(e) }
-                        value={ form.password }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.password }
                         name={ 'password' }
                         extraClass="mb-7"
                     />

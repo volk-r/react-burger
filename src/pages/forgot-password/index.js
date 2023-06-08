@@ -13,15 +13,13 @@ import { ErrorOnForm } from "../../components/error-on-form";
 import { useDispatch, useSelector } from "react-redux";
 import { userInfoSelector } from "../../services/selectors";
 import { getUserData, resetPassword } from "../../services/thunk/authorization";
+import {useForm} from "../../hooks/useForm";
 
 export default function ForgotPasswordPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [emailValue, setEmailValue] = useState('')
+    const { formValues, handleChange } = useForm({ email: ''});
     const [message, setMessage] = useState(null);
-    const emailOnChange = e => {
-        setEmailValue(e.target.value)
-    }
 
     const user = useSelector(userInfoSelector);
 
@@ -30,9 +28,9 @@ export default function ForgotPasswordPage() {
     }, [])
 
     const handleRestorePassword = () => {
-        restorePassword(emailValue).then (response => {
+        restorePassword(formValues.email).then (response => {
             if (response === 'Reset email sent') {
-                dispatch(resetPassword(emailValue))
+                dispatch(resetPassword(formValues.email))
                 navigate('/reset-password');
                 return;
             }
@@ -49,8 +47,8 @@ export default function ForgotPasswordPage() {
 
     const isDisabledButton =  useCallback(
         () => {
-            return emailValue === '';
-        }, [emailValue]
+            return formValues.email === '';
+        }, [formValues.email]
     );
 
     if (user) {
@@ -70,9 +68,9 @@ export default function ForgotPasswordPage() {
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <EmailInput
-                        onChange={ e => emailOnChange(e) }
+                        onChange={ e => handleChange(e) }
                         placeholder={ "Укажите e-mail" }
-                        value={ emailValue }
+                        value={ formValues.email }
                         name={ 'email' }
                         extraClass="mb-7"
                     />

@@ -1,28 +1,25 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import styles from "../login/login.module.css";
+import styles from '../login/login.module.css';
 import {
     Button, Input,
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import AppHeader from "../../components/header/header";
-import { resetPassword } from "../../utils/burger-api";
-import { ErrorOnForm } from "../../components/error-on-form";
-import { resetPasswordEmailSelector, userInfoSelector } from "../../services/selectors";
-import { getUserData } from "../../services/thunk/authorization";
+import AppHeader from '../../components/header/header';
+import { resetPassword } from '../../utils/burger-api';
+import { ErrorOnForm } from '../../components/error-on-form';
+import { resetPasswordEmailSelector, userInfoSelector } from '../../services/selectors';
+import { getUserData } from '../../services/thunk/authorization';
+import { useForm } from '../../hooks/useForm';
 
 export default function ResetPasswordPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [form, setValue] = useState({ password: '', token: '' });
+    const { formValues, handleChange } = useForm({ password: '', token: '' });
     const [message, setMessage] = useState(null);
-
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
 
     const user = useSelector(userInfoSelector);
     const resetPasswordEmail = useSelector(resetPasswordEmailSelector);
@@ -32,7 +29,7 @@ export default function ResetPasswordPage() {
     }, [])
 
     const handleResetPassword = () => {
-        resetPassword(form).then (response => {
+        resetPassword(formValues).then (response => {
             if (response === 'Password successfully reset') {
                 navigate('/profile');
                 return;
@@ -50,9 +47,9 @@ export default function ResetPasswordPage() {
 
     const isDisabledButton = useCallback(
         () => {
-        return form.password === ''
-            || form.token === ''
-        }, [form]
+        return formValues.password === ''
+            || formValues.token === ''
+        }, [formValues]
     );
 
     useEffect(() => {
@@ -61,7 +58,6 @@ export default function ResetPasswordPage() {
         }
     }, [resetPasswordEmail])
 
-    console.log(resetPasswordEmail);
     if (user) {
         if (window.history.state && window.history.state.idx > 0) {
             navigate(-1, { replace: true });
@@ -80,15 +76,15 @@ export default function ResetPasswordPage() {
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
                     <PasswordInput
                         placeholder={ 'Введите новый пароль' }
-                        onChange={ e => onChange(e) }
-                        value={ form.password }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.password }
                         name={ 'password' }
                         extraClass="mb-7"
                     />
                     <Input
                         placeholder={ 'Введите код из письма' }
-                        onChange={ e => onChange(e) }
-                        value={ form.token }
+                        onChange={ e => handleChange(e) }
+                        value={ formValues.token }
                         name={ 'token' }
                         extraClass="mb-7"
                     />

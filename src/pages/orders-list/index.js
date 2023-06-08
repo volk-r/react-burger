@@ -1,6 +1,6 @@
-import { Profile } from "../../components/profile";
-import styles from "./orders-list.module.css"
 import React from "react";
+import styles from "./orders-list.module.css"
+import { Profile } from "../../components/profile";
 
 export default function OrdersListPage() {
     return (

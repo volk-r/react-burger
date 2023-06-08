@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -11,14 +11,12 @@ import {
 import { Profile } from "../../components/profile";
 import { updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
+import {useForm} from "../../hooks/useForm";
 
 export default function ProfilePage() {
     const userData = useSelector(userInfoSelector);
-    const [form, setValue] = useState({...userData, password: '************'});
+    const { formValues, setFormValues, handleChange } = useForm({...userData, password: '************'});
     const dispatch = useDispatch();
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
 
     const nameRef = useRef(null)
     const onIconClick = () => {
@@ -32,15 +30,15 @@ export default function ProfilePage() {
 
     const handleUpdateUserInfo = useCallback(
         () => {
-            let data = form;
+            let data = formValues;
             delete data.password;
             dispatch(updateUserData(data))
-        }, [dispatch, form]
+        }, [dispatch, formValues]
     );
 
     const handleCancelUpdateUserInfo = useCallback(
         () => {
-            setValue({...userData, password: '************'});
+            setFormValues({...userData, password: '************'});
         }, [userData]
     );
 
@@ -48,8 +46,8 @@ export default function ProfilePage() {
         <Profile>
             <Input
                 placeholder={ "Имя" }
-                onChange={ e => onChange(e) }
-                value={ form.name }
+                onChange={ e => handleChange(e) }
+                value={ formValues.name }
                 name={ 'name' }
                 extraClass="mb-6"
                 icon="EditIcon"
@@ -60,16 +58,16 @@ export default function ProfilePage() {
             />
             <EmailInput
                 placeholder={ "Логин" }
-                onChange={ e => onChange(e) }
-                value={ form.email }
+                onChange={ e => handleChange(e) }
+                value={ formValues.email }
                 name={ 'email' }
                 extraClass="mb-6"
                 icon="EditIcon"
                 isIcon={ true }
             />
             <PasswordInput
-                onChange={ e => onChange(e) }
-                value={ form.password }
+                onChange={ e => handleChange(e) }
+                value={ formValues.password }
                 name={ 'password' }
                 extraClass="mb-6"
                 icon="EditIcon"
