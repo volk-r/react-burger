@@ -122,11 +122,17 @@ export async function refreshTokenRequest() {
 }
 
 export async function userData(newUseData) {
+    const accessToken = getCookie('accessToken');
+
+    if (!accessToken) {
+        return Promise.reject("accessToken not found");
+    }
+
     const parameters = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'authorization': getCookie('accessToken'),
+            'authorization': accessToken,
         },
     };
 

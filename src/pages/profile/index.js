@@ -32,7 +32,9 @@ export default function ProfilePage() {
 
     const handleUpdateUserInfo = useCallback(
         () => {
-            dispatch(updateUserData(form))
+            let data = form;
+            delete data.password;
+            dispatch(updateUserData(data))
         }, [dispatch, form]
     );
 
