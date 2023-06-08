@@ -35,10 +35,10 @@ export default function App() {
             <ErrorBoundary>
                 <Routes location={ background || location }>
                     <Route path={ ROUTES.ROUTE_HOME_PAGE } element={<HomePage />} />
-                    <Route path={ ROUTES.ROUTE_LOGIN_PAGE } element={<LoginPage />} />
-                    <Route path={ ROUTES.ROUTE_REGISRATION_PAGE } element={<RegistrationPage />} />
-                    <Route path={ ROUTES.ROUTE_FORGOT_PASSWORD_PAGE } element={<ForgotPasswordPage />} />
-                    <Route path={ ROUTES.ROUTE_RESET_PASSWORD_PAGE } element={<ResetPasswordPage />} />
+                    <Route path={ ROUTES.ROUTE_LOGIN_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<LoginPage />} />} />
+                    <Route path={ ROUTES.ROUTE_REGISRATION_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<RegistrationPage />}/>} />
+                    <Route path={ ROUTES.ROUTE_FORGOT_PASSWORD_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<ForgotPasswordPage />}/>} />
+                    <Route path={ ROUTES.ROUTE_RESET_PASSWORD_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<ResetPasswordPage />}/>} />
                     <Route path={ ROUTES.ROUTE_PROFILE_PAGE } element={<ProtectedRouteElement element={<ProfilePage />}/>} />
                     <Route path={ ROUTES.ROUTE_ORDER_LIST_PAGE } element={<ProtectedRouteElement element={<OrdersListPage />}/>} />
                     <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../login/login.module.css";
@@ -10,9 +10,8 @@ import {
 import AppHeader from "../../components/header/header";
 import { restorePassword } from "../../utils/burger-api";
 import { ErrorOnForm } from "../../components/error-on-form";
-import { useDispatch, useSelector } from "react-redux";
-import { userInfoSelector } from "../../services/selectors";
-import { getUserData, resetPassword } from "../../services/thunk/authorization";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../../services/thunk/authorization";
 import {useForm} from "../../hooks/useForm";
 
 export default function ForgotPasswordPage() {
@@ -20,12 +19,6 @@ export default function ForgotPasswordPage() {
     const navigate = useNavigate();
     const { formValues, handleChange } = useForm({ email: ''});
     const [message, setMessage] = useState(null);
-
-    const user = useSelector(userInfoSelector);
-
-    useEffect(() => {
-        dispatch(getUserData())
-    }, [])
 
     const handleRestorePassword = () => {
         restorePassword(formValues.email).then (response => {
@@ -50,15 +43,6 @@ export default function ForgotPasswordPage() {
             return formValues.email === '';
         }, [formValues.email]
     );
-
-    if (user) {
-        if (window.history.state && window.history.state.idx > 0) {
-            navigate(-1, { replace: true });
-        } else {
-            navigate('/profile', { replace: true });
-        }
-        return null;
-    }
 
     return (
         <>

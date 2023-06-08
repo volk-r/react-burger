@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,8 +11,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import AppHeader from "../../components/header/header";
-import { authDataErrorSelector, userInfoSelector } from "../../services/selectors";
-import { getUserData, registration } from "../../services/thunk/authorization";
+import { authDataErrorSelector } from "../../services/selectors";
+import { registration } from "../../services/thunk/authorization";
 import { ErrorOnForm } from "../../components/error-on-form";
 import { useForm } from "../../hooks/useForm";
 
@@ -20,13 +20,7 @@ export default function RegistrationPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { formValues, handleChange } = useForm({ name: '', email: '', password: '' });
-
-    const user = useSelector(userInfoSelector);
     const message = useSelector(authDataErrorSelector);
-
-    useEffect(() => {
-        dispatch(getUserData())
-    }, [])
 
     const handleRedirect = (redirect) => {
         navigate('/' + redirect);
@@ -43,15 +37,6 @@ export default function RegistrationPage() {
             dispatch(registration(formValues));
         }, [dispatch, formValues]
     )
-
-    if (user) {
-        if (window.history.state && window.history.state.idx > 0) {
-            navigate(-1, { replace: true });
-        } else {
-            navigate('/profile', { replace: true });
-        }
-        return null;
-    }
 
     return (
         <>

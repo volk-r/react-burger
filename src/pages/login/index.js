@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
@@ -13,22 +13,14 @@ import {
 import AppHeader from '../../components/header/header';
 import { ErrorOnForm } from '../../components/error-on-form'
 
-import { authorization, getUserData } from '../../services/thunk/authorization';
-import { authDataErrorSelector, userInfoSelector } from '../../services/selectors';
+import { authorization } from '../../services/thunk/authorization';
+import { authDataErrorSelector } from '../../services/selectors';
 
 export default function LoginPage() {
-    const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const user = useSelector(userInfoSelector);
     const message = useSelector(authDataErrorSelector);
-
     const { formValues, handleChange } = useForm({ email: '', password: '' });
-
-    useEffect(() => {
-        dispatch(getUserData())
-    }, [])
 
     const handleRedirect = (redirect) => {
         navigate('/' + redirect);
@@ -45,17 +37,6 @@ export default function LoginPage() {
             dispatch(authorization(formValues))
         }, [dispatch, formValues]
     );
-
-    if (user) {
-        const state = location.state;
-        if (state?.from) {
-            // Redirects back to the previous unauthenticated routes
-            navigate(state?.from, { replace: true });
-        } else {
-            navigate('/');
-        }
-        return null;
-    }
 
     return (
         <>
