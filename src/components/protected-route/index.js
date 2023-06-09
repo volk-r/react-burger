@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getUserData } from "../../services/thunk/authorization";
 import { useDispatch, useSelector } from "react-redux";
 import { authDataRequestSelector, userInfoSelector } from "../../services/selectors";
+import PropTypes from "prop-types";
 
 export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
     const location = useLocation();
@@ -44,3 +45,7 @@ export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
 
     return userData ? element : navigate('/login', { state: { from: currentPath } });
 }
+
+ProtectedRouteElement.propTypes = {
+    onlyUnAuth: PropTypes.bool,
+};
