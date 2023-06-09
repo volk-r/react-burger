@@ -11,11 +11,12 @@ import {
 import { Profile } from "../../components/profile";
 import { updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
-import {useForm} from "../../hooks/useForm";
+import { useForm } from "../../hooks/useForm";
 
 export default function ProfilePage() {
     const userData = useSelector(userInfoSelector);
-    const { formValues, setFormValues, handleChange } = useForm({...userData, password: '************'});
+    const passwordGag = '************';
+    const { formValues, setFormValues, handleChange } = useForm({...userData, password: passwordGag});
     const dispatch = useDispatch();
 
     const nameRef = useRef(null)
@@ -31,14 +32,18 @@ export default function ProfilePage() {
     const handleUpdateUserInfo = useCallback(
         () => {
             let data = formValues;
-            delete data.password;
+
+            if (data.password === passwordGag) {
+                delete data.password;
+            }
+
             dispatch(updateUserData(data))
         }, [dispatch, formValues]
     );
 
     const handleCancelUpdateUserInfo = useCallback(
         () => {
-            setFormValues({...userData, password: '************'});
+            setFormValues({...userData, password: passwordGag});
         }, [userData]
     );
 
