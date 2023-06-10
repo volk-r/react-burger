@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { ingredientsSelector } from "../../services/selectors";
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { ROUTES } from "../../utils/constants";
 
 export default function IngredientDetails() {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function IngredientDetails() {
     const selectedItem = ingredients.find(({ _id }) => _id === ingredientid)
 
     if (!selectedItem) {
-        navigate("/", { replace: true })
+        navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true })
         return null;
     }
 

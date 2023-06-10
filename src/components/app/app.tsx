@@ -15,8 +15,7 @@ import RegistrationPage from '../../pages/registration';
 import ForgotPasswordPage from '../../pages/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password';
 import NotFound404 from '../../pages/not-found';
-import ProfilePage from '../../pages/profile';
-import OrdersListPage from '../../pages/orders-list';
+import { Profile } from '../profile';
 import IngredientDetailsPage from '../../pages/ingredient-details/';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -27,7 +26,7 @@ export default function App() {
     let background = location.state?.background;
 
     const handleCloseModal = () => {
-        navigate("/", { replace: true });
+        navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true });
     };
 
     return (
@@ -39,8 +38,7 @@ export default function App() {
                     <Route path={ ROUTES.ROUTE_REGISRATION_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<RegistrationPage />}/>} />
                     <Route path={ ROUTES.ROUTE_FORGOT_PASSWORD_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<ForgotPasswordPage />}/>} />
                     <Route path={ ROUTES.ROUTE_RESET_PASSWORD_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<ResetPasswordPage />}/>} />
-                    <Route path={ ROUTES.ROUTE_PROFILE_PAGE } element={<ProtectedRouteElement element={<ProfilePage />}/>} />
-                    <Route path={ ROUTES.ROUTE_ORDER_LIST_PAGE } element={<ProtectedRouteElement element={<OrdersListPage />}/>} />
+                    <Route path={ ROUTES.ROUTE_PROFILE_ROOT } element={<ProtectedRouteElement element={<Profile />}/>} />
                     <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />
                     <Route path="*" element={<NotFound404 />} />
                 </Routes>

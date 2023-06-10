@@ -9,6 +9,7 @@ import {
     ListIcon,
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ROUTES } from "../../utils/constants";
 
 export default function AppHeader() {
     const setActiveLink = ({ isActive }) => isActive ? AppHeaderStyles.activeLink : AppHeaderStyles.inactiveLink;
@@ -18,26 +19,26 @@ export default function AppHeader() {
             <header className={ AppHeaderStyles.menu }>
                 <nav className={ AppHeaderStyles.nav }>
                     <NavLink
-                        to={{ pathname: `/` }}
+                        to={{ pathname: ROUTES.ROUTE_HOME_PAGE }}
                         className={setActiveLink}
                     >
                         <BurgerIcon type="primary" />
                         <p className="text text_type_main-default">Конструктор</p>
                     </NavLink>
                     <NavLink
-                        to={{ pathname: `/orders` }}
+                        to={{ pathname: ROUTES.ROUTE_ORDER_LIST_PAGE }}
                         className={setActiveLink}
                     >
                         <ListIcon type="secondary" />
                         <p className="text text_type_main-default">Лента заказов</p>
                     </NavLink>
                 </nav>
-                <Link to={{ pathname: `/` }} >
+                <Link to={{ pathname: ROUTES.ROUTE_HOME_PAGE }} >
                     <Logo />
                 </Link>
                 <div className="ml-30"></div>
                 <NavLink
-                    to={{ pathname: `/profile` }}
+                    to={{ pathname: ROUTES.ROUTE_PROFILE_PAGE }}
                     className={setActiveLink}
                 >
                     <ProfileIcon type="secondary" />

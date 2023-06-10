@@ -15,6 +15,7 @@ import { ErrorOnForm } from '../../components/error-on-form'
 
 import { authorization } from '../../services/thunk/authorization';
 import { authDataErrorSelector } from '../../services/selectors';
+import { ROUTES } from "../../utils/constants";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function LoginPage() {
     const { formValues, handleChange } = useForm({ email: '', password: '' });
 
     const handleRedirect = (redirect) => {
-        navigate('/' + redirect);
+        navigate( redirect );
     };
 
     const isDisabledButton = useCallback(
@@ -74,7 +75,7 @@ export default function LoginPage() {
                             htmlType="button"
                             type="secondary"
                             size="medium"
-                            onClick={ () => handleRedirect("register") }
+                            onClick={ () => handleRedirect( ROUTES.ROUTE_REGISRATION_PAGE ) }
                         >
                             Зарегистрироваться
                         </Button>
@@ -86,7 +87,7 @@ export default function LoginPage() {
                             htmlType="button"
                             type="secondary"
                             size="medium"
-                            onClick={ () => handleRedirect("forgot-password") }
+                            onClick={ () => handleRedirect( ROUTES.ROUTE_FORGOT_PASSWORD_PAGE ) }
                         >
                             Восстановить пароль
                         </Button>

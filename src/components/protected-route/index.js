@@ -4,6 +4,7 @@ import { getUserData } from "../../services/thunk/authorization";
 import { useDispatch, useSelector } from "react-redux";
 import { authDataRequestSelector, userInfoSelector } from "../../services/selectors";
 import PropTypes from "prop-types";
+import { ROUTES } from "../../utils/constants";
 
 export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
     const location = useLocation();
@@ -33,7 +34,7 @@ export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
 
     if (onlyUnAuth === true) {
         const state = location.state;
-        let redirect = '/profile';
+        let redirect = ROUTES.ROUTE_PROFILE_PAGE;
 
         if (state?.from) {
             // Redirects back to the previous unauthenticated routes
@@ -43,7 +44,7 @@ export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
         return userData ? navigate(redirect, { replace: true, state: { from: currentPath } }) : element;
     }
 
-    return userData ? element : navigate('/login', { state: { from: currentPath } });
+    return userData ? element : navigate(ROUTES.ROUTE_LOGIN_PAGE, { state: { from: currentPath } });
 }
 
 ProtectedRouteElement.propTypes = {

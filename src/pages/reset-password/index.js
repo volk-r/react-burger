@@ -13,6 +13,7 @@ import { resetPassword } from '../../utils/burger-api';
 import { ErrorOnForm } from '../../components/error-on-form';
 import { resetPasswordEmailSelector } from '../../services/selectors';
 import { useForm } from '../../hooks/useForm';
+import { ROUTES } from "../../utils/constants";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function ResetPasswordPage() {
     const handleResetPassword = () => {
         resetPassword(formValues).then (response => {
             if (response === 'Password successfully reset') {
-                navigate('/profile');
+                navigate( ROUTES.ROUTE_PROFILE_PAGE );
                 return;
             }
 
@@ -34,7 +35,7 @@ export default function ResetPasswordPage() {
     };
 
     const handleRedirect = () => {
-        navigate('/login');
+        navigate( ROUTES.ROUTE_LOGIN_PAGE );
     };
 
     const isDisabledButton = useCallback(
@@ -46,7 +47,7 @@ export default function ResetPasswordPage() {
 
     useEffect(() => {
         if (!resetPasswordEmail) {
-            navigate('/forgot-password', { replace: true });
+            navigate( ROUTES.ROUTE_FORGOT_PASSWORD_PAGE , { replace: true });
         }
     }, [resetPasswordEmail])
 

@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
-import { BUN_COUNT, BUN_TYPE } from "../../utils/constants";
+import { BUN_COUNT, BUN_TYPE, ROUTES } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
 import WaitImage from "../../images/wait.gif";
 
@@ -57,7 +57,7 @@ export default function BurgerConstructor() {
 
     const handleOpenModal = () => {
         if (!userData) {
-            navigate('/login', { state: { from: currentPath } })
+            navigate( ROUTES.ROUTE_LOGIN_PAGE , { state: { from: currentPath } })
             return null;
         }
 

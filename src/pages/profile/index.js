@@ -8,7 +8,6 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { Profile } from "../../components/profile";
 import { updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
 import { useForm } from "../../hooks/useForm";
@@ -48,7 +47,7 @@ export default function ProfilePage() {
     );
 
     return (
-        <Profile>
+        <>
             <Input
                 placeholder={ "Имя" }
                 onChange={ e => handleChange(e) }
@@ -97,6 +96,6 @@ export default function ProfilePage() {
                     Отмена
                 </Button>
             </div>
-        </Profile>
+        </>
     );
 }

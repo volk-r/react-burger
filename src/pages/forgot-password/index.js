@@ -12,7 +12,8 @@ import { restorePassword } from "../../utils/burger-api";
 import { ErrorOnForm } from "../../components/error-on-form";
 import { useDispatch } from "react-redux";
 import { resetPassword } from "../../services/thunk/authorization";
-import {useForm} from "../../hooks/useForm";
+import { useForm } from "../../hooks/useForm";
+import { ROUTES } from "../../utils/constants";
 
 export default function ForgotPasswordPage() {
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function ForgotPasswordPage() {
         restorePassword(formValues.email).then (response => {
             if (response === 'Reset email sent') {
                 dispatch(resetPassword(formValues.email))
-                navigate('/reset-password');
+                navigate( ROUTES.ROUTE_RESET_PASSWORD_PAGE );
                 return;
             }
 
@@ -34,8 +35,8 @@ export default function ForgotPasswordPage() {
         });
     };
 
-    const handleRedirect = () => {
-        navigate('/login');
+    const handleRedirectToLoginPage = () => {
+        navigate( ROUTES.ROUTE_LOGIN_PAGE );
     };
 
     const isDisabledButton =  useCallback(
@@ -75,7 +76,7 @@ export default function ForgotPasswordPage() {
                             htmlType="button"
                             type="secondary"
                             size="medium"
-                            onClick={ handleRedirect }
+                            onClick={ handleRedirectToLoginPage }
                         >
                             Войти
                         </Button>

@@ -8,8 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeCurrentSession } from "../../services/thunk/authorization";
 import { authDataErrorSelector } from "../../services/selectors";
 import { ErrorOnForm } from "../error-on-form";
+import { ROUTES, NESTED_ROUTES } from "../../utils/constants";
+import NotFound404 from "../../pages/not-found";
+import OrdersListPage from "../../pages/orders-list";
+import ProfilePage from "../../pages/profile";
+import {
+    Routes,
+    Route,
+} from 'react-router-dom';
 
-export const Profile = memo(({ children }) => {
+export const Profile = memo(() => {
     const dispatch = useDispatch();
     const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
 
@@ -28,7 +36,7 @@ export const Profile = memo(({ children }) => {
                         <ul>
                             <li>
                                 <NavLink
-                                    to={{ pathname: `/profile` }}
+                                    to={{ pathname: ROUTES.ROUTE_PROFILE_PAGE }}
                                     className={ setActiveLink }
                                 >
                                     <p className="text text_type_main-medium">
@@ -38,7 +46,7 @@ export const Profile = memo(({ children }) => {
                             </li>
                             <li>
                                 <NavLink
-                                    to={{ pathname: `/orders` }}
+                                    to={{ pathname: ROUTES.ROUTE_ORDER_LIST_PAGE }}
                                     className={ setActiveLink }
                                 >
                                     <p className="text text_type_main-medium">
@@ -48,7 +56,7 @@ export const Profile = memo(({ children }) => {
                             </li>
                             <li>
                                 <NavLink
-                                    to={{ pathname: `/profile` }}
+                                    to={{ pathname: ROUTES.ROUTE_LOGIN_PAGE }}
                                     className={ setActiveLink }
                                     onClick={ handleLogout }
                                 >
@@ -66,7 +74,11 @@ export const Profile = memo(({ children }) => {
                     </div>
                     <div className={ styles.content }>
                         {message && <ErrorOnForm>{message}</ErrorOnForm>}
-                        { children }
+                        <Routes>
+                            <Route path={ NESTED_ROUTES.PROFILE_USER_INFO } element={<ProfilePage />} />
+                            <Route path={ NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE } element={<OrdersListPage />} />
+                            <Route path="*" element={<NotFound404 />} />
+                        </Routes>
                     </div>
                 </div>
             </main>
