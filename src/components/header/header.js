@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 import AppHeaderStyles from './header.module.css'
 
@@ -8,31 +9,41 @@ import {
     ListIcon,
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ROUTES } from "../../utils/constants";
 
 export default function AppHeader() {
+    const setActiveLink = ({ isActive }) => isActive ? AppHeaderStyles.activeLink : AppHeaderStyles.inactiveLink;
+
     return (
         <>
             <header className={ AppHeaderStyles.menu }>
                 <nav className={ AppHeaderStyles.nav }>
-                    <a href="#" className={ AppHeaderStyles.navlink }>
+                    <NavLink
+                        to={{ pathname: ROUTES.ROUTE_HOME_PAGE }}
+                        className={setActiveLink}
+                    >
                         <BurgerIcon type="primary" />
                         <p className="text text_type_main-default">Конструктор</p>
-                    </a>
-                    <a href="http://localhost:3000/#bun" className={ AppHeaderStyles.navlink }>
+                    </NavLink>
+                    <NavLink
+                        to={{ pathname: ROUTES.ROUTE_ORDER_LIST_PAGE }}
+                        className={setActiveLink}
+                    >
                         <ListIcon type="secondary" />
                         <p className="text text_type_main-default">Лента заказов</p>
-                    </a>
+                    </NavLink>
                 </nav>
-                <div className="ml-1"></div>
-                <a href="#" >
+                <Link to={{ pathname: ROUTES.ROUTE_HOME_PAGE }} >
                     <Logo />
-                </a>
-                <div className={ AppHeaderStyles.navlink }>
-                </div>
-                <a href="#" className={ AppHeaderStyles.navlink }>
+                </Link>
+                <div className="ml-30"></div>
+                <NavLink
+                    to={{ pathname: ROUTES.ROUTE_PROFILE_PAGE }}
+                    className={setActiveLink}
+                >
                     <ProfileIcon type="secondary" />
                     <p className="text text_type_main-default">Личный кабинет</p>
-                </a>
+                </NavLink>
             </header>
         </>
     );

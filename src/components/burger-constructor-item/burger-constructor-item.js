@@ -13,6 +13,7 @@ import { ingredientAttributes } from "../../utils/ingredient-attributes";
 
 const style = {
     cursor: 'move',
+    width: "99%",
 }
 export const BurgerConstructorItem = memo((props) => {
     const { index, burgerConstructorItem, moveIngredient } = props;
