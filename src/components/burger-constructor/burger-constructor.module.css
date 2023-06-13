@@ -8,6 +8,7 @@
     /* interface/accent */
     border: 2px solid;
     border-radius: 4px;
+    background: none;
 }
 
 .listContainer {
@@ -23,12 +24,14 @@
     padding-right: 7px;
 
     list-style: none; /* убираем маркеры списка */
+    background: none;
 }
 
 .listItem {
     display: flex;
     flex-direction: row;
     align-items: center;
+    background: none;
 
     justify-content: center;
 
