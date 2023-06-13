@@ -29,7 +29,8 @@ export default function ProfilePage() {
     }
 
     const handleUpdateUserInfo = useCallback(
-        () => {
+        (e) => {
+            e.preventDefault();
             let data = formValues;
 
             if (data.password === passwordGag) {
@@ -47,7 +48,7 @@ export default function ProfilePage() {
     );
 
     return (
-        <>
+        <form onSubmit={ handleUpdateUserInfo }>
             <Input
                 placeholder={ "Имя" }
                 onChange={ e => handleChange(e) }
@@ -79,10 +80,9 @@ export default function ProfilePage() {
             <div style={{float: "right"}}>
                 <Button
                     extraClass="mb-20 mr-2"
-                    htmlType="button"
+                    htmlType="submit"
                     type="primary"
                     size="large"
-                    onClick={ handleUpdateUserInfo }
                 >
                     Сохранить
                 </Button>
@@ -96,6 +96,6 @@ export default function ProfilePage() {
                     Отмена
                 </Button>
             </div>
-        </>
+        </form>
     );
 }

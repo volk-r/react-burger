@@ -21,7 +21,8 @@ export default function ForgotPasswordPage() {
     const { formValues, handleChange } = useForm({ email: ''});
     const [message, setMessage] = useState(null);
 
-    const handleRestorePassword = () => {
+    const handleRestorePassword = (e) => {
+        e.preventDefault();
         restorePassword(formValues.email).then (response => {
             if (response === 'Reset email sent') {
                 dispatch(resetPassword(formValues.email))
@@ -52,23 +53,24 @@ export default function ForgotPasswordPage() {
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
-                    <EmailInput
-                        onChange={ e => handleChange(e) }
-                        placeholder={ "Укажите e-mail" }
-                        value={ formValues.email }
-                        name={ 'email' }
-                        extraClass="mb-7"
-                    />
-                    <Button
-                        extraClass="mb-20"
-                        htmlType="button"
-                        type="primary"
-                        size="large"
-                        disabled={ isDisabledButton() }
-                        onClick={ handleRestorePassword }
-                    >
-                        Восстановить
-                    </Button>
+                    <form onSubmit={ handleRestorePassword }>
+                        <EmailInput
+                            onChange={ e => handleChange(e) }
+                            placeholder={ "Укажите e-mail" }
+                            value={ formValues.email }
+                            name={ 'email' }
+                            extraClass="mb-7"
+                        />
+                        <Button
+                            extraClass="mb-20"
+                            htmlType="submit"
+                            type="primary"
+                            size="large"
+                            disabled={ isDisabledButton() }
+                        >
+                            Восстановить
+                        </Button>
+                    </form>
                     <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
                         Вспомнили пароль?
                         <Button

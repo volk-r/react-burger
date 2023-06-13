@@ -34,7 +34,8 @@ export default function RegistrationPage() {
     );
 
     const handleRegister = useCallback(
-        () => {
+        (e) => {
+            e.preventDefault();
             dispatch(registration(formValues));
         }, [dispatch, formValues]
     )
@@ -46,35 +47,36 @@ export default function RegistrationPage() {
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Регистрация</p>
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
-                    <Input
-                        placeholder={ "Имя" }
-                        onChange={ e => handleChange(e) }
-                        value={ formValues.name }
-                        name={ 'name' }
-                        extraClass="mb-7"
-                    />
-                    <EmailInput
-                        onChange={ e => handleChange(e) }
-                        value={ formValues.email }
-                        name={ 'email' }
-                        extraClass="mb-7"
-                    />
-                    <PasswordInput
-                        onChange={ e => handleChange(e) }
-                        value={ formValues.password }
-                        name={ 'password' }
-                        extraClass="mb-7"
-                    />
-                    <Button
-                        extraClass="mb-20"
-                        htmlType="button"
-                        type="primary"
-                        size="large"
-                        disabled={ isDisabledButton() }
-                        onClick={ handleRegister }
-                    >
-                        Зарегистрироваться
-                    </Button>
+                    <form onSubmit={ handleRegister }>
+                        <Input
+                            placeholder={ "Имя" }
+                            onChange={ e => handleChange(e) }
+                            value={ formValues.name }
+                            name={ 'name' }
+                            extraClass="mb-7"
+                        />
+                        <EmailInput
+                            onChange={ e => handleChange(e) }
+                            value={ formValues.email }
+                            name={ 'email' }
+                            extraClass="mb-7"
+                        />
+                        <PasswordInput
+                            onChange={ e => handleChange(e) }
+                            value={ formValues.password }
+                            name={ 'password' }
+                            extraClass="mb-7"
+                        />
+                        <Button
+                            extraClass="mb-20"
+                            htmlType="submit"
+                            type="primary"
+                            size="large"
+                            disabled={ isDisabledButton() }
+                        >
+                            Зарегистрироваться
+                        </Button>
+                    </form>
                     <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
                         Уже зарегистрированы?
                         <Button

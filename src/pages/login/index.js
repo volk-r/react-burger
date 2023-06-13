@@ -34,7 +34,8 @@ export default function LoginPage() {
     );
 
     const handleLogin = useCallback(
-        () => {
+        (e) => {
+            e.preventDefault();
             dispatch(authorization(formValues))
         }, [dispatch, formValues]
     );
@@ -46,28 +47,29 @@ export default function LoginPage() {
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Вход</p>
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
-                    <EmailInput
-                        onChange={ e => handleChange(e) }
-                        value={ formValues.email }
-                        name={ 'email' }
-                        extraClass="mb-7"
-                    />
-                    <PasswordInput
-                        onChange={ e => handleChange(e) }
-                        value={ formValues.password }
-                        name={ 'password' }
-                        extraClass="mb-7"
-                    />
-                    <Button
-                        extraClass="mb-20"
-                        htmlType="button"
-                        type="primary"
-                        size="large"
-                        disabled={ isDisabledButton() }
-                        onClick={ handleLogin }
-                    >
-                        Войти
-                    </Button>
+                    <form onSubmit={ handleLogin }>
+                        <EmailInput
+                            onChange={ e => handleChange(e) }
+                            value={ formValues.email }
+                            name={ 'email' }
+                            extraClass="mb-7"
+                        />
+                        <PasswordInput
+                            onChange={ e => handleChange(e) }
+                            value={ formValues.password }
+                            name={ 'password' }
+                            extraClass="mb-7"
+                        />
+                        <Button
+                            extraClass="mb-20"
+                            htmlType="submit"
+                            type="primary"
+                            size="large"
+                            disabled={ isDisabledButton() }
+                        >
+                            Войти
+                        </Button>
+                    </form>
                     <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
                         Вы — новый пользователь?
                         <Button
