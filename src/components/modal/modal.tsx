@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import ModalBackDrop from '../modal-back-drop/modal-back-drop'
+import { IModalProps } from "../../utils/interfaces"
 
 import ModalStyles from './modal.module.css';
-import PropTypes from "prop-types";
 
-export default function Modal(props) {
-    const {header, onClose, children } = props
-    const modalRoot =  document.getElementById('react-modals')
+export default function Modal(props: IModalProps) {
+    const { header, onClose, children } = props;
+    const modalRoot: HTMLElement | null =  document.getElementById('react-modals');
 
-    const ECK_KEYCODE = 27
+    const ECK_KEYCODE = "Escape";
 
-    React.useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.keyCode === ECK_KEYCODE) {
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.code === ECK_KEYCODE) {
                 onClose();
             }
         };
@@ -41,11 +41,6 @@ export default function Modal(props) {
                 </div>
             </>
         ),
-        modalRoot
+        modalRoot!
     );
 }
-
-Modal.propTypes = {
-    header: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
-};

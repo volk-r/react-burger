@@ -45,8 +45,6 @@ export default function App() {
                 {background && (
                     <Routes>
                         <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={
-                            // TODO: tsx gap
-                            // @ts-ignore
                             <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
                                 <IngredientDetails />
                             </Modal>

@@ -1,22 +1,23 @@
 import { setCookie, getCookie, deleteCookie } from './utils';
+import { IFormValues } from "./interfaces"
 
 const API_URL = 'https://norma.nomoreparties.space/api';
 
-const request = (endpoint, options) => {
+const request = (endpoint: string, options?: RequestInit): Promise<any> => {
     return fetch(`${API_URL}/${endpoint}`, options)
         .then(checkResponse)
         .then(checkSuccess);
 };
 
-const checkResponse = (response) => {
+const checkResponse = (response: Response): Promise<any> => {
     return response.ok
         ? response.json()
-        : response.json().then((err) => {
+        : response.json().then((err: Error) => {
             return Promise.reject(err);
         });
 };
 
-const checkSuccess = (response) => {
+const checkSuccess = (response: any): any => {
     if (response && response.success) {
         return response;
     }
@@ -25,18 +26,24 @@ const checkSuccess = (response) => {
     return Promise.reject(`[fetchData failed]: ${response}`);
 };
 
-export async function getIngredients() {
+export async function getIngredients(): Promise<any> {
     const data = await request('ingredients');
 
     return data.data;
 }
 
-export async function makeOrder(ingredientIDs) {
-    const parameters = {
+export async function makeOrder(ingredientIDs: string[]): Promise<number> {
+    const accessToken = getCookie('accessToken');
+
+    if (!accessToken) {
+        return Promise.reject("accessToken not found");
+    }
+
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
-            'Content-Type' : 'application/json',
-            'authorization': getCookie('accessToken'),
+            'Content-Type': 'application/json',
+            'authorization': accessToken,
         },
         body: JSON.stringify({
             "ingredients": ingredientIDs
@@ -47,8 +54,8 @@ export async function makeOrder(ingredientIDs) {
     return data.order.number;
 }
 
-export async function restorePassword(email) {
-    const parameters = {
+export async function restorePassword(email: string): Promise<string> {
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -62,8 +69,8 @@ export async function restorePassword(email) {
     return data.message;
 }
 
-export async function resetPassword(form) {//todo
-    const parameters = {
+export async function resetPassword(form: IFormValues): Promise<string> {
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -75,8 +82,8 @@ export async function resetPassword(form) {//todo
     return data.message;
 }
 
-export async function registerAccount(form) {
-    const parameters = {
+export async function registerAccount(form: IFormValues): Promise<any> {
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -88,8 +95,8 @@ export async function registerAccount(form) {
     return data;
 }
 
-export async function accountAuthorization(form) {
-    const parameters = {
+export async function accountAuthorization(form: IFormValues): Promise<any> {
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -101,13 +108,13 @@ export async function accountAuthorization(form) {
     return data;
 }
 
-export const saveTokens = (refreshToken, accessToken) => {
+export const saveTokens = (refreshToken: string, accessToken: string) => {
     setCookie('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
 }
 
-export async function refreshTokenRequest() {
-    const parameters = {
+export async function refreshTokenRequest(): Promise<any> {
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -121,14 +128,14 @@ export async function refreshTokenRequest() {
     return data;
 }
 
-export async function userData(newUseData) {
+export async function userData(newUseData?: IFormValues): Promise<any> {
     const accessToken = getCookie('accessToken');
 
     if (!accessToken) {
         return Promise.reject("accessToken not found");
     }
 
-    const parameters = {
+    const parameters: RequestInit = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -146,8 +153,8 @@ export async function userData(newUseData) {
     return data;
 }
 
-export async function closeSession() {
-    const parameters = {
+export async function closeSession(): Promise<any> {
+    const parameters: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
