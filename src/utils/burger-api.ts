@@ -17,7 +17,7 @@ const checkResponse = (response: Response): Promise<any> => {
         });
 };
 
-const checkSuccess = (response: any): any => {
+const checkSuccess = (response: {success?: boolean}): any => {
     if (response && response.success) {
         return response;
     }

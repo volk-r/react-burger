@@ -25,7 +25,7 @@ export default function App() {
     const location = useLocation();
     let background = location.state?.background;
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (): void => {
         navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true });
     };
 

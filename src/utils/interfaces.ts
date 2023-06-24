@@ -21,3 +21,12 @@ export interface IModal {
     openModal: () => void;
     closeModal: () => void;
 }
+
+export interface IProtectedRouteElementProps {
+    element: ReactNode;
+    onlyUnAuth?: boolean;
+}
+
+export interface IErrorOnForm {
+    children: string;
+}

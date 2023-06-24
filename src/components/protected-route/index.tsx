@@ -1,18 +1,18 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import {ReactElement, useCallback, useEffect, useState} from 'react';
 import { getUserData } from "../../services/thunk/authorization";
 import { useDispatch, useSelector } from "react-redux";
 import { authDataRequestSelector, userInfoSelector } from "../../services/selectors";
-import PropTypes from "prop-types";
 import { ROUTES } from "../../utils/constants";
+import { IProtectedRouteElementProps } from "../../utils/interfaces";
 
-export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
+export function ProtectedRouteElement({ element, onlyUnAuth = false }: IProtectedRouteElementProps): any {
     const location = useLocation();
     const navigate = useNavigate();
     const currentPath = location.pathname;
 
-    const dispatch = useDispatch();
-    const [isUserLoaded, setUserLoaded] = useState(false);
+    const dispatch: any = useDispatch();
+    const [ isUserLoaded, setUserLoaded ] = useState<boolean>(false);
 
     const init = useCallback(
         () => {
@@ -46,7 +46,3 @@ export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
 
     return userData ? element : navigate(ROUTES.ROUTE_LOGIN_PAGE, { state: { from: currentPath } });
 }
-
-ProtectedRouteElement.propTypes = {
-    onlyUnAuth: PropTypes.bool,
-};

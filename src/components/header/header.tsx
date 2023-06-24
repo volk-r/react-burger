@@ -10,9 +10,10 @@ import {
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ROUTES } from "../../utils/constants";
+import { TActiveLinkProps } from "../../utils/types";
 
 export default function AppHeader() {
-    const setActiveLink = ({ isActive }) => isActive ? AppHeaderStyles.activeLink : AppHeaderStyles.inactiveLink;
+    const setActiveLink = ({ isActive }: TActiveLinkProps): string => isActive ? AppHeaderStyles.activeLink : AppHeaderStyles.inactiveLink;
 
     return (
         <>

@@ -1,53 +1,61 @@
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from '../../hooks/useForm';
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import styles from '../login/login.module.css';
-
+import styles from "./registration.module.css";
 import {
     Button,
+    Input,
     EmailInput,
     PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import AppHeader from '../../components/header/header';
-import { ErrorOnForm } from '../../components/error-on-form'
 
-import { authorization } from '../../services/thunk/authorization';
-import { authDataErrorSelector } from '../../services/selectors';
+import AppHeader from "../../components/header/header";
+import { authDataErrorSelector } from "../../services/selectors";
+import { registration } from "../../services/thunk/authorization";
+import { ErrorOnForm } from "../../components/error-on-form";
+import { useForm } from "../../hooks/useForm";
 import { ROUTES } from "../../utils/constants";
+import { IUseForm } from "../../utils/interfaces";
 
-export default function LoginPage() {
+export default function RegistrationPage() {
+    const dispatch: any = useDispatch();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const message = useSelector(authDataErrorSelector);
-    const { formValues, handleChange } = useForm({ email: '', password: '' });
+    const { formValues, handleChange }: IUseForm = useForm({ name: '', email: '', password: '' });
+    const message: string | null = useSelector(authDataErrorSelector);
 
-    const handleRedirect = (redirect) => {
-        navigate( redirect );
+    const handleRedirectToLoginPage = (): void => {
+        navigate( ROUTES.ROUTE_LOGIN_PAGE );
     };
 
     const isDisabledButton = useCallback(
         () => {
-            return formValues.email === '' || formValues.password === '';
+            return formValues.name === '' || formValues.email === '' || formValues.password === '';
         }, [formValues]
     );
 
-    const handleLogin = useCallback(
-        (e) => {
+    const handleRegister = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            dispatch(authorization(formValues))
+            dispatch(registration(formValues));
         }, [dispatch, formValues]
-    );
+    )
 
     return (
         <>
             <AppHeader />
             <main className={ styles.box }>
                 <div className={ styles.container }>
-                    <p className="text text_type_main-medium mb-7">Вход</p>
+                    <p className="text text_type_main-medium mb-7">Регистрация</p>
                     {message && <ErrorOnForm>{message}</ErrorOnForm>}
-                    <form onSubmit={ handleLogin }>
+                    <form onSubmit={ handleRegister }>
+                        <Input
+                            placeholder={ "Имя" }
+                            onChange={ e => handleChange(e) }
+                            value={ formValues.name }
+                            name={ 'name' }
+                            extraClass="mb-7"
+                        />
                         <EmailInput
                             onChange={ e => handleChange(e) }
                             value={ formValues.email }
@@ -67,31 +75,19 @@ export default function LoginPage() {
                             size="large"
                             disabled={ isDisabledButton() }
                         >
-                            Войти
+                            Зарегистрироваться
                         </Button>
                     </form>
                     <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
-                        Вы — новый пользователь?
+                        Уже зарегистрированы?
                         <Button
                             style={ {paddingLeft: 8} }
                             htmlType="button"
                             type="secondary"
                             size="medium"
-                            onClick={ () => handleRedirect( ROUTES.ROUTE_REGISRATION_PAGE ) }
+                            onClick={ () => handleRedirectToLoginPage() }
                         >
-                            Зарегистрироваться
-                        </Button>
-                    </p>
-                    <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
-                        Забыли пароль?
-                        <Button
-                            style={ {paddingLeft: 8} }
-                            htmlType="button"
-                            type="secondary"
-                            size="medium"
-                            onClick={ () => handleRedirect( ROUTES.ROUTE_FORGOT_PASSWORD_PAGE ) }
-                        >
-                            Восстановить пароль
+                            Войти
                         </Button>
                     </p>
                 </div>
