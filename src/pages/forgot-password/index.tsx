@@ -26,6 +26,7 @@ export default function ForgotPasswordPage() {
         e.preventDefault();
         restorePassword(formValues.email).then (response => {
             if (response === 'Reset email sent') {
+                // TODO
                 // @ts-ignore
                 dispatch(resetPassword(formValues.email))
                 navigate( ROUTES.ROUTE_RESET_PASSWORD_PAGE );

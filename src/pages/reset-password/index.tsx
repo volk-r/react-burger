@@ -14,7 +14,7 @@ import { ErrorOnForm } from '../../components/error-on-form';
 import { resetPasswordEmailSelector } from '../../services/selectors';
 import { useForm } from '../../hooks/useForm';
 import { ROUTES } from "../../utils/constants";
-import {IFormValues, IUseForm} from "../../utils/interfaces";
+import { IUseForm } from "../../utils/interfaces";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
