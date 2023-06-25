@@ -1,4 +1,4 @@
-import React, { memo, useRef } from 'react'
+import React, { CSSProperties, DragEventHandler, memo, useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { ITEM_TYPES } from '../../utils/constants'
 import {
@@ -8,23 +8,24 @@ import {
 import { decreaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
 import { removeItemFromConstructor } from "../../services/thunk/burger-constructor";
 import { useDispatch } from "react-redux";
-import PropTypes from 'prop-types';
-import { ingredientAttributes } from "../../utils/ingredient-attributes";
+import { IBurgerConstructorItem } from "../../utils/interfaces";
+import { TConstructorIngredient } from "../../utils/types";
 
-const style = {
+const style: CSSProperties = {
     cursor: 'move',
     width: "99%",
 }
-export const BurgerConstructorItem = memo((props) => {
-    const { index, burgerConstructorItem, moveIngredient } = props;
-    const dispatch = useDispatch();
 
-    const handleDeleteItem = (item) => {
+export const BurgerConstructorItem = memo((props: IBurgerConstructorItem) => {
+    const { index, burgerConstructorItem, moveIngredient } = props;
+    const dispatch: any = useDispatch();
+
+    const handleDeleteItem = (item: TConstructorIngredient) => {
         dispatch(decreaseIngrideintsCount(item));
         dispatch(removeItemFromConstructor(item));
     };
 
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     const [{ handlerId }, drop] = useDrop({
         // Указываем тип получаемых элементов, чтобы dnd понимал,
@@ -38,7 +39,7 @@ export const BurgerConstructorItem = memo((props) => {
         },
         // Вызывается, когда перетаскиваемый элемент оказывается над ингредиентом,
         // индекс которого у нас задан в пропсах props.index
-        hover(item, monitor) {
+        hover(item: any, monitor) {
             if (!ref.current) {
                 return;
             }
@@ -58,6 +59,9 @@ export const BurgerConstructorItem = memo((props) => {
             // Получаем текущую позицию курсора,
             // относительно текущего контейнера
             const clientOffset = monitor.getClientOffset();
+            if (!clientOffset) {
+                return;
+            }
             // Вычисляем координаты курсора и координаты середины карточки
             // на которую мы навели наш перетаскиваемый ингредиент
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
@@ -93,9 +97,9 @@ export const BurgerConstructorItem = memo((props) => {
     const opacity = isDragging ? 0 : 1;
     // Тут мы говорим что наш элемент и перетаскиваемый и бросаемый :)
     drag(drop(ref));
-    // Прерываем базовую функция для onDrop
+    // Прерываем базовую функцию для onDrop
     // потому что браузер по умолчанию не сбрасывает наш элемент в контейнер
-    const preventDefault = (e) => e.preventDefault();
+    const preventDefault: DragEventHandler<HTMLDivElement> = (e) => e.preventDefault();
 
     return (
         <div
@@ -114,9 +118,3 @@ export const BurgerConstructorItem = memo((props) => {
         </div>
     )
 })
-
-BurgerConstructorItem.propTypes = {
-    burgerConstructorItem: ingredientAttributes.isRequired,
-    index: PropTypes.number.isRequired,
-    moveIngredient: PropTypes.func.isRequired
-}

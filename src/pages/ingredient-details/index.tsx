@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import {
     hasErrorIngredientsSelector,
@@ -9,22 +9,23 @@ import { useParams } from 'react-router-dom';
 import AppHeader from "../../components/header/header";
 import styles from "./ingredient-details.module.css";
 import { getIngredientsList } from "../../services/thunk/burger-ingredients";
+import { TIngredient } from "../../utils/types";
 
 export default function IngredientDetailsPage() {
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
     useEffect(() => {
         dispatch(getIngredientsList())
     }, [])
 
-    const ingredients = useSelector(ingredientsSelector);
-    const isLoading = useSelector(isLoadingIngredientsSelector);
-    const hasError = useSelector(hasErrorIngredientsSelector);
+    const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+    const isLoading = useSelector<boolean>(isLoadingIngredientsSelector);
+    const hasError = useSelector<boolean>(hasErrorIngredientsSelector);
 
     const { ingredientid } = useParams();
-    const selectedItem = ingredients.find(({ _id }) => _id === ingredientid)
+    const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientid)
 
-    const ErrorBlock = () => {
+    const ErrorBlock = (): ReactElement => {
         return (
             <section className={ styles.errorBlock }>
                 <h1>Что-то пошло не так :(</h1>

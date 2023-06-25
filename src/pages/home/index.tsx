@@ -10,13 +10,11 @@ import BurgerIngredients from "../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 
 export default function HomePage() {
-    const isLoading = useSelector(isLoadingIngredientsSelector);
-    const hasError = useSelector(hasErrorIngredientsSelector);
-    const dispatch = useDispatch();
+    const isLoading = useSelector<boolean>(isLoadingIngredientsSelector);
+    const hasError = useSelector<boolean>(hasErrorIngredientsSelector);
+    const dispatch: any = useDispatch();
 
     useEffect(() => {
-        // TODO: tsx gap
-        // @ts-ignore
         dispatch(getIngredientsList())
     }, [])
 

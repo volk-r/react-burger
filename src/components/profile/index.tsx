@@ -16,10 +16,11 @@ import {
     Routes,
     Route,
 } from 'react-router-dom';
+import { TActiveLinkProps } from "../../utils/types";
 
 export const Profile = memo(() => {
-    const dispatch = useDispatch();
-    const setActiveLink = ({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink;
+    const dispatch: any = useDispatch();
+    const setActiveLink = ({ isActive }: TActiveLinkProps) => isActive ? styles.activeLink : styles.inactiveLink;
 
     const message = useSelector(authDataErrorSelector);
 

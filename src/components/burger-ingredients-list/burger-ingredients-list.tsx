@@ -1,20 +1,20 @@
-import React from 'react';
-import { ingredientAttributes } from "../../utils/ingredient-attributes";
+import React, { ReactElement, FC } from 'react';
 
 import BurgerIngredientsListStyles from './burger-ingredients-list.module.css'
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
 import { ITEM_TYPES } from "../../utils/constants";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
 import IngredientDetailsStyles from "../ingredient-details/ingredient-details.module.css";
+import { IBurgerIngredientsList } from "../../utils/interfaces";
+import { TListItem } from "../../utils/types";
 
-export default function BurgerIngredientsList(props) {
+export default function BurgerIngredientsList(props: IBurgerIngredientsList) {
     const location = useLocation();
     const { id, title, list } = props;
 
-    const ListItem = React.memo(({ item }) => {
+    const ListItem: FC<TListItem> = React.memo(({ item }): ReactElement => {
         const [, dragRef] = useDrag({
             type: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
             item: item
@@ -63,9 +63,3 @@ export default function BurgerIngredientsList(props) {
         </li>
     );
 }
-
-BurgerIngredientsList.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    list: PropTypes.arrayOf(ingredientAttributes).isRequired,
-};

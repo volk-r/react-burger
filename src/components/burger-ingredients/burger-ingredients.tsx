@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { INGREDIENT_CATEGORIES, BUN_TYPE } from '../../utils/constants';
 
 import BurgerIngredientsStyles from './burger-ingredients.module.css'
@@ -9,31 +9,32 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { useSelector } from "react-redux";
 import { ingredientsSelector } from "../../services/selectors";
+import { TIngredient } from "../../utils/types";
 
 export default function BurgerIngredients() {
-    const ingredients = useSelector(ingredientsSelector);
-    const [activeTab, setActiveTab] = React.useState(BUN_TYPE)
+    const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+    const [activeTab, setActiveTab] = useState<string>(BUN_TYPE)
 
     const getList = useCallback(
-        (type) => {
+        (type: string): Array<TIngredient> | [] => {
         return ingredients.filter(ingridient => ( ingridient.type === type ))
     }, [ingredients]);
 
-    const onTabClick = (tab) => {
+    const onTabClick = (tab: string): void => {
         setActiveTab(tab);
         const element = document.getElementById("section_" + tab);
         if (element) element.scrollIntoView({behavior: "smooth"});
     }
 
-    const handleScroll = () => {
-        const tabs = document.querySelectorAll('[id *= "tab_"]')
+    const handleScroll = (): void => {
+        const tabs = document.querySelectorAll<HTMLElement>('[id *= "tab_"]')
         const pages = document.querySelectorAll('[id *= "section"]')
 
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const index = Array.from(pages).indexOf(entry.target)
-                    setActiveTab(tabs[index].dataset.tab);
+                    setActiveTab(tabs[index].dataset.tab as string);
                 }
             })
         }, {
@@ -47,9 +48,9 @@ export default function BurgerIngredients() {
 
     useEffect(() => {
         const container = document.getElementById('ingredients-container');
-        container.addEventListener('scroll', handleScroll);
+        container?.addEventListener('scroll', handleScroll);
         return () => {
-            container.removeEventListener('scroll', handleScroll);
+            container?.removeEventListener('scroll', handleScroll);
         };
     }, []);
 

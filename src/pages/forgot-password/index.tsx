@@ -14,17 +14,20 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "../../services/thunk/authorization";
 import { useForm } from "../../hooks/useForm";
 import { ROUTES } from "../../utils/constants";
+import { IUseForm } from "../../utils/interfaces";
 
 export default function ForgotPasswordPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { formValues, handleChange } = useForm({ email: ''});
-    const [message, setMessage] = useState(null);
+    const { formValues, handleChange }: IUseForm = useForm({ email: ''});
+    const [ message, setMessage ] = useState<string | null>(null);
 
-    const handleRestorePassword = (e) => {
+    const handleRestorePassword = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         restorePassword(formValues.email).then (response => {
             if (response === 'Reset email sent') {
+                // TODO
+                // @ts-ignore
                 dispatch(resetPassword(formValues.email))
                 navigate( ROUTES.ROUTE_RESET_PASSWORD_PAGE );
                 return;
@@ -36,7 +39,7 @@ export default function ForgotPasswordPage() {
         });
     };
 
-    const handleRedirectToLoginPage = () => {
+    const handleRedirectToLoginPage = (): void => {
         navigate( ROUTES.ROUTE_LOGIN_PAGE );
     };
 

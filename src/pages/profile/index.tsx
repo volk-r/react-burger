@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, RefObject } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -11,25 +11,34 @@ import {
 import { updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
 import { useForm } from "../../hooks/useForm";
+import {IFormValues, IUseForm} from "../../utils/interfaces";
 
 export default function ProfilePage() {
-    const userData = useSelector(userInfoSelector);
-    const passwordGag = '************';
-    const { formValues, setFormValues, handleChange } = useForm({...userData, password: passwordGag});
-    const dispatch = useDispatch();
+    const userData: IFormValues | null = useSelector(userInfoSelector);
+    const passwordGag: string = '************';
+    const { formValues, setFormValues, handleChange }: IUseForm = useForm({...userData, password: passwordGag});
+    const dispatch: any = useDispatch();
 
-    const nameRef = useRef(null)
-    const onIconClick = () => {
+    const nameRef = useRef<HTMLInputElement>(null)
+    const onIconClick = (): void => {
+        if (!nameRef || !nameRef.current) {
+            return;
+        }
+
         nameRef.current.disabled = false;
-        setTimeout(() => nameRef.current.focus(), 0)
+        setTimeout(() => nameRef.current?.focus(), 0)
     }
 
-    const inputOnBlur = (ref) => {
+    const inputOnBlur = (ref: RefObject<HTMLInputElement>) => {
+        if (!ref || !ref.current) {
+            return;
+        }
+
         ref.current.disabled = true;
     }
 
     const handleUpdateUserInfo = useCallback(
-        (e) => {
+        (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             let data = formValues;
 
@@ -67,7 +76,6 @@ export default function ProfilePage() {
                 value={ formValues.email }
                 name={ 'email' }
                 extraClass="mb-6"
-                icon="EditIcon"
                 isIcon={ true }
             />
             <PasswordInput

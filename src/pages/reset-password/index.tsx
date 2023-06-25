@@ -14,14 +14,15 @@ import { ErrorOnForm } from '../../components/error-on-form';
 import { resetPasswordEmailSelector } from '../../services/selectors';
 import { useForm } from '../../hooks/useForm';
 import { ROUTES } from "../../utils/constants";
+import { IUseForm } from "../../utils/interfaces";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
-    const { formValues, handleChange } = useForm({ password: '', token: '' });
-    const [message, setMessage] = useState(null);
-    const resetPasswordEmail = useSelector(resetPasswordEmailSelector);
+    const { formValues, handleChange }: IUseForm = useForm({ password: '', token: '' });
+    const [ message, setMessage ] = useState<string | null>(null);
+    const resetPasswordEmail = useSelector<string | null>(resetPasswordEmailSelector);
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = (e: React.ChangeEvent<HTMLFormElement>): void => {
         e.preventDefault();
         resetPassword(formValues).then (response => {
             if (response === 'Password successfully reset') {
@@ -35,7 +36,7 @@ export default function ResetPasswordPage() {
         });
     };
 
-    const handleRedirect = () => {
+    const handleRedirect = (): void => {
         navigate( ROUTES.ROUTE_LOGIN_PAGE );
     };
 

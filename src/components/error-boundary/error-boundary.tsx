@@ -1,20 +1,21 @@
 import React from 'react';
 
 import ErrorBoundaryStyles from './error-boundary.module.css'
+import { ErrorBoundaryProps, ErrorBoundaryState } from '../../utils/interfaces'
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
+export default class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = { hasError: false };
     }
 
     // с помощью этого метода меняем стейт компонента при возникновении ошибки:
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError() {
         return { hasError: true };
     }
 
     // с помощью этого метода логируем информацию об ошибке:
-    componentDidCatch(error, info) {
+    componentDidCatch(error: any, info: any) {
         console.log("Возникла ошибка!", error, info);
     }
 
@@ -34,5 +35,3 @@ class ErrorBoundary extends React.Component {
         return this.props.children;
     }
 }
-
-export default ErrorBoundary;

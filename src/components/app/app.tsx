@@ -25,7 +25,7 @@ export default function App() {
     const location = useLocation();
     let background = location.state?.background;
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (): void => {
         navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true });
     };
 
@@ -45,8 +45,6 @@ export default function App() {
                 {background && (
                     <Routes>
                         <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={
-                            // TODO: tsx gap
-                            // @ts-ignore
                             <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
                                 <IngredientDetails />
                             </Modal>
