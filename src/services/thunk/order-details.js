@@ -1,4 +1,4 @@
-import { makeOrder } from '../../utils/burger-api';
+import {makeOrder, refreshTokenRequest, saveTokens} from '../../utils/burger-api';
 import {
     GET_ORDER_NUMBER,
     GET_ORDER_NUMBER_SUCCESS,
@@ -22,12 +22,16 @@ export function getOrderNumber(ids) {
                 hasError: false,
             })
         }).catch( err => {
-            dispatch({
-                type: GET_ORDER_NUMBER_FAILED,
-                orderNumber: null,
-                isLoading: false,
-                hasError: true,
-            })
+            if (err.message === 'jwt expired') {
+                dispatch(refreshToken(makeOrder(ids)));
+            } else {
+                dispatch({
+                    type: GET_ORDER_NUMBER_FAILED,
+                    orderNumber: null,
+                    isLoading: false,
+                    hasError: true,
+                })
+            }
         })
     }
 }
@@ -39,3 +43,11 @@ export function resetOrderNumber() {
         })
     }
 }
+
+const refreshToken = (afterRefresh) => (dispatch) => {
+    refreshTokenRequest()
+    .then((res) => {
+        saveTokens(res.refreshToken, res.accessToken);
+        dispatch(afterRefresh);
+    })
+};

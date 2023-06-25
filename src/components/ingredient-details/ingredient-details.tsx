@@ -5,12 +5,13 @@ import { ingredientsSelector } from "../../services/selectors";
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from "../../utils/constants";
+import { TIngredient } from "../../utils/types";
 
 export default function IngredientDetails() {
     const navigate = useNavigate();
     const { ingredientid } = useParams();
-    const ingredients = useSelector(ingredientsSelector);
-    const selectedItem = ingredients.find(({ _id }) => _id === ingredientid)
+    const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+    const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientid)
 
     if (!selectedItem) {
         navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true })

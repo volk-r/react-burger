@@ -24,11 +24,12 @@ import { increaseIngrideintsCount } from "../../services/thunk/burger-ingredient
 import { changeIngrideintPosition } from "../../services/thunk/burger-constructor";
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TConstructorIngredient } from "../../utils/types";
 
 export default function BurgerConstructor() {
     const { bun, ingredients, isDisabledOrderButton } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
     const userData = useSelector(userInfoSelector);
     const location = useLocation();
@@ -51,7 +52,7 @@ export default function BurgerConstructor() {
     const borderColor = isHover ? 'lightgreen' : 'transparent';
 
     // sorting inside constructor
-    const moveIngredient = useCallback((dragIndex, hoverIndex) => {
+    const moveIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
         dispatch(changeIngrideintPosition(dragIndex, hoverIndex))
     }, [dispatch]);
 
@@ -61,9 +62,9 @@ export default function BurgerConstructor() {
             return null;
         }
 
-        const ids = [...ingredients
-          .filter(item => item.type !== BUN_TYPE)
-          .map(item => item._id),
+        const ids: string[] = [...ingredients
+          .filter((item: { type: string; }) => item.type !== BUN_TYPE)
+          .map((item: { _id: string; }) => item._id),
           bun._id
         ];
 
@@ -80,7 +81,7 @@ export default function BurgerConstructor() {
 
     const totalPrice = useMemo(
         () =>
-            ingredients.reduce((total, item) => {
+            ingredients.reduce((total: number, item: TConstructorIngredient) => {
                 if (item.type !== BUN_TYPE) {
                     return total + item.price;
                 }
@@ -101,7 +102,7 @@ export default function BurgerConstructor() {
         );
     }
 
-    const renderIngredient = useCallback((item, index) => {
+    const renderIngredient = useCallback((item: TConstructorIngredient, index: number) => {
         return (
             <li
                 key={ item.uuid }
@@ -138,7 +139,7 @@ export default function BurgerConstructor() {
                         <li className={` ${ BurgerConstructorStyles.listItem } ml-6 mr-2`}>
                             Просто добавь воды
                         </li>
-                    : ingredients.map((item, index) => renderIngredient(item, index))
+                    : ingredients.map((item: TConstructorIngredient, index: number) => renderIngredient(item, index))
                 }
             </ul>
             <ul>

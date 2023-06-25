@@ -16,8 +16,18 @@ export type TIngredient = {
     image_mobile: string,
     image_large: string,
     __v: number
+    qty?: number
 }
 
 export type TConstructorIngredient = TIngredient & {
-    uuid: string
+    uuid: string,
+    index?: number,
+}
+
+export type TModalBackDrop = {
+    onClick: () => void;
+}
+
+export type TListItem = {
+    item: TIngredient;
 }

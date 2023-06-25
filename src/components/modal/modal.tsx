@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import ModalBackDrop from '../modal-back-drop/modal-back-drop'
+import { ModalBackDrop} from '../modal-back-drop/modal-back-drop'
 import { IModalProps } from "../../utils/interfaces"
 
 import ModalStyles from './modal.module.css';
