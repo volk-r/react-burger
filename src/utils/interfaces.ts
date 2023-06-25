@@ -52,9 +52,3 @@ export interface IBurgerConstructorItem {
     burgerConstructorItem: TConstructorIngredient;
     moveIngredient: (dragIndex: number, hoverIndex: number) => void;
 }
-
-export interface IBurgerConstructor {
-    index: number;
-    burgerConstructorItem: TConstructorIngredient;
-    moveIngredient: (dragIndex: number, hoverIndex: number) => void;
-}
