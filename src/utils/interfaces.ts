@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import { TConstructorIngredient, TIngredient } from "./types";
-import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 
 export interface IModalProps {
     header: string;
