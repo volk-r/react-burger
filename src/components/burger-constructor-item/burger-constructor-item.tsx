@@ -1,5 +1,7 @@
 import React, { CSSProperties, DragEventHandler, memo, useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import type { Identifier } from 'dnd-core'
+
 import { ITEM_TYPES } from '../../utils/constants'
 import {
     ConstructorElement,
@@ -27,7 +29,7 @@ export const BurgerConstructorItem = memo((props: IBurgerConstructorItem) => {
 
     const ref = useRef<HTMLDivElement>(null);
 
-    const [{ handlerId }, drop] = useDrop({
+    const [{ handlerId }, drop] = useDrop<IBurgerConstructorItem, void, { handlerId: Identifier | null }>({
         // Указываем тип получаемых элементов, чтобы dnd понимал,
         // в какой контейнер можно класть перетаскиваемый элемент, а в какой нельзя.
         // Элементы и контейнеры с разными типами не будут взаимодействовать
@@ -39,7 +41,9 @@ export const BurgerConstructorItem = memo((props: IBurgerConstructorItem) => {
         },
         // Вызывается, когда перетаскиваемый элемент оказывается над ингредиентом,
         // индекс которого у нас задан в пропсах props.index
-        hover(item: any, monitor) {
+        hover(item: {
+                index: number;
+            }, monitor) {
             if (!ref.current) {
                 return;
             }
