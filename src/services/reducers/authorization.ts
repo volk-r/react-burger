@@ -12,9 +12,19 @@ import {
     CLOSE_USER_SESSION_SUCCESS,
     CLOSE_USER_SESSION_FAILED,
     RESET_PASSWORD_EMAIL,
+    TAuthorizationActions,
 } from '../actions/authorization';
+import { TUser } from "../../utils/types";
 
-const initialState = {
+type TAuthorizationState = {
+    user              : TUser,
+    request           : boolean,
+    requestFailed     : boolean,
+    message           : string | null,
+    resetPasswordEmail: string | null,
+}
+
+const initialState: TAuthorizationState = {
     user              : null,
     request           : false,
     requestFailed     : false,
@@ -22,7 +32,7 @@ const initialState = {
     resetPasswordEmail: null,
 }
 
-export const authorizationReducer = (state = initialState, action) => {
+export const authorizationReducer = (state = initialState, action: TAuthorizationActions): TAuthorizationState => {
     switch (action.type) {
         case AUTHORIZATION_PROCESS: {
             return {

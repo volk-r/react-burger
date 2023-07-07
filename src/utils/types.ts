@@ -31,3 +31,9 @@ export type TModalBackDrop = {
 export type TListItem = {
     item: TIngredient;
 }
+
+export type TUser = {
+    name: string;
+    email: string;
+    password?: string;
+} | null
