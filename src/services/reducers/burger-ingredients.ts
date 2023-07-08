@@ -3,17 +3,27 @@ import {
     GET_INGREDIENTS_FAILED,
     GET_INGREDIENTS_SUCCESS,
     INCREASE_INGREDIENTS_ITEM,
-    DECREASE_INGREDIENTS_ITEM,
+    DECREASE_INGREDIENTS_ITEM, TIngredientsActions,
 } from '../actions/burger-ingredients';
 import { BUN_TYPE } from "../../utils/constants";
+import { TIngredient } from "../../utils/types";
 
-const initialState = {
+type TIngredientsState = {
+    ingredientsRequest: boolean,
+    ingredientsFailed: boolean,
+    burgerIngredients: {
+        bun: TIngredient | {},
+        ingredients: Array<TIngredient>
+    },
+}
+
+const initialState: TIngredientsState = {
     ingredientsRequest: false,
     ingredientsFailed: false,
     burgerIngredients: { bun: {}, ingredients: [] },
 }
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions): TIngredientsState => {
     switch (action.type) {
         case GET_INGREDIENTS: {
             return {
@@ -25,7 +35,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state,
-                burgerIngredients: action.ingredients,
+                burgerIngredients: action.payload.burgerIngredients,
                 ingredientsRequest: false
             };
         }
@@ -39,14 +49,14 @@ export const ingredientsReducer = (state = initialState, action) => {
         case INCREASE_INGREDIENTS_ITEM: {
             let ingredients = state.burgerIngredients.ingredients;
 
-            if (action.item.type === BUN_TYPE) {
+            if (action.payload.item.type === BUN_TYPE) {
                 ingredients = ingredients.map(item =>
                     item.type === BUN_TYPE ? { ...item, qty: item.qty ? --item.qty : 0 } : item
                 )
             }
 
             ingredients = ingredients.map(item =>
-                item._id === action.item._id ? { ...item, qty: item.qty ? ++item.qty : 1 } : item
+                item._id === action.payload.item._id ? { ...item, qty: item.qty ? ++item.qty : 1 } : item
             )
 
             return {
@@ -63,7 +73,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 burgerIngredients: {
                     ...state.burgerIngredients,
                     ingredients: state.burgerIngredients.ingredients.map(item =>
-                        item._id === action.item._id ? { ...item, qty: item.qty ? --item.qty : 0 } : item
+                        item._id === action.payload.item._id ? { ...item, qty: item.qty ? --item.qty : 0 } : item
                     )
                 }
             };

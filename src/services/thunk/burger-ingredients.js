@@ -25,7 +25,9 @@ export function getIngredientsList() {
         getIngredients().then( data  => {
             dispatch({
                 type: GET_INGREDIENTS_SUCCESS,
-                ingredients: { bun: data.filter((item) => item.type === BUN_TYPE).pop(), ingredients: data }
+                payload: {
+                    burgerIngredients: { bun: data.filter((item) => item.type === BUN_TYPE).pop(), ingredients: data }
+                }
             })
         }).catch( err => {
             dispatch({
@@ -37,10 +39,14 @@ export function getIngredientsList() {
 
 export const increaseIngrideintsCount = (item) => ({
     type: INCREASE_INGREDIENTS_ITEM,
-    item
+    payload: {
+        item
+    }
 });
 
 export const decreaseIngrideintsCount = (item) => ({
     type: DECREASE_INGREDIENTS_ITEM,
-    item
+    payload: {
+        item
+    }
 });

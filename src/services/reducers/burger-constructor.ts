@@ -1,5 +1,5 @@
 import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR, IBurgerConstructorActions,
+    ADD_INGREDIENT_TO_CONSTRUCTOR, TBurgerConstructorActions,
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
     UPDATE_INGREDIENT_POSITION,
 } from '../actions/burger-constructor';
@@ -34,7 +34,7 @@ const initialState: TBurgerConstructorState = {
     isDisabledOrderButton: false,
 }
 
-export const burgerConstructorReducer = (state = initialState, action: IBurgerConstructorActions): TBurgerConstructorState => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
     switch (action.type) {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
