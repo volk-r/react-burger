@@ -8,18 +8,24 @@ import uuid from 'react-uuid'
 export const addItemToConstructor = (item) => ({
     type: ADD_INGREDIENT_TO_CONSTRUCTOR,
     payload: {
-        ...item,
-        uuid: uuid()
+        item: {
+            ...item,
+            uuid: uuid()
+        }
     }
 });
 
 export const removeItemFromConstructor = (item) => ({
     type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-    item,
+    payload: {
+        item,
+    }
 });
 
 export const changeIngrideintPosition = (dragIndex, hoverIndex) => ({
     type: UPDATE_INGREDIENT_POSITION,
-    dragIndex,
-    hoverIndex,
+    payload: {
+        dragIndex,
+        hoverIndex,
+    }
 });
