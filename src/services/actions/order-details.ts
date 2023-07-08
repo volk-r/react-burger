@@ -23,7 +23,7 @@ export interface IResetOrderNumberAction {
 }
 
 export type TOrderDetailsActions =
-    | IGetOrderNumberAction
+    IGetOrderNumberAction
     | IGetOrderNumberSuccessAction
     | IGetOrderNumberFailedAction
     | IResetOrderNumberAction

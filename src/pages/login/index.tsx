@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import { useForm } from '../../hooks/useForm';
 
 import styles from '../login/login.module.css';
@@ -16,11 +16,11 @@ import { ErrorOnForm } from '../../components/error-on-form'
 import { authorization } from '../../services/thunk/authorization';
 import { authDataErrorSelector } from '../../services/selectors';
 import { ROUTES } from "../../utils/constants";
-import {IUseForm} from "../../utils/interfaces";
+import { IUseForm } from "../../utils/interfaces";
 
 export default function LoginPage() {
     const navigate = useNavigate();
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const message: string | null = useSelector(authDataErrorSelector);
     const { formValues, handleChange }: IUseForm = useForm({ email: '', password: '' });
 

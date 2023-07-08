@@ -9,9 +9,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { decreaseIngrideintsCount } from "../../services/thunk/burger-ingredients";
 import { removeItemFromConstructor } from "../../services/thunk/burger-constructor";
-import { useDispatch } from "react-redux";
 import { IBurgerConstructorItem } from "../../utils/interfaces";
 import { TConstructorIngredient } from "../../utils/types";
+import { useDispatch } from '../../services/types/hooks';
 
 const style: CSSProperties = {
     cursor: 'move',
@@ -20,7 +20,7 @@ const style: CSSProperties = {
 
 export const BurgerConstructorItem = memo((props: IBurgerConstructorItem) => {
     const { index, burgerConstructorItem, moveIngredient } = props;
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const handleDeleteItem = (item: TConstructorIngredient) => {
         dispatch(decreaseIngrideintsCount(item));

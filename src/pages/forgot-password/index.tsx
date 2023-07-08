@@ -10,11 +10,11 @@ import {
 import AppHeader from "../../components/header/header";
 import { restorePassword } from "../../utils/burger-api";
 import { ErrorOnForm } from "../../components/error-on-form";
-import { useDispatch } from "react-redux";
 import { resetPassword } from "../../services/thunk/authorization";
 import { useForm } from "../../hooks/useForm";
 import { ROUTES } from "../../utils/constants";
 import { IUseForm } from "../../utils/interfaces";
+import { useDispatch } from '../../services/types/hooks';
 
 export default function ForgotPasswordPage() {
     const dispatch = useDispatch();
@@ -26,8 +26,6 @@ export default function ForgotPasswordPage() {
         e.preventDefault();
         restorePassword(formValues.email).then (response => {
             if (response === 'Reset email sent') {
-                // TODO
-                // @ts-ignore
                 dispatch(resetPassword(formValues.email))
                 navigate( ROUTES.ROUTE_RESET_PASSWORD_PAGE );
                 return;

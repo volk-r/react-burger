@@ -27,7 +27,7 @@ export interface IBurgerConstructorUpdateAction {
 }
 
 export type TBurgerConstructorActions =
-    | IBurgerConstructorAddAction
+    IBurgerConstructorAddAction
     | IBurgerConstructorRemoveAction
     | IBurgerConstructorUpdateAction
 ;

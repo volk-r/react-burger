@@ -22,9 +22,11 @@ import {
     accountAuthorization,
     closeSession,
 } from "../../utils/burger-api";
+import { IFormValues } from "../../utils/interfaces";
+import { AppDispatch } from "../types";
 
-export function authorization(form) {
-    return function (dispatch) {
+export function authorization(form: IFormValues) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: AUTHORIZATION_PROCESS
         })
@@ -48,8 +50,8 @@ export function authorization(form) {
     }
 }
 
-export function registration(form) {
-    return function (dispatch) {
+export function registration(form: IFormValues) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: AUTHORIZATION_PROCESS
         })
@@ -74,71 +76,63 @@ export function registration(form) {
 }
 
 export function getUserData() {
-    return function (dispatch) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: GET_USER_DATA
         })
 
-        userData().then( data => {
-            dispatch({
-                type: GET_USER_DATA_SUCCESS,
-                payload: {
-                    user: data.user,
-                },
-            })
-        }).catch( error => {
-            if (error.message === 'jwt expired') {
-                dispatch(refreshToken(getUserData()));
-            } else {
+        refreshTokenRequest().then((res) => {
+            saveTokens(res.refreshToken, res.accessToken);
+
+            userData().then( data => {
+                dispatch({
+                    type: GET_USER_DATA_SUCCESS,
+                    payload: {
+                        user: data.user,
+                    },
+                })
+            }).catch( error => {
                 dispatch({
                     type: GET_USER_DATA_FAILED,
                     payload: {
                         message: error.message,
                     },
                 })
-            }
+            })
         })
     }
 }
 
-const refreshToken = (afterRefresh) => (dispatch) => {
-    refreshTokenRequest()
-        .then((res) => {
-            saveTokens(res.refreshToken, res.accessToken);
-            dispatch(afterRefresh);
-        })
-};
-
-export function updateUserData(newUseData) {
-    return function (dispatch) {
+export function updateUserData(newUseData: IFormValues) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: UPDATE_USER_DATA
         })
 
-        userData(newUseData).then( data => {
-            dispatch({
-                type: UPDATE_USER_DATA_SUCCESS,
-                payload: {
-                    user: data.user,
-                },
-            })
-        }).catch( error => {
-            if (error.message === 'jwt expired') {
-                dispatch(refreshToken(updateUserData(newUseData)));
-            } else {
+        refreshTokenRequest().then((res) => {
+            saveTokens(res.refreshToken, res.accessToken);
+
+            userData(newUseData).then( data => {
+                dispatch({
+                    type: UPDATE_USER_DATA_SUCCESS,
+                    payload: {
+                        user: data.user,
+                    },
+                })
+            }).catch( error => {
                 dispatch({
                     type: UPDATE_USER_DATA_FAILED,
                     payload: {
                         message: error.message,
                     },
                 })
-            }
+            })
         })
     }
 }
 
 export function closeCurrentSession() {
-    return function (dispatch) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: CLOSE_USER_SESSION
         })
@@ -159,8 +153,8 @@ export function closeCurrentSession() {
     }
 }
 
-export function resetPassword(email) {
-    return function (dispatch) {
+export function resetPassword(email: string) {
+    return function (dispatch: AppDispatch) {
         cleanupTokenData();
         dispatch({
             type: RESET_PASSWORD_EMAIL,

@@ -6,7 +6,7 @@ import {
     TOrderDetailsActions,
 } from "../actions/order-details";
 
-type TOrderDetailsSate = {
+export type TOrderDetailsSate = {
     orderNumber: number | null,
     isLoading: boolean,
     hasError: boolean,

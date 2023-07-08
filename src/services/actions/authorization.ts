@@ -91,7 +91,7 @@ export interface IResetPasswordEmailAction {
 }
 
 export type TAuthorizationActions =
-    | IAuthorizationAction
+    IAuthorizationAction
     | IAuthorizationSuccessAction
     | IAuthorizationFailedAction
     | IUserDataAction

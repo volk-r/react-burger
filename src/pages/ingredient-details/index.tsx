@@ -1,5 +1,5 @@
 import React, {ReactElement, useEffect} from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import {
     hasErrorIngredientsSelector,
     ingredientsSelector,
@@ -11,8 +11,9 @@ import styles from "./ingredient-details.module.css";
 import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 import { TIngredient } from "../../utils/types";
 
+
 export default function IngredientDetailsPage() {
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getIngredientsList())

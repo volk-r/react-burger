@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import styles from "./profile.module.css";
 
 import AppHeader from "../header/header";
-import { useDispatch, useSelector } from "react-redux";
 import { closeCurrentSession } from "../../services/thunk/authorization";
 import { authDataErrorSelector } from "../../services/selectors";
 import { ErrorOnForm } from "../error-on-form";
@@ -17,9 +16,10 @@ import {
     Route,
 } from 'react-router-dom';
 import { TActiveLinkProps } from "../../utils/types";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 
 export const Profile = memo(() => {
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const setActiveLink = ({ isActive }: TActiveLinkProps) => isActive ? styles.activeLink : styles.inactiveLink;
 
     const message = useSelector(authDataErrorSelector);

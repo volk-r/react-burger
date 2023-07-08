@@ -2,8 +2,8 @@ import React from 'react';
 
 import DoneLogo from "../../images/done.svg";
 import OrderDetailsStyles from "./order-details.module.css";
-import { useSelector } from "react-redux";
 import { orderSelector } from "../../services/selectors";
+import { useSelector } from '../../services/types/hooks';
 
 export default function OrderDetails() {
     const { orderNumber } = useSelector(orderSelector);

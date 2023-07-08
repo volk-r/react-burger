@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 
 import styles from "./registration.module.css";
 import {
@@ -19,7 +19,7 @@ import { ROUTES } from "../../utils/constants";
 import { IUseForm } from "../../utils/interfaces";
 
 export default function RegistrationPage() {
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { formValues, handleChange }: IUseForm = useForm({ name: '', email: '', password: '' });
     const message: string | null = useSelector(authDataErrorSelector);

@@ -15,7 +15,6 @@ import {
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
 import { ITEM_TYPES } from "../../utils/constants";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { burgerConstructorIngredientsSelector, orderSelector, userInfoSelector } from "../../services/selectors";
 import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
@@ -25,11 +24,12 @@ import { changeIngrideintPosition } from "../../services/thunk/burger-constructo
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TConstructorIngredient } from "../../utils/types";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 
 export default function BurgerConstructor() {
     const { bun, ingredients, isDisabledOrderButton } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const userData = useSelector(userInfoSelector);
     const location = useLocation();
@@ -40,7 +40,7 @@ export default function BurgerConstructor() {
 
     const [{isHover}, dropTarget] = useDrop({
         accept: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
-        drop(item) {
+        drop(item: TConstructorIngredient) {
             dispatch(addItemToConstructor(item))
             dispatch(increaseIngrideintsCount(item));
         },

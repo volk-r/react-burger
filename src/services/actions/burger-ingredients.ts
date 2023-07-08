@@ -39,7 +39,7 @@ export interface IDecreaseIngredientsAction {
 }
 
 export type TIngredientsActions =
-    | IGetIngredientsAction
+    IGetIngredientsAction
     | IGetIngredientsSuccessAction
     | IGetIngredientsFailedAction
     | IIncreaseIngredientsAction

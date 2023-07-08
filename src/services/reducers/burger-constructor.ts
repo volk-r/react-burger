@@ -8,7 +8,7 @@ import UnknownBun from "../../images/bun-unknown.png";
 import update from 'immutability-helper';
 import { TConstructorIngredient } from "../../utils/types";
 
-type TBurgerConstructorState = {
+export type TBurgerConstructorState = {
     bun: TConstructorIngredient,
     ingredients: Array<TConstructorIngredient>,
     isDisabledOrderButton: boolean,

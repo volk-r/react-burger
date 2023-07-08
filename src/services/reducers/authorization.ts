@@ -16,7 +16,7 @@ import {
 } from '../actions/authorization';
 import { TUser } from "../../utils/types";
 
-type TAuthorizationState = {
+export type TAuthorizationState = {
     user              : TUser,
     request           : boolean,
     requestFailed     : boolean,
