@@ -7,14 +7,14 @@ export const UPDATE_INGREDIENT_POSITION: 'UPDATE_INGREDIENT_POSITION' = 'UPDATE_
 export interface IBurgerConstructorAddAction {
     readonly type: typeof ADD_INGREDIENT_TO_CONSTRUCTOR;
     readonly payload: {
-        item: TConstructorIngredient,
+        readonly item: TConstructorIngredient,
     };
 }
 
 export interface IBurgerConstructorRemoveAction {
     readonly type: typeof REMOVE_INGREDIENT_FROM_CONSTRUCTOR;
     readonly payload: {
-        item: TConstructorIngredient,
+        readonly item: TConstructorIngredient,
     };
 }
 

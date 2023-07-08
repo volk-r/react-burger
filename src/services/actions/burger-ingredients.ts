@@ -14,8 +14,8 @@ export interface IGetIngredientsSuccessAction {
     readonly type: typeof GET_INGREDIENTS_SUCCESS;
     readonly payload: {
         readonly burgerIngredients: {
-            bun: TIngredient,
-            ingredients: Array<TIngredient>
+            readonly bun: TIngredient,
+            readonly ingredients: Array<TIngredient>
         },
     };
 }
@@ -27,14 +27,14 @@ export interface IGetIngredientsFailedAction {
 export interface IIncreaseIngredientsAction {
     readonly type: typeof INCREASE_INGREDIENTS_ITEM;
     readonly payload: {
-        item: TIngredient,
+        readonly item: TIngredient,
     };
 }
 
 export interface IDecreaseIngredientsAction {
     readonly type: typeof DECREASE_INGREDIENTS_ITEM;
     readonly payload: {
-        item: TIngredient,
+        readonly item: TIngredient,
     };
 }
 

@@ -10,16 +10,14 @@ export function getOrderNumber(ids) {
     return function(dispatch) {
         dispatch({
             type: GET_ORDER_NUMBER,
-            isLoading: true,
-            hasError: false,
         })
 
         makeOrder(ids).then( data  => {
             dispatch({
                 type: GET_ORDER_NUMBER_SUCCESS,
-                orderNumber: data,
-                isLoading: false,
-                hasError: false,
+                payload: {
+                    orderNumber: data,
+                }
             })
         }).catch( err => {
             if (err.message === 'jwt expired') {
@@ -27,9 +25,6 @@ export function getOrderNumber(ids) {
             } else {
                 dispatch({
                     type: GET_ORDER_NUMBER_FAILED,
-                    orderNumber: null,
-                    isLoading: false,
-                    hasError: true,
                 })
             }
         })
