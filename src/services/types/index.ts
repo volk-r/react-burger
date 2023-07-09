@@ -1,5 +1,4 @@
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { Action, ActionCreator } from "redux";
 import store from '../store';
 import { TAuthorizationActions } from "../actions/authorization";
 import { TBurgerConstructorActions } from "../actions/burger-constructor";
