@@ -81,27 +81,35 @@ export function getUserData() {
             type: GET_USER_DATA
         })
 
-        refreshTokenRequest().then((res) => {
-            saveTokens(res.refreshToken, res.accessToken);
-
-            userData().then( data => {
-                dispatch({
-                    type: GET_USER_DATA_SUCCESS,
-                    payload: {
-                        user: data.user,
-                    },
-                })
-            }).catch( error => {
+        userData().then( data => {
+            dispatch({
+                type: GET_USER_DATA_SUCCESS,
+                payload: {
+                    user: data.user,
+                },
+            })
+        }).catch( error => {
+            if (error.message === 'jwt expired') {
+                dispatch(refreshToken(getUserData()));
+            } else {
                 dispatch({
                     type: GET_USER_DATA_FAILED,
                     payload: {
                         message: error.message,
                     },
                 })
-            })
+            }
         })
     }
 }
+
+const refreshToken = (afterRefresh: { (dispatch: AppDispatch): void; (dispatch: AppDispatch): void; }) => (dispatch: AppDispatch) => {
+    refreshTokenRequest()
+        .then((res) => {
+            saveTokens(res.refreshToken, res.accessToken);
+            dispatch(afterRefresh);
+        })
+};
 
 export function updateUserData(newUseData: IFormValues) {
     return function (dispatch: AppDispatch) {
@@ -109,24 +117,24 @@ export function updateUserData(newUseData: IFormValues) {
             type: UPDATE_USER_DATA
         })
 
-        refreshTokenRequest().then((res) => {
-            saveTokens(res.refreshToken, res.accessToken);
-
-            userData(newUseData).then( data => {
-                dispatch({
-                    type: UPDATE_USER_DATA_SUCCESS,
-                    payload: {
-                        user: data.user,
-                    },
-                })
-            }).catch( error => {
+        userData(newUseData).then( data => {
+            dispatch({
+                type: UPDATE_USER_DATA_SUCCESS,
+                payload: {
+                    user: data.user,
+                },
+            })
+        }).catch( error => {
+            if (error.message === 'jwt expired') {
+                dispatch(refreshToken(updateUserData(newUseData)));
+            } else {
                 dispatch({
                     type: UPDATE_USER_DATA_FAILED,
                     payload: {
                         message: error.message,
                     },
                 })
-            })
+            }
         })
     }
 }
@@ -137,7 +145,7 @@ export function closeCurrentSession() {
             type: CLOSE_USER_SESSION
         })
 
-        closeSession().then( data => {
+        closeSession().then( () => {
             cleanupTokenData();
             dispatch({
                 type: CLOSE_USER_SESSION_SUCCESS,
