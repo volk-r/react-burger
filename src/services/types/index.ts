@@ -14,8 +14,5 @@ export type TApplicationActions =
 ;
 
 export type RootState = ReturnType<typeof store.getState>;
-
-export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
-
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>
