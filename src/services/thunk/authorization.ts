@@ -108,6 +108,13 @@ const refreshToken = (afterRefresh: { (dispatch: AppDispatch): void; (dispatch: 
         .then((res) => {
             saveTokens(res.refreshToken, res.accessToken);
             dispatch(afterRefresh);
+        }).catch( error => {
+            dispatch({
+                type: GET_USER_DATA_FAILED,
+                payload: {
+                    message: error.message,
+                },
+            })
         })
 };
 
