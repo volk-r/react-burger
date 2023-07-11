@@ -19,6 +19,7 @@ import { Profile } from '../profile';
 import IngredientDetailsPage from '../../pages/ingredient-details/';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import FeedPage from "../../pages/feed";
 
 export default function App() {
     const navigate = useNavigate();
@@ -40,6 +41,7 @@ export default function App() {
                     <Route path={ ROUTES.ROUTE_RESET_PASSWORD_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<ResetPasswordPage />}/>} />
                     <Route path={ ROUTES.ROUTE_PROFILE_ROOT } element={<ProtectedRouteElement element={<Profile />}/>} />
                     <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />
+                    <Route path={ ROUTES.ROUTE_FEED_PAGE } element={<FeedPage />} />
                     <Route path="*" element={<NotFound404 />} />
                 </Routes>
                 {background && (

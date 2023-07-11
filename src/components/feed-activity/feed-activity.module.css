@@ -1,0 +1,54 @@
+.container {
+    width: 45%;
+    max-width: 50%;
+    height: 730px;
+    min-height: 200px;
+    /* interface/bg */
+    background: #131316;
+    /* interface/accent */
+    border: 2px solid;
+    border-radius: 4px;
+    background: none;
+}
+
+.listContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.priceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.feedContainer {
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    max-height: 180px;
+    min-height: 180px;
+    min-width: 30%;
+    width: 70%;
+    overflow: auto;
+
+    border: 2px solid;
+    border-radius: 4px;
+    background: none;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+    background: #131316;
+}
+
+.doneOrder {
+    color: #00CCCC;
+}
+
+.shadow {
+    text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}

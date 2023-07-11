@@ -47,7 +47,7 @@ export const Profile = memo(() => {
                             </li>
                             <li>
                                 <NavLink
-                                    to={{ pathname: ROUTES.ROUTE_ORDER_LIST_PAGE }}
+                                    to={{ pathname: NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE }}
                                     className={ setActiveLink }
                                 >
                                     <p className="text text_type_main-medium">

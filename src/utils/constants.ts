@@ -29,8 +29,9 @@ export const ROUTES = {
     ROUTE_RESET_PASSWORD_PAGE    : '/reset-password',
     ROUTE_PROFILE_ROOT           : '/profile/*',
     ROUTE_PROFILE_PAGE           : '/profile/',
-    ROUTE_ORDER_LIST_PAGE        : '/profile/orders',//todo: may be overhead
+    // ROUTE_ORDER_LIST_PAGE        : '/profile/orders',//todo: may be overhead
     ROUTE_INGREDIENT_DETAILS_PAGE: '/ingredients/:ingredientid',
+    ROUTE_FEED_PAGE              : '/feed',
 }
 
 export const NESTED_ROUTES = {

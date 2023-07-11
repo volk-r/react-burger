@@ -1,0 +1,12 @@
+.box {
+    display: flex;
+    /*position: absolute;*/
+
+    max-width: 85%;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-bottom: 5%;
+
+    align-items: center;
+    justify-content: space-evenly;
+}
