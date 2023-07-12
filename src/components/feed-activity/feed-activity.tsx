@@ -10,21 +10,25 @@ export default function FeedActivity(props: any) { // TODO
         <section className={ Styles.container }>
             <p className="p-1 mt-10 mb-3 text text_type_main-large"></p>
             <section className={` ${ Styles.listContainer } mt-7`}>
-                <div className={` ${ Styles.feedContainer } mr-4 custom-scroll`}>
+                <div className={` ${ Styles.feedContainer } mr-4`}>
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>Готовы:</p>
-                    {[2, 3, 4, 5, 35].map(() => {
-                        return <p className={`${ Styles.doneOrder } text text_type_digits-default`}>
-                            {total}
-                        </p>
-                    })}
+                    <div className={` ${ Styles.feedContainerList } mr-4`}>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13 ,14 ,15 ,16,17 ,18 ,19 ,20 ,21, 22].map((item) => {
+                            return <p className={`${ Styles.doneOrder } text text_type_digits-default`}>
+                                {total}
+                            </p>
+                        })}
+                    </div>
                 </div>
-                <div className={` ${ Styles.feedContainer } custom-scroll`}>
+                <div className={` ${ Styles.feedContainer }`}>
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>В работе:</p>
-                    {[2, 3, 4, 5, 35].map(() => {
-                        return <p className={`text text_type_digits-default`}>
-                            {totalToday}
-                        </p>
-                    })}
+                    <div className={` ${ Styles.feedContainerList } mr-4`}>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13 ,14 ,15 ,16,17 ,18 ,19 ,20 ,21, 22].map((item) => {
+                            return <p className={`text text_type_digits-default`}>
+                                {totalToday}
+                            </p>
+                        })}
+                    </div>
                 </div>
             </section>
             <section className={` ${ Styles.priceContainer }`}>

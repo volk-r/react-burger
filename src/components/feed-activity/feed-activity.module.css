@@ -3,12 +3,7 @@
     max-width: 50%;
     height: 730px;
     min-height: 200px;
-    /* interface/bg */
     background: #131316;
-    /* interface/accent */
-    border: 2px solid;
-    border-radius: 4px;
-    background: none;
 }
 
 .listContainer {
@@ -28,15 +23,16 @@
     flex-direction: column;
     justify-content: space-evenly;
 
-    max-height: 180px;
-    min-height: 180px;
+    min-height: 160px;
+    height: 165px;
     min-width: 30%;
     width: 70%;
-    overflow: auto;
+    overflow: hidden;
+}
 
-    border: 2px solid;
-    border-radius: 4px;
-    background: none;
+.feedContainerList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .sticky {
