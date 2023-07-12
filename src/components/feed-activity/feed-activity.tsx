@@ -1,12 +1,11 @@
 import React, { useMemo, useCallback } from 'react';
 import Styles from './feed-activity.module.css'
-import { TConstructorIngredient } from "../../utils/types";
 import { useDispatch, useSelector } from '../../services/types/hooks';
 
 export default function FeedActivity(props: any) { // TODO
     const { orders, total, totalToday } = props;
 
-    let temArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13 ,14 ,15 ,16,17 ,18 ,19 ,20 ,21, 22];
+    let temArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13 ,14 ,15 ,16,17 ,18 ,19 ,20 ,21, 22];// todo
 
     return (
         <section className={ Styles.container }>
@@ -16,7 +15,7 @@ export default function FeedActivity(props: any) { // TODO
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>Готовы:</p>
                     <div className={` ${ Styles.feedContainerList } mr-4`}>
                         {temArray.map((item) => {
-                            return <p className={`${ Styles.y } text text_type_digits-default`}>
+                            return <p className={`${ Styles.doneOrder } text text_type_digits-default`}>
                                 {total}
                             </p>
                         })}

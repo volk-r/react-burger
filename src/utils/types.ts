@@ -37,3 +37,33 @@ export type TUser = {
     email: string;
     password?: string;
 } | null
+
+export enum EOrderStatus {
+    done = 'done',
+    created = 'created',
+    pending = 'pending',
+    canceled = 'canceled'
+}
+
+export type TOrderItemProps = {
+    item: TOrder,
+    handleClick: (item: TOrder) => void,
+    showStatus?: boolean,
+}
+
+export type TOrder = {
+    _id: string;
+    ingredients: TIngredient[];
+    "owner": {
+        "name": string,
+        "email": string,
+        "createdAt": string,
+        "updatedAt": string
+    },
+    status: EOrderStatus;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+    price: number;
+}

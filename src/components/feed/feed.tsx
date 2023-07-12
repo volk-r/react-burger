@@ -1,10 +1,19 @@
-import React from 'react';
-import { INGREDIENT_CATEGORIES } from '../../utils/constants';
+import React, { useCallback, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom'
 import Styles from './feed.module.css'
-
 import { useSelector } from '../../services/types/hooks';
+import { TOrder } from '../../utils/types';
+import { OrderItem } from "../order-item/order-item";
 
-export default function Feed() {
+export default function Feed(props: any) { // TODO
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const { orders }: { orders: TOrder[]} = props;
+
+    const handleOrderClick = useCallback((item: TOrder) => {
+        navigate(`/feed/${item._id}`, { state: { previousLocation: location } })
+    }, [navigate, location])
 
     return (
         <>
@@ -12,21 +21,11 @@ export default function Feed() {
                 <p className="p-1 mt-7 mb-3 text text_type_main-large">
                     Лента заказов
                 </p>
-                {/*<div style={{ display: 'flex' }}>*/}
-                {/*    /!*{INGREDIENT_CATEGORIES.map((item, index) =>*!/*/}
-                {/*    /!*    <a key={item.type} href={`#${item.type}`} id={`tab_${item.type}`} data-tab={item.type} >*!/*/}
-                {/*    /!*    </a>*!/*/}
-                {/*    /!*)}*!/*/}
-                {/*</div>*/}
-                {/*<p className="text text_type_main-medium mb-5">*/}
-                {/*</p>*/}
-                <ul className={` ${ Styles.listContainer } custom-scroll`}>
-                    {INGREDIENT_CATEGORIES.map((item) =>
-                        <section key={item.type}>
-                            {/*<BurgerIngredientsList title={ item.name } list={ getList(item.type) } id={`section_${item.type}`} />*/}
-                        </section>
-                    )}
-                </ul>
+                <div className={` ${ Styles.items } custom-scroll`}>
+                    {orders.map(order => (
+                        <OrderItem key={order._id} item={order} handleClick={handleOrderClick}/>
+                    ))}
+                </div>
             </section>
         </>
     );
