@@ -1,48 +1,22 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import Styles from './order-item.module.css'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
-import { EOrderStatus, TIngredient, TOrderItemProps } from '../../utils/types'
+import { TIngredient, TOrderItemProps } from '../../utils/types'
+import { OrderStatus } from '../order-status/order-status'
 
 const MAX_INGREDINETS = 6
 
-export const OrderItem: FC<TOrderItemProps> = ({item, showStatus, handleClick}) => {
+export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) => {
     const more = item.ingredients.length - MAX_INGREDINETS
     const ingredients = item.ingredients.slice(0, MAX_INGREDINETS).reverse()
 
-    const ingredientsMap = item.ingredients;
-    const totalPrice = ingredients.reduce((acc, item: TIngredient) => {
+    const totalPrice = item.ingredients.reduce((acc, item: TIngredient) => {
         acc += item.price
         return acc
     }, 0)
 
-    type TProps = {
-        status: EOrderStatus,
-        className?: string
-    }
-
-    const configs: { [key in EOrderStatus]: { text: string, className?: string } } = {
-        [EOrderStatus.done]: {text: 'Выполнен', className: Styles.doneOrder},
-        [EOrderStatus.created]: {text: 'Создан'},
-        [EOrderStatus.pending]: {text: 'Готовится'},
-        [EOrderStatus.canceled]: {text: 'Отменен', className: Styles.cancelOrder}
-    }
-
-    const OrderStatus: FC<TProps> = ({status, className}) => {
-        const config = configs[status]
-
-        if (!config) {
-            return null
-        }
-
-        return (
-            <p className={` ${config.className} text text_type_main-default`}>{config.text}</p>
-        )
-    }
-
     return (
-        <div key={item._id} className={` ${Styles.item} p-6 mb-3`} onClick={() => {
-            handleClick(item)
-        }}>
+        <div key={item._id} className={` ${Styles.item} p-6 mb-3`}>
             <div className={Styles.between}>
                 <p className={` ${Styles.number} text text_type_digits-default`}>#{item.number}</p>
                 <FormattedDate className='text_type_main-default text_color_inactive' date={new Date(item.createdAt)}/>
@@ -76,4 +50,4 @@ export const OrderItem: FC<TOrderItemProps> = ({item, showStatus, handleClick}) 
             </div>
         </div>
     )
-}
+})

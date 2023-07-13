@@ -42,12 +42,11 @@ export enum EOrderStatus {
     done = 'done',
     created = 'created',
     pending = 'pending',
-    canceled = 'canceled'
+    cancelled = 'cancelled'
 }
 
 export type TOrderItemProps = {
     item: TOrder,
-    handleClick: (item: TOrder) => void,
     showStatus?: boolean,
 }
 

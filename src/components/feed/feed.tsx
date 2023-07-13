@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Styles from './feed.module.css'
 import { useSelector } from '../../services/types/hooks';
 import { TOrder } from '../../utils/types';
@@ -11,10 +11,6 @@ export default function Feed(props: any) { // TODO
 
     const { orders }: { orders: TOrder[]} = props;
 
-    const handleOrderClick = useCallback((item: TOrder) => {
-        navigate(`/feed/${item._id}`, { state: { previousLocation: location } })
-    }, [navigate, location])
-
     return (
         <>
             <section className={ Styles.container }>
@@ -23,7 +19,14 @@ export default function Feed(props: any) { // TODO
                 </p>
                 <div className={` ${ Styles.items } custom-scroll`}>
                     {orders.map(order => (
-                        <OrderItem key={order._id} item={order} handleClick={handleOrderClick}/>
+                        <Link
+                            key={ order._id }
+                            to={{ pathname: `/feed/${order._id}` }}
+                            state={{ background: location }}
+                            className={ Styles.isDisabled }
+                        >
+                            <OrderItem key={order._id} item={order}/>
+                        </Link>
                     ))}
                 </div>
             </section>

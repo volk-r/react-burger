@@ -13,3 +13,8 @@
     max-height: 600px;
     overflow: auto;
 }
+
+.isDisabled {
+    cursor: text;
+    color: inherit;
+}
