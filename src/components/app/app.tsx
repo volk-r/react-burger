@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary'
 import { ProtectedRouteElement } from '../protected-route';
-import { ROUTES } from '../../utils/constants'
+import { NESTED_ROUTES, ROUTES } from '../../utils/constants'
 
 import HomePage from '../../pages/home'
 import LoginPage from '../../pages/login'
@@ -45,6 +45,7 @@ export default function App() {
                     <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />
                     <Route path={ ROUTES.ROUTE_FEED_PAGE } element={<FeedPage />} />
                     <Route path={ ROUTES.ROUTE_FEED_DETAILS_PAGE } element={<FeedDetailsPage />} />
+                    <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`} element={<ProtectedRouteElement element={<FeedDetailsPage />} />} />// todo: looping with onlyUnAuth={ true }
                     <Route path="*" element={<NotFound404 />} />
                 </Routes>
                 {background && (
@@ -60,9 +61,17 @@ export default function App() {
                             <Modal header="" onClose={ () => {
                                 handleCloseModal(ROUTES.ROUTE_FEED_PAGE)
                             }}>
-                                <FeedDetails />
+                                <FeedDetails route={ROUTES.ROUTE_FEED_PAGE} />
                             </Modal>
                         } />
+                        <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`}
+                           element={
+                                <Modal header="" onClose={ () => {
+                                    handleCloseModal(`${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE}`)
+                                }}>
+                                    <FeedDetails route={`${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE}`} />
+                                </Modal>
+                        }/>
                     </Routes>
                 )}
             </ErrorBoundary>

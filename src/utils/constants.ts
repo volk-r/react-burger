@@ -29,7 +29,7 @@ export const ROUTES = {
     ROUTE_RESET_PASSWORD_PAGE    : '/reset-password',
     ROUTE_PROFILE_ROOT           : '/profile/*',
     ROUTE_PROFILE_PAGE           : '/profile/',
-    ROUTE_INGREDIENT_DETAILS_PAGE: '/ingredients/:ingredientid',
+    ROUTE_INGREDIENT_DETAILS_PAGE: '/ingredients/:ingredientId',
     ROUTE_FEED_PAGE              : '/feed',
     ROUTE_FEED_DETAILS_PAGE      : '/feed/:feedId',
 }
@@ -37,5 +37,5 @@ export const ROUTES = {
 export const NESTED_ROUTES = {
     PROFILE_USER_INFO           : "/",
     PROFILE_ORDER_LIST_PAGE     : "orders",
-    PROFILE_ORDER_DETAILS_PAGE  : 'orders/:ordersid',
+    PROFILE_ORDER_DETAILS_PAGE  : 'orders/:ordersId',
 }

@@ -9,8 +9,10 @@ import { useParams } from 'react-router-dom';
 import AppHeader from "../../components/header/header";
 import Styles from "./feed-details.module.css";
 import { FeedDetails } from "../../components/feed/components/feed-details/feed-details";
+import { ROUTES } from "../../utils/constants";
 
 export default function FeedDetailsPage() {
+    // TODO
     // const dispatch = useDispatch();
     //
     // useEffect(() => {
@@ -49,7 +51,7 @@ export default function FeedDetailsPage() {
             {/*    && selectedItem*/}
             {/*    &&*/}
                 <div className={ Styles.content }>
-                    <FeedDetails allignCenter={true} />
+                    <FeedDetails allignCenter={true} route={ROUTES.ROUTE_FEED_PAGE} />
                 </div>
             {/*}*/}
         </>

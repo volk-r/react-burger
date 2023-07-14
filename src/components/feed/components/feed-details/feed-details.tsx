@@ -11,16 +11,18 @@ import { TOrder } from "../../../../utils/types";
 import { orders } from "../../../../utils/data";
 
 type TFeedDetails = {
-    allignCenter?: boolean
+    allignCenter?: boolean,
+    route: string,
 }
 
 export const FeedDetails: FC<TFeedDetails> = ( props) => {
-    const { allignCenter } = props;
+    const { allignCenter, route } = props;
 
     const navigate = useNavigate();
-    const { feedId } = useParams();
+    const { feedId, ordersId } = useParams();
     // const orders: Array<TOrder> | [] = useSelector(ordersSelector);//todo
-    const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === feedId)
+    const searchID = feedId ?? ordersId;
+    const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === searchID)
 
     if (!selectedOrder) {
         navigate( ROUTES.ROUTE_FEED_PAGE , { replace: true })
@@ -53,7 +55,7 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
     return (
         <Link
             key={ selectedOrder._id }
-            to={{ pathname: `/feed/${selectedOrder._id}` }}
+            to={{ pathname: `${route}/${selectedOrder._id}` }}
             replace={ true }
             className={ Styles.isDisabled }
         >
