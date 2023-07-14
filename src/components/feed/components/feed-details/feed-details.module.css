@@ -3,6 +3,11 @@
     text-align: left;
 }
 
+.orderNumber {
+    transform: translate(0%, -90%);
+    text-align: left;
+}
+
 .thumb {
     position: absolute;
     background: #131316;

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import Styles from ".//feed-details.module.css";
 import { useSelector } from "react-redux";
 import { OrderStatus } from '../../../order-status/order-status'
@@ -6,14 +6,20 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from "../../../../utils/constants";
-import { TOrder, TIngredient } from "../../../../utils/types";
+import { TOrder } from "../../../../utils/types";
 
 import { orders } from "../../../../utils/data";
 
-export const FeedDetails: FC = () => {
+type TFeedDetails = {
+    allignCenter?: boolean
+}
+
+export const FeedDetails: FC<TFeedDetails> = ( props) => {
+    const { allignCenter } = props;
+
     const navigate = useNavigate();
     const { feedId } = useParams();
-    // const orders: Array<TOrder> | [] = useSelector(ordersSelector);
+    // const orders: Array<TOrder> | [] = useSelector(ordersSelector);//todo
     const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === feedId)
 
     if (!selectedOrder) {
@@ -42,6 +48,8 @@ export const FeedDetails: FC = () => {
         }
     });
 
+    const classOrderNumber = allignCenter ? 'mb-10' : `${Styles.orderNumber} mb-5`;
+
     return (
         <Link
             key={ selectedOrder._id }
@@ -49,8 +57,9 @@ export const FeedDetails: FC = () => {
             replace={ true }
             className={ Styles.isDisabled }
         >
+        <h1 className={`${classOrderNumber} text text_type_digits-default`}>#{selectedOrder.number}</h1>
         <div className={Styles.body}>
-            <p className='text text_type_main-medium mt-10 mb-3'>{selectedOrder.name}</p>
+            <p className='text text_type_main-medium mb-3'>{selectedOrder.name}</p>
             <OrderStatus status={selectedOrder.status} />
             <p className='text text_type_main-medium mt-10 mb-6'>Состав:</p>
             <div className={`${Styles.table} custom-scroll pr-6`}>

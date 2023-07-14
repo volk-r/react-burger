@@ -1,0 +1,25 @@
+.content {
+    width: 600px;
+    min-height: 538px;
+    transform: translate(79%, 10%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.errorBlock {
+    position: absolute;
+    background-color: red;
+    padding: 25px;
+    border-radius: 50px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
