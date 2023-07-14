@@ -14,8 +14,6 @@ export const FeedDetails: FC = () => {
     const navigate = useNavigate();
     const { feedId } = useParams();
     // const orders: Array<TOrder> | [] = useSelector(ordersSelector);
-    // TODO
-    // @ts-ignore
     const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === feedId)
 
     if (!selectedOrder) {

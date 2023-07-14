@@ -38,12 +38,12 @@ export type TUser = {
     password?: string;
 } | null
 
-export enum EOrderStatus {
-    done = 'done',
-    created = 'created',
-    pending = 'pending',
-    cancelled = 'cancelled'
-}
+export const EOrderStatus = {
+    done: 'done',
+    created: 'created',
+    pending: 'pending',
+    cancelled: 'cancelled'
+} as const
 
 export type TOrderItemProps = {
     item: TOrder,
@@ -59,7 +59,7 @@ export type TOrder = {
         "createdAt": string,
         "updatedAt": string
     },
-    status: EOrderStatus;
+    status: string;
     name: string;
     createdAt: string;
     updatedAt: string;

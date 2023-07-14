@@ -3,11 +3,11 @@ import Styles from './order-status.module.css'
 import { EOrderStatus } from '../../utils/types'
 
 type TProps = {
-    status: EOrderStatus,
+    status: string,
     className?: string
 }
 
-const configs: { [key in EOrderStatus]: { text: string, className?: string } } = {
+const configs: Record<TProps['status'], {text: string; className?: string}> = {
     [EOrderStatus.done]: {text: 'Выполнен', className: Styles.doneOrder},
     [EOrderStatus.created]: {text: 'Создан'},
     [EOrderStatus.pending]: {text: 'Готовится'},
@@ -15,7 +15,7 @@ const configs: { [key in EOrderStatus]: { text: string, className?: string } } =
 }
 
 export const OrderStatus: FC<TProps> = React.memo(({status, className }) => {
-    const config = configs[EOrderStatus[status]]
+    const config = configs[status]
 
     if (!config) {
         return null
