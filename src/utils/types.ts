@@ -53,16 +53,23 @@ export type TOrderItemProps = {
 export type TOrder = {
     _id: string;
     ingredients: TIngredient[];
-    "owner": {
-        "name": string,
-        "email": string,
-        "createdAt": string,
-        "updatedAt": string
-    },
     status: string;
     name: string;
     createdAt: string;
     updatedAt: string;
     number: number;
-    price: number;
+}
+
+export type TSocketData = {
+    success: boolean;
+    message?: string;
+    orders?: TOrder[];
+    total?: number;
+    totalToday?: number;
+}
+
+export enum WebsocketStatus {
+    CONNECTING = 'CONNECTING...',
+    ONLINE = 'ONLINE',
+    OFFLINE = 'OFFLINE'
 }

@@ -314,18 +314,11 @@ export const orders =  [
             }
         ],
         "_id": "64b05d3d82e277001bf8eee7",
-        "owner": {
-            "name": "Roman",
-            "email": "romanov-ro@list.ru",
-            "createdAt": "2023-06-06T12:41:29.625Z",
-            "updatedAt": "2023-06-24T18:32:03.212Z"
-        },
         "status": "done",
         "name": "Флюоресцентный фалленианский экзо-плантаго минеральный био-марсианский люминесцентный альфа-сахаридный бургер",
         "createdAt": "2023-07-13T20:23:25.196Z",
         "updatedAt": "2023-07-13T20:23:25.312Z",
         "number": 12471,
-        "price": 8736
     },
     {
         "ingredients": [
@@ -387,18 +380,11 @@ export const orders =  [
             },
         ],
         "_id": "64aaee8612fd4a2001bd5c9ac",
-        "owner": {
-            "name": "Roman",
-            "email": "rogov@gmail.ru",
-            "createdAt": "2023-06-06T12:41:29.625Z",
-            "updatedAt": "2023-06-24T18:32:03.212Z"
-        },
         "status": "cancelled",
         "name": "Люминесцентный флюоресцентный бургер",
         "createdAt": "2023-07-09T17:29:42.098Z",
         "updatedAt": "2023-07-09T17:29:42.225Z",
-        "number": 11646,
-        "price": 1976
+        "number": 116,
     },
     {
         "ingredients": [
@@ -544,18 +530,11 @@ export const orders =  [
             },
         ],
         "_id": "64aaee8612f4a2001bd5c9ac",
-        "owner": {
-            "name": "Roman",
-            "email": "rogov@gmail.ru",
-            "createdAt": "2023-06-06T12:41:29.625Z",
-            "updatedAt": "2023-06-24T18:32:03.212Z"
-        },
         "status": "created",
         "name": "Люминесцентный флюоресцентный бургер",
         "createdAt": "2023-07-09T17:29:42.098Z",
         "updatedAt": "2023-07-09T17:29:42.225Z",
-        "number": 11646,
-        "price": 1976
+        "number": 646,
     },
     {
         "ingredients": [
@@ -701,18 +680,11 @@ export const orders =  [
             },
         ],
         "_id": "64aaee8612f4a2001bdss5c9ac",
-        "owner": {
-            "name": "Roman",
-            "email": "rogov@gmail.ru",
-            "createdAt": "2023-06-06T12:41:29.625Z",
-            "updatedAt": "2023-06-24T18:32:03.212Z"
-        },
         "status": "done",
         "name": "Люминесцентный флюоресцентный бургер",
         "createdAt": "2023-07-09T17:29:42.098Z",
         "updatedAt": "2023-07-09T17:29:42.225Z",
-        "number": 11646,
-        "price": 1976
+        "number": 116346,
     },
     {
         "ingredients": [
@@ -858,17 +830,10 @@ export const orders =  [
             },
         ],
         "_id": "64awaee8612f4a2001bd5c9hhac",
-        "owner": {
-            "name": "Roman",
-            "email": "rogov@gmail.ru",
-            "createdAt": "2023-06-06T12:41:29.625Z",
-            "updatedAt": "2023-06-24T18:32:03.212Z"
-        },
         "status": "done",
         "name": "Люминесцентный флюоресцентный бургер",
         "createdAt": "2023-07-09T17:29:42.098Z",
         "updatedAt": "2023-07-09T17:29:42.225Z",
-        "number": 11646,
-        "price": 1976
+        "number": 112555,
     },
 ]

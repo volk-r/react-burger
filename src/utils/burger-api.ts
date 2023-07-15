@@ -3,6 +3,9 @@ import { IFormValues } from "./interfaces"
 
 const API_URL = 'https://norma.nomoreparties.space/api';
 
+export const SOCKET_URL_ORDERS_ALL = 'wss://norma.nomoreparties.space/orders/all'
+export const SOCKET_URL_USER_ORDERS = 'wss://norma.nomoreparties.space/orders'
+
 const request = (endpoint: string, options?: RequestInit): Promise<any> => {
     return fetch(`${API_URL}/${endpoint}`, options)
         .then(checkResponse)

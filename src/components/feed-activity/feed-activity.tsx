@@ -1,11 +1,9 @@
-import React, { useMemo, useCallback } from 'react';
+import React from 'react';
 import Styles from './feed-activity.module.css'
-import { useDispatch, useSelector } from '../../services/types/hooks';
+import { TOrder } from "../../utils/types";
 
-export default function FeedActivity(props: any) { // TODO
+export default function FeedActivity(props: { orders: TOrder[]; total: number; totalToday: number; }) {
     const { orders, total, totalToday } = props;
-
-    let temArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13 ,14 ,15 ,16,17 ,18 ,19 ,20 ,21, 22];// todo
 
     return (
         <section className={ Styles.container }>
@@ -14,8 +12,8 @@ export default function FeedActivity(props: any) { // TODO
                 <div className={` ${ Styles.feedContainer } mr-4`}>
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>Готовы:</p>
                     <div className={` ${ Styles.feedContainerList } mr-4`}>
-                        {temArray.map((item) => {
-                            return <p className={`${ Styles.doneOrder } text text_type_digits-default`}>
+                        {orders.map((item) => {
+                            return <p key={item._id} className={`${ Styles.doneOrder } text text_type_digits-default`}>
                                 {total}
                             </p>
                         })}
@@ -24,8 +22,8 @@ export default function FeedActivity(props: any) { // TODO
                 <div className={` ${ Styles.feedContainer }`}>
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>В работе:</p>
                     <div className={` ${ Styles.feedContainerList } mr-4`}>
-                        {temArray.map((item) => {
-                            return <p className={`text text_type_digits-default`}>
+                        {orders.map((item) => {
+                            return <p key={item._id} className={`text text_type_digits-default`}>
                                 {totalToday}
                             </p>
                         })}

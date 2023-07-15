@@ -1,20 +1,29 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./feed.module.css";
 import AppHeader from "../../components/header/header";
-import Feed from "../../components/feed/feed";
-import { useSelector } from '../../services/types/hooks';
+import { Feed } from "../../components/feed/feed";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import FeedActivity from "../../components/feed-activity/feed-activity";
-import { orders } from "../../utils/data";// todo
+import { feedSelector } from "../../services/selectors";
+import { wsCloseAction, wsConnectAction } from "../../services/thunk/web-socket";
+import {SOCKET_URL_ORDERS_ALL }  from "../../utils/burger-api";
+import { WebsocketStatus } from "../../utils/types";
 
 export default function FeedPage() {
-    // const { orders, total, totalToday } = useSelector((state) => state.orders);
-    const total = 1976;
-    const totalToday = 3;
+    const dispatch = useDispatch();
+    const { status, orders, total, totalToday } = useSelector(feedSelector);
 
-    // TODO
-    // if (orders.length === 0) {
-    //     return null;
-    // }
+    useEffect(() => {
+        dispatch(wsConnectAction(SOCKET_URL_ORDERS_ALL));
+
+        return () => {
+            dispatch(wsCloseAction())
+        }
+    }, [dispatch])
+
+    console.log("orders", orders)// todo
+
+    if (status === WebsocketStatus.CONNECTING) return null;// todo
 
     return (
         <>

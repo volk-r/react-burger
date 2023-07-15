@@ -1,16 +1,13 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Styles from './feed.module.css'
-import { useSelector } from '../../services/types/hooks';
 import { TOrder } from '../../utils/types';
 import { OrderItem } from "../order-item/order-item";
 import { ROUTES } from "../../utils/constants";
-import {orders} from "../../utils/data";
 
-export default function Feed(props: { orders: TOrder[]}) {
+export const Feed = memo((props: { orders: TOrder[]}) => {
+    const { orders } = props
     const location = useLocation();
-
-    const { orders } = props;// TODO
 
     return (
         <>
@@ -36,4 +33,4 @@ export default function Feed(props: { orders: TOrder[]}) {
             </section>
         </>
     );
-}
+})
