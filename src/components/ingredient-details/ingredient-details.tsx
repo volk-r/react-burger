@@ -9,9 +9,9 @@ import { TIngredient } from "../../utils/types";
 
 export default function IngredientDetails() {
     const navigate = useNavigate();
-    const { ingredientid } = useParams();
+    const { ingredientId } = useParams();
     const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
-    const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientid)
+    const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientId)
 
     if (!selectedItem) {
         navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true })

@@ -23,8 +23,8 @@ export default function IngredientDetailsPage() {
     const isLoading = useSelector<boolean>(isLoadingIngredientsSelector);
     const hasError = useSelector<boolean>(hasErrorIngredientsSelector);
 
-    const { ingredientid } = useParams();
-    const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientid)
+    const { ingredientId } = useParams();
+    const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientId)
 
     const ErrorBlock = (): ReactElement => {
         return (
