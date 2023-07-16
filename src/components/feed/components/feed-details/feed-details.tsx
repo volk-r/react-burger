@@ -82,11 +82,7 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const classOrderNumber = allignCenter ? 'mb-10' : `${Styles.orderNumber} mb-5`;
 
     return (
-        <Link
-            to={{ pathname: `${route}/${selectedOrder._id}` }}
-            replace={ true }
-            className={ Styles.isDisabled }
-        >
+        <>
         <h1 className={`${classOrderNumber} text text_type_digits-default`}>#{selectedOrder.number}</h1>
         <div className={Styles.body}>
             <p className='text text_type_main-medium mb-3'>{selectedOrder.name}</p>
@@ -116,6 +112,6 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
                 </p>
             </div>
         </div>
-        </Link>
+        </>
     )
 }

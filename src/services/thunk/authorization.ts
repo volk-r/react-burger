@@ -158,6 +158,7 @@ export function closeCurrentSession() {
                 type: CLOSE_USER_SESSION_SUCCESS,
             })
         }).catch( error => {
+            cleanupTokenData();
             dispatch({
                 type: CLOSE_USER_SESSION_FAILED,
                 payload: {

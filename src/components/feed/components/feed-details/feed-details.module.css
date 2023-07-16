@@ -6,6 +6,7 @@
 .orderNumber {
     transform: translate(0%, -90%);
     text-align: left;
+    max-width: 60%;
 }
 
 .thumb {
