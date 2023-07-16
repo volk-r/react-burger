@@ -5,7 +5,7 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { NESTED_ROUTES, ROUTES } from "../../../../utils/constants";
-import { TIngredient, TOrder, WebsocketStatus } from "../../../../utils/types";
+import { TOrder, WebsocketStatus } from "../../../../utils/types";
 
 import { feedSelector, getIngredientsMap, ingredientsSelector, isLoadingIngredientsSelector } from "../../../../services/selectors";
 import { wsCloseAction, wsConnectAction } from "../../../../services/thunk/web-socket";
@@ -20,7 +20,6 @@ type TFeedDetails = {
 
 export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const dispatch = useDispatch();
-    const ingredientsList: Array<TIngredient> | [] = useSelector(ingredientsSelector);
     const isLoading = useSelector(isLoadingIngredientsSelector);
 
     const { allignCenter, route } = props;
@@ -46,7 +45,6 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
 
     if (
         status == WebsocketStatus.CONNECTING
-        || ingredientsList.length === 0
         || orders.length === 0
         || isLoading === true
     ) {
@@ -60,33 +58,33 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
         return null;
     }
 
-    type TIngredientsSummary = { _id: string; name: string; count: number; totalPrice: number; image_mobile: string };
-    const ingredients: TIngredientsSummary[] = [];
-    let totalPrice = 0;
+    type TIngredientsSummary = { _id: string; name: string; qty: number; price: number; image_mobile: string };
 
-    selectedOrder.ingredients.forEach((ingredient) => {
-        const existingIngredient = ingredients.find((x: TIngredientsSummary) => x._id === ingredient._id);
-        totalPrice += ingredientsMap[String(ingredient)].price;
-        if (existingIngredient) {
-            existingIngredient.count++;
-            existingIngredient.totalPrice += ingredientsMap[String(ingredient)].price;
-        } else {
-            ingredients.push({
-                _id: String(ingredient),
-                name: ingredientsMap[String(ingredient)].name,
-                count: 1,
-                totalPrice: ingredientsMap[String(ingredient)].price,
-                image_mobile: ingredientsMap[String(ingredient)].image_mobile,
-            });
-        }
-    });
+    const { totalPrice, ingredients } = selectedOrder.ingredients.reduce(
+        (acc, _id) => {
+            acc.totalPrice += ingredientsMap[_id].price
+            const existingIngredient = acc.ingredients.find(item => item._id === _id)
+            if (existingIngredient && existingIngredient.qty) {
+                existingIngredient.qty++
+            } else {
+                acc.ingredients.push({
+                    _id,
+                    name: ingredientsMap[_id].name,
+                    price: ingredientsMap[_id].price,
+                    image_mobile: ingredientsMap[_id].image_mobile,
+                    qty: 1
+                })
+            }
+            return acc
+        }, {totalPrice: 0, ingredients: []} as { totalPrice: number, ingredients: TIngredientsSummary[]
+    })
 
     const classOrderNumber = allignCenter ? 'mb-10' : `${Styles.orderNumber} mb-5`;
 
     return (
         <>
         <h1 className={`${classOrderNumber} text text_type_digits-default`}>#{selectedOrder.number}</h1>
-        <div className={Styles.body}>
+        <div key={selectedOrder.number} className={Styles.body}>
             <p className='text text_type_main-medium mb-3'>{selectedOrder.name}</p>
             <OrderStatus status={selectedOrder.status} />
             <p className='text text_type_main-medium mt-10 mb-6'>Состав:</p>
@@ -102,7 +100,7 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
                             <p className={`${Styles.name} text text_type_main-default`}>{item.name}</p>
                         </div>
                         <p className={`${Styles.price} text text_type_digits-default`}>
-                            {item.count} x {item.totalPrice} <CurrencyIcon type="primary"/>
+                            {item.qty} x {item.price} <CurrencyIcon type="primary"/>
                         </p>
                     </div>
                 ))}

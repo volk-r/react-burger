@@ -13,7 +13,7 @@ export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) =>
     const ingredients = item.ingredients.slice(0, MAX_INGREDINETS).reverse()
     const ingredientsMap = useSelector(getIngredientsMap);
 
-    const totalPrice = item.ingredients.reduce((acc, item: TIngredient) => {
+    const totalPrice = item.ingredients.reduce((acc, item) => {
         acc += ingredientsMap[String(item)].price
         return acc
     }, 0)

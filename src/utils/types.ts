@@ -52,7 +52,7 @@ export type TOrderItemProps = {
 
 export type TOrder = {
     _id: string;
-    ingredients: TIngredient[];
+    ingredients: string[];
     status: string;
     name: string;
     createdAt: string;
