@@ -8,7 +8,7 @@ import { getIngredientsMap } from "../../services/selectors";
 
 const MAX_INGREDINETS = 6
 
-export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) => {
+export const OrderItem: FC<TOrderItemProps> = ({item, showStatus}) => {
     const more = item.ingredients.length - MAX_INGREDINETS
     const ingredients = item.ingredients.slice(0, MAX_INGREDINETS).reverse()
     const ingredientsMap = useSelector(getIngredientsMap);
@@ -53,4 +53,4 @@ export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) =>
             </div>
         </div>
     )
-})
+}
