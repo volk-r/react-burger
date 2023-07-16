@@ -16,6 +16,9 @@ import { useDispatch } from '../../services/types/hooks';
 const style: CSSProperties = {
     cursor: 'move',
     width: "99%",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
 }
 
 export const BurgerConstructorItem = memo((props: IBurgerConstructorItem) => {

@@ -6,8 +6,14 @@
 }
 
 .box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 260px;
     text-align: center;
-    height: 190px;
+    border-radius: 16px;
+    cursor: pointer;
 }
 
 .img {

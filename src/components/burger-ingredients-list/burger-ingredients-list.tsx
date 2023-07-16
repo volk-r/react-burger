@@ -29,9 +29,9 @@ export default function BurgerIngredientsList(props: IBurgerIngredientsList) {
             >
                 <div ref={ dragRef } key={ item._id } className={`${ BurgerIngredientsListStyles.box } pb-6`}>
                     {
-                        typeof item.qty === 'undefined' || item.qty === 0
-                            ? <div className={ BurgerIngredientsListStyles.default }></div>
-                            : <Counter count={ item.qty } size="default" extraClass={`${ BurgerIngredientsListStyles.count }`} />
+                        typeof item.qty !== 'undefined'
+                        && item.qty > 0
+                        && <Counter count={ item.qty } size="default" extraClass="mt-1 mr-4" />
                     }
                     <img src={ item.image } alt={ item.name }/>
                     <div className={ BurgerIngredientsListStyles.priceContainer }>
