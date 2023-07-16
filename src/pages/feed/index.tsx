@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import styles from "./feed.module.css";
-import AppHeader from "../../components/header/header";
 import { Feed } from "../../components/feed/feed";
 import { useDispatch, useSelector } from '../../services/types/hooks';
 import FeedActivity from "../../components/feed-activity/feed-activity";
@@ -24,12 +23,9 @@ export default function FeedPage() {
     if (status == WebsocketStatus.CONNECTING) { return null }
 
     return (
-        <>
-            <AppHeader />
-            <main className={ styles.box }>
-                <Feed orders={orders} />
-                <FeedActivity orders={orders} total={total} totalToday={totalToday} />
-            </main>
-        </>
+        <main className={ styles.box }>
+            <Feed orders={orders} />
+            <FeedActivity orders={orders} total={total} totalToday={totalToday} />
+        </main>
     );
 }

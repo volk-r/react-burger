@@ -6,7 +6,6 @@ import {
     isLoadingIngredientsSelector
 } from "../../services/selectors";
 import { useParams } from 'react-router-dom';
-import AppHeader from "../../components/header/header";
 import styles from "./ingredient-details.module.css";
 import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 import { TIngredient } from "../../utils/types";
@@ -39,7 +38,6 @@ export default function IngredientDetailsPage() {
 
     return (
         <>
-            <AppHeader />
             {isLoading === true && <p className={ styles.loading }>Loading...</p>}
             {
                 isLoading === false

@@ -3,7 +3,7 @@ import Styles from ".//feed-details.module.css";
 import { OrderStatus } from '../../../order-status/order-status'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { NESTED_ROUTES, ROUTES } from "../../../../utils/constants";
 import { TIngredient, TOrder, WebsocketStatus } from "../../../../utils/types";
 

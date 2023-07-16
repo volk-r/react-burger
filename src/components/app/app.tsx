@@ -22,6 +22,7 @@ import Modal from '../modal/modal';
 import FeedPage from "../../pages/feed";
 import { FeedDetails } from "../feed/components/feed-details/feed-details";
 import FeedDetailsPage from "../../pages/feed-details";
+import AppHeader from "../header/header";
 
 export default function App() {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ export default function App() {
     return (
         <>
             <ErrorBoundary>
+                <AppHeader />
                 <Routes location={ background || location }>
                     <Route path={ ROUTES.ROUTE_HOME_PAGE } element={<HomePage />} />
                     <Route path={ ROUTES.ROUTE_LOGIN_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<LoginPage />} />} />

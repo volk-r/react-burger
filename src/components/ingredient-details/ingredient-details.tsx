@@ -1,16 +1,16 @@
 import React from 'react';
 import IngredientDetailsStyles from "../ingredient-details/ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from '../../services/types/hooks';
 import { ingredientsSelector } from "../../services/selectors";
 
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from "../../utils/constants";
 import { TIngredient } from "../../utils/types";
 
 export default function IngredientDetails() {
     const navigate = useNavigate();
     const { ingredientId } = useParams();
-    const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+    const ingredients = useSelector(ingredientsSelector);
     const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientId)
 
     if (!selectedItem) {

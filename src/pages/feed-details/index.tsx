@@ -7,11 +7,8 @@ import { ROUTES } from "../../utils/constants";
 export default function FeedDetailsPage() {
 
     return (
-        <>
-            <AppHeader />
-            <div className={ Styles.content }>
-                <FeedDetails allignCenter={true} route={ROUTES.ROUTE_FEED_PAGE} />
-            </div>
-        </>
+        <div className={ Styles.content }>
+            <FeedDetails allignCenter={true} route={ROUTES.ROUTE_FEED_PAGE} />
+        </div>
     );
 }

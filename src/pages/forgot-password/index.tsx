@@ -7,7 +7,6 @@ import {
     EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import AppHeader from "../../components/header/header";
 import { restorePassword } from "../../utils/burger-api";
 import { ErrorOnForm } from "../../components/error-on-form";
 import { resetPassword } from "../../services/thunk/authorization";
@@ -48,44 +47,41 @@ export default function ForgotPasswordPage() {
     );
 
     return (
-        <>
-            <AppHeader />
-            <main className={ styles.box }>
-                <div className={ styles.container }>
-                    <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
-                    {message && <ErrorOnForm>{message}</ErrorOnForm>}
-                    <form onSubmit={ handleRestorePassword }>
-                        <EmailInput
-                            onChange={ e => handleChange(e) }
-                            placeholder={ "Укажите e-mail" }
-                            value={ formValues.email }
-                            name={ 'email' }
-                            extraClass="mb-7"
-                        />
-                        <Button
-                            extraClass="mb-20"
-                            htmlType="submit"
-                            type="primary"
-                            size="large"
-                            disabled={ isDisabledButton() }
-                        >
-                            Восстановить
-                        </Button>
-                    </form>
-                    <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
-                        Вспомнили пароль?
-                        <Button
-                            style={ {paddingLeft: 8} }
-                            htmlType="button"
-                            type="secondary"
-                            size="medium"
-                            onClick={ handleRedirectToLoginPage }
-                        >
-                            Войти
-                        </Button>
-                    </p>
-                </div>
-            </main>
-        </>
+        <main className={ styles.box }>
+            <div className={ styles.container }>
+                <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
+                {message && <ErrorOnForm>{message}</ErrorOnForm>}
+                <form onSubmit={ handleRestorePassword }>
+                    <EmailInput
+                        onChange={ e => handleChange(e) }
+                        placeholder={ "Укажите e-mail" }
+                        value={ formValues.email }
+                        name={ 'email' }
+                        extraClass="mb-7"
+                    />
+                    <Button
+                        extraClass="mb-20"
+                        htmlType="submit"
+                        type="primary"
+                        size="large"
+                        disabled={ isDisabledButton() }
+                    >
+                        Восстановить
+                    </Button>
+                </form>
+                <p className="text text_type_main-default text_color_inactive pl-6 pr-1">
+                    Вспомнили пароль?
+                    <Button
+                        style={ {paddingLeft: 8} }
+                        htmlType="button"
+                        type="secondary"
+                        size="medium"
+                        onClick={ handleRedirectToLoginPage }
+                    >
+                        Войти
+                    </Button>
+                </p>
+            </div>
+        </main>
     );
 }

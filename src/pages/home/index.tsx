@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { hasErrorIngredientsSelector, isLoadingIngredientsSelector } from "../../services/selectors";
 import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 import styles from "./home.module.css";
-import AppHeader from "../../components/header/header";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
@@ -31,7 +30,6 @@ export default function HomePage() {
 
     return (
         <>
-            <AppHeader />
             {isLoading === true && <p className={ styles.loading }>Loading...</p>}
             {
                 isLoading === false

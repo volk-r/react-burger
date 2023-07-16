@@ -55,7 +55,6 @@ export default function ResetPasswordPage() {
 
     return (
         <>
-            <AppHeader />
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>
