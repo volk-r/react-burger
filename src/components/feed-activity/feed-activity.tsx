@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './feed-activity.module.css'
-import { TOrder } from "../../utils/types";
+import { EOrderStatus, TOrder } from "../../utils/types";
 
 export default function FeedActivity(props: { orders: TOrder[]; total: number; totalToday: number; }) {
     const { orders, total, totalToday } = props;
@@ -13,8 +13,9 @@ export default function FeedActivity(props: { orders: TOrder[]; total: number; t
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>Готовы:</p>
                     <div className={` ${ Styles.feedContainerList } mr-4`}>
                         {orders.map((item) => {
+                            if (item.status === EOrderStatus.done)
                             return <p key={item._id} className={`${ Styles.doneOrder } text text_type_digits-default`}>
-                                {total}
+                                {item.number}
                             </p>
                         })}
                     </div>
@@ -23,8 +24,9 @@ export default function FeedActivity(props: { orders: TOrder[]; total: number; t
                     <p className={` ${ Styles.sticky } text text_type_main-medium mb-3`}>В работе:</p>
                     <div className={` ${ Styles.feedContainerList } mr-4`}>
                         {orders.map((item) => {
+                            if (item.status === EOrderStatus.pending || item.status === EOrderStatus.created)
                             return <p key={item._id} className={`text text_type_digits-default`}>
-                                {totalToday}
+                                {item.number}
                             </p>
                         })}
                     </div>

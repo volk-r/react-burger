@@ -1,17 +1,36 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import Styles from './order-item.module.css'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TIngredient, TOrderItemProps } from '../../utils/types'
 import { OrderStatus } from '../order-status/order-status'
+import { useDispatch, useSelector } from "../../services/types/hooks";
+import { getIngredientsMap, ingredientsSelector, isLoadingIngredientsSelector } from "../../services/selectors";
+import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 
 const MAX_INGREDINETS = 6
 
 export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) => {
+    const isLoading = useSelector<boolean>(isLoadingIngredientsSelector);
+    const ingredientsList: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+    const dispatch = useDispatch();
+
     const more = item.ingredients.length - MAX_INGREDINETS
     const ingredients = item.ingredients.slice(0, MAX_INGREDINETS).reverse()
+    const ingredientsMap = useSelector(getIngredientsMap);
+
+    useEffect(() => {
+        if (ingredientsList.length === 0) {
+            dispatch(getIngredientsList())
+        }
+    }, [])
+
+    if (isLoading || ingredientsList.length === 0) {
+        console.log("No ingredientsMap !!!!");
+        return null;
+    }
 
     const totalPrice = item.ingredients.reduce((acc, item: TIngredient) => {
-        acc += item.price
+        acc += ingredientsMap[String(item)].price
         return acc
     }, 0)
 
@@ -31,7 +50,7 @@ export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) =>
                     {ingredients.map((ingredient, index) => (
                         <div key={index} className={Styles.gradient}>
                             <div className={Styles.thumb}>
-                                <img src={ingredient.image_mobile} alt={item.name}/>
+                                <img src={ingredientsMap[String(ingredient)].image_mobile} alt={item.name}/>
                             </div>
                             {
                                 index === 0

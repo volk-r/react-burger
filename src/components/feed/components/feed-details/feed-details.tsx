@@ -1,14 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import Styles from ".//feed-details.module.css";
-import { useSelector } from "react-redux";
 import { OrderStatus } from '../../../order-status/order-status'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ROUTES } from "../../../../utils/constants";
-import { TOrder } from "../../../../utils/types";
+import { NESTED_ROUTES, ROUTES } from "../../../../utils/constants";
+import { TIngredient, TOrder, WebsocketStatus } from "../../../../utils/types";
 
-import { orders } from "../../../../utils/data";
+import { feedSelector, getIngredientsMap, ingredientsSelector } from "../../../../services/selectors";
+import { wsCloseAction, wsConnectAction } from "../../../../services/thunk/web-socket";
+import { useDispatch, useSelector } from "../../../../services/types/hooks";
+import { getIngredientsList } from "../../../../services/thunk/burger-ingredients";
+import { SOCKET_URL_ORDERS_ALL, SOCKET_URL_USER_ORDERS } from "../../../../utils/burger-api";
 
 type TFeedDetails = {
     allignCenter?: boolean,
@@ -16,13 +19,39 @@ type TFeedDetails = {
 }
 
 export const FeedDetails: FC<TFeedDetails> = ( props) => {
+    const dispatch = useDispatch();
+    const ingredientsList: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+
     const { allignCenter, route } = props;
 
     const navigate = useNavigate();
     const { feedId, ordersId } = useParams();
-    // const orders: Array<TOrder> | [] = useSelector(ordersSelector);//todo
-    const searchID = feedId ?? ordersId;
-    const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === searchID)
+    const searchId = feedId ?? ordersId;
+
+    useEffect(() => {
+        if (ingredientsList.length === 0) {
+            dispatch(getIngredientsList())
+        }
+
+        dispatch(wsConnectAction(
+            route === `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`
+                ? SOCKET_URL_USER_ORDERS
+                : SOCKET_URL_ORDERS_ALL
+        ));
+
+        return () => {
+            dispatch(wsCloseAction())
+        }
+    }, [])
+
+    const { status, orders } = useSelector(feedSelector);
+    const ingredientsMap = useSelector(getIngredientsMap);
+
+    if (status == WebsocketStatus.CONNECTING || ingredientsList.length === 0 || orders.length === 0) {
+        return null;
+    }
+
+    const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === searchId)
 
     if (!selectedOrder) {
         navigate( ROUTES.ROUTE_FEED_PAGE , { replace: true })
@@ -35,17 +64,17 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
 
     selectedOrder.ingredients.forEach((ingredient) => {
         const existingIngredient = ingredients.find((x: TIngredientsSummary) => x._id === ingredient._id);
-        totalPrice += ingredient.price;
+        totalPrice += ingredientsMap[String(ingredient)].price;
         if (existingIngredient) {
             existingIngredient.count++;
-            existingIngredient.totalPrice += ingredient.price;
+            existingIngredient.totalPrice += ingredientsMap[String(ingredient)].price;
         } else {
             ingredients.push({
-                _id: ingredient._id,
-                name: ingredient.name,
+                _id: String(ingredient),
+                name: ingredientsMap[String(ingredient)].name,
                 count: 1,
-                totalPrice: ingredient.price,
-                image_mobile: ingredient.image_mobile,
+                totalPrice: ingredientsMap[String(ingredient)].price,
+                image_mobile: ingredientsMap[String(ingredient)].image_mobile,
             });
         }
     });
@@ -54,7 +83,6 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
 
     return (
         <Link
-            key={ selectedOrder._id }
             to={{ pathname: `${route}/${selectedOrder._id}` }}
             replace={ true }
             className={ Styles.isDisabled }

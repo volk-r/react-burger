@@ -45,7 +45,7 @@ export default function App() {
                     <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />
                     <Route path={ ROUTES.ROUTE_FEED_PAGE } element={<FeedPage />} />
                     <Route path={ ROUTES.ROUTE_FEED_DETAILS_PAGE } element={<FeedDetailsPage />} />
-                    <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`} element={<ProtectedRouteElement element={<FeedDetailsPage />} />} />// todo: looping with onlyUnAuth={ true }
+                    <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`} element={<ProtectedRouteElement element={<FeedDetailsPage />} />} />
                     <Route path="*" element={<NotFound404 />} />
                 </Routes>
                 {background && (

@@ -17,3 +17,21 @@ export const authDataRequestSelector = (store: RootState): boolean => store.auth
 export const resetPasswordEmailSelector = (store: RootState): string | null => store.authData.resetPasswordEmail
 
 export const feedSelector = (state: RootState): TWSState => state.ws
+
+type TIngredientsMap = {
+    [key: string]: Pick<TIngredient, 'name' | 'image_mobile' | 'price'>
+}
+export const getIngredientsMap = (state: RootState) => {
+    const ingredientsList = ingredientsSelector(state);
+    const ingredientsMap: TIngredientsMap = {};
+
+    ingredientsList.forEach((item) => {
+        ingredientsMap[item._id] = {
+            name: item.name,
+            image_mobile: item.image_mobile,
+            price: item.price,
+        };
+    });
+
+    return ingredientsMap;
+};

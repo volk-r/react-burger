@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Styles from "./orders-list.module.css"
 
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { OrderItem } from "../../components/order-item/order-item";
 import { ROUTES, NESTED_ROUTES } from "../../utils/constants";
-import {TOrder} from "../../utils/types";
+import { WebsocketStatus } from "../../utils/types";
 
-import { orders } from "../../utils/data";//todo
+import { useDispatch, useSelector } from "../../services/types/hooks";
+import { feedSelector } from "../../services/selectors";
+import { wsCloseAction, wsConnectAction } from "../../services/thunk/web-socket";
+import { SOCKET_URL_USER_ORDERS } from "../../utils/burger-api";
 
 export default function OrdersListPage() {
+    const dispatch = useDispatch();
     const location = useLocation();
+
+    const { status, orders, total, totalToday } = useSelector(feedSelector);
+
+    useEffect(() => {
+        dispatch(wsConnectAction(SOCKET_URL_USER_ORDERS));
+
+        return () => {
+            dispatch(wsCloseAction())
+        }
+    }, [dispatch])
+
+    if (status == WebsocketStatus.CONNECTING) { return null }
 
     return (
         <>

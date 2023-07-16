@@ -112,7 +112,7 @@ export async function accountAuthorization(form: IFormValues): Promise<any> {
 }
 
 export const saveTokens = (refreshToken: string, accessToken: string) => {
-    setCookie('accessToken', accessToken);
+    setCookie('accessToken', accessToken, {path: "/profile"});
     localStorage.setItem('refreshToken', refreshToken);
 }
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from '../../services/types/hooks';
 import FeedActivity from "../../components/feed-activity/feed-activity";
 import { feedSelector } from "../../services/selectors";
 import { wsCloseAction, wsConnectAction } from "../../services/thunk/web-socket";
-import {SOCKET_URL_ORDERS_ALL }  from "../../utils/burger-api";
+import { SOCKET_URL_ORDERS_ALL } from "../../utils/burger-api";
 import { WebsocketStatus } from "../../utils/types";
 
 export default function FeedPage() {
@@ -21,9 +21,7 @@ export default function FeedPage() {
         }
     }, [dispatch])
 
-    console.log("orders", orders)// todo
-
-    if (status === WebsocketStatus.CONNECTING) return null;// todo
+    if (status == WebsocketStatus.CONNECTING) { return null }
 
     return (
         <>

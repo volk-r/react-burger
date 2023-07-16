@@ -14,7 +14,6 @@ import {
     WS_GET_MESSAGE,
     TWSActions,
 } from '../actions/web-socket';
-import {wsCloseAction, wsConnectAction, wsConnectingAction, wsDisconnectAction, wsErrorAction, wsMessageAction, wsOpenAction} from "../thunk/web-socket";
 
 export type TApplicationActions =
     TAuthorizationActions

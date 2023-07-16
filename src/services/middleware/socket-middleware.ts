@@ -1,6 +1,5 @@
 import { Middleware } from "redux"
-import { RootState, TApplicationActions, TWSStoreActions } from "../types";
-import { AppDispatch } from "../types";
+import { TWSStoreActions } from "../types";
 import {
     wsCloseAction,
     wsConnectAction,
@@ -12,9 +11,9 @@ import {
 } from "../thunk/web-socket";
 import { TSocketData } from "../../utils/types";
 import { TWSActions } from "../actions/web-socket";
+import { getCookie } from "../../utils/utils";
 
-// TODO: not working as expected
-export const socketMiddleware = (wsActions: TWSStoreActions): Middleware<AppDispatch, RootState> => {
+export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
     return (store) => {
         let socket: WebSocket | null = null
         let url = '';
@@ -24,24 +23,20 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware<AppDisp
         return (next) => (action: TWSActions) => {
             const { dispatch } = store
             const { type } = action;
-            const {
-                wsConnect, wsDisconnect, wsConnecting, wsOpen, wsClose, wsError, wsMessage,
-            } = wsActions
+            const { wsConnect, wsDisconnect, wsConnecting } = wsActions
 
-            if (wsConnect.match(type)) {
+            if (wsConnect === type) {
                 console.log('Websocket connecting')
-                console.log("type", type)
-                console.log("wsConnect", wsConnect)
-                console.log("action", JSON.stringify(action))
-                url = action.payload.url// TODO
-                socket = new WebSocket(url)
+                url = action.payload.url
+                const tokenParam = getCookie('accessToken')? `?token=${getCookie('accessToken')?.replace('Bearer ', '')}` : ''
+                socket = new WebSocket(`${url}${tokenParam}`)
                 isConnected = true
                 window.clearTimeout(reconnectTimerRef)
                 reconnectTimerRef = 0
-                dispatch(wsConnectAction(url))
+                dispatch(wsConnectingAction())
             }
 
-            if (socket && wsConnecting.match(type)) {
+            if (socket && wsConnecting === type) {
                 socket.onopen = () => {
                     console.log('open')
                     dispatch(wsOpenAction())
@@ -66,14 +61,14 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware<AppDisp
                         dispatch(wsConnectingAction())
                         reconnectTimerRef = window.setTimeout(() => {
                             dispatch(wsConnectAction(url))
-                        }, 3000)
+                        }, 10000)
                     }
                     console.log('close')
                     dispatch(wsCloseAction())
                 }
             }
 
-            if (socket && wsDisconnect.match(type)) {
+            if (socket && wsDisconnect === type) {
                 console.log('disconnect')
                 window.clearTimeout(reconnectTimerRef)
                 isConnected = false
