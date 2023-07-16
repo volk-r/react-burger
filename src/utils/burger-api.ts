@@ -113,7 +113,7 @@ export async function accountAuthorization(form: IFormValues): Promise<TApiUserR
 }
 
 export const saveTokens = (refreshToken: string, accessToken: string) => {
-    setCookie('accessToken', accessToken, { path: '/' });
+    setCookie('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
 }
 

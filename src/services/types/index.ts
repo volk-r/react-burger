@@ -4,16 +4,16 @@ import { TAuthorizationActions } from "../actions/authorization";
 import { TBurgerConstructorActions } from "../actions/burger-constructor";
 import { TIngredientsActions } from "../actions/burger-ingredients";
 import { TOrderDetailsActions } from "../actions/order-details";
+import { TWSActions } from '../actions/web-socket';
 import {
-    WS_CONNECT,
-    WS_CONNECTING,
-    WS_CONNECTION_CLOSE,
-    WS_CONNECTION_DISCONNECT,
-    WS_CONNECTION_ERROR,
-    WS_CONNECTION_OPEN,
-    WS_GET_MESSAGE,
-    TWSActions,
-} from '../actions/web-socket';
+    wsCloseAction,
+    wsConnectAction,
+    wsConnectingAction,
+    wsDisconnectAction,
+    wsErrorAction,
+    wsMessageAction,
+    wsOpenAction
+} from "../thunk/web-socket";
 
 export type TApplicationActions =
     TAuthorizationActions
@@ -28,11 +28,11 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>
 
 export type TWSStoreActions = {
-    wsConnect: typeof WS_CONNECT,
-    wsDisconnect: typeof WS_CONNECTION_DISCONNECT,
-    wsConnecting: typeof WS_CONNECTING,
-    wsOpen: typeof WS_CONNECTION_OPEN,
-    wsClose: typeof WS_CONNECTION_CLOSE,
-    wsError: typeof  WS_CONNECTION_ERROR,
-    wsMessage: typeof  WS_GET_MESSAGE,
+    wsConnect: typeof wsConnectAction,
+    wsDisconnect: typeof wsDisconnectAction,
+    wsConnecting: typeof wsConnectingAction,
+    wsOpen: typeof wsOpenAction,
+    wsClose: typeof wsCloseAction,
+    wsError: typeof  wsErrorAction,
+    wsMessage: typeof  wsMessageAction,
 };

@@ -4,26 +4,25 @@ import { rootReducer } from './reducers';
 import thunk from 'redux-thunk';
 import { socketMiddleware } from './middleware/socket-middleware';
 import { TWSStoreActions } from "./types";
-
 import {
-    WS_CONNECT,
-    WS_CONNECTION_DISCONNECT,
-    WS_CONNECTING,
-    WS_CONNECTION_OPEN,
-    WS_CONNECTION_CLOSE,
-    WS_CONNECTION_ERROR,
-    WS_GET_MESSAGE
-} from "./actions/web-socket";
+    wsCloseAction,
+    wsConnectAction,
+    wsConnectingAction,
+    wsDisconnectAction,
+    wsErrorAction,
+    wsMessageAction,
+    wsOpenAction
+} from "./thunk/web-socket";
 
 const wsActions: TWSStoreActions = {
-    wsConnect: WS_CONNECT,
-    wsDisconnect: WS_CONNECTION_DISCONNECT,
-    wsConnecting: WS_CONNECTING,
-    wsOpen: WS_CONNECTION_OPEN,
-    wsClose: WS_CONNECTION_CLOSE,
-    wsError: WS_CONNECTION_ERROR,
-    wsMessage: WS_GET_MESSAGE
-};
+    wsConnect: wsConnectAction,
+    wsDisconnect: wsDisconnectAction,
+    wsConnecting: wsConnectingAction,
+    wsOpen: wsOpenAction,
+    wsClose: wsCloseAction,
+    wsError: wsErrorAction,
+    wsMessage: wsMessageAction,
+}
 
 const composeEnhancers = composeWithDevTools({});
 

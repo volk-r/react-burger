@@ -1,16 +1,12 @@
 import { Middleware } from "redux"
 import { TWSStoreActions } from "../types";
-import {
-    wsCloseAction,
-    wsConnectAction,
-    wsConnectingAction,
-    wsDisconnectAction,
-    wsErrorAction,
-    wsMessageAction,
-    wsOpenAction
-} from "../thunk/web-socket";
 import { TSocketData } from "../../utils/types";
-import { TWSActions } from "../actions/web-socket";
+import {
+    WS_CONNECT,
+    WS_CONNECTING,
+    WS_CONNECTION_DISCONNECT,
+    TWSActions,
+} from "../actions/web-socket";
 import { getCookie } from "../../utils/utils";
 
 export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
@@ -23,9 +19,9 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
         return (next) => (action: TWSActions) => {
             const { dispatch } = store
             const { type } = action;
-            const { wsConnect, wsDisconnect, wsConnecting } = wsActions
+            const { wsConnect, wsConnecting, wsOpen, wsDisconnect, wsError, wsMessage, wsClose } = wsActions
 
-            if (wsConnect === type) {
+            if (WS_CONNECT === type) {
                 console.log('Websocket connecting')
                 url = action.payload.url
                 const tokenParam = getCookie('accessToken')? `?token=${getCookie('accessToken')?.replace('Bearer ', '')}` : ''
@@ -33,47 +29,47 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
                 isConnected = true
                 window.clearTimeout(reconnectTimerRef)
                 reconnectTimerRef = 0
-                dispatch(wsConnectingAction())
+                dispatch(wsConnecting())
             }
 
-            if (socket && wsConnecting === type) {
+            if (socket && WS_CONNECTING === type) {
                 socket.onopen = () => {
                     console.log('open')
-                    dispatch(wsOpenAction())
+                    dispatch(wsOpen())
                 }
 
                 socket.onerror = (event: Event) => {
-                    dispatch(wsErrorAction('Websocket error'))
+                    dispatch(wsError('Websocket error'))
                 }
 
                 socket.onmessage = (event: MessageEvent) => {
                     const {data} = event
                     const parsedData: TSocketData = JSON.parse(data)
-                    dispatch(wsMessageAction(parsedData))
+                    dispatch(wsMessage(parsedData))
                 }
 
                 socket.onclose = (event: CloseEvent) => {
                     if (event.code !== 1000) {
                         console.log('error', event.code.toString())
-                        dispatch(wsErrorAction(`Error: ${event.code.toString()}`))
+                        dispatch(wsError(`Error: ${event.code.toString()}`))
                     }
                     if (isConnected) {
-                        dispatch(wsConnectingAction())
+                        dispatch(wsConnecting())
                         reconnectTimerRef = window.setTimeout(() => {
-                            dispatch(wsConnectAction(url))
+                            dispatch(wsConnect(url))
                         }, 10000)
                     }
                     console.log('close')
-                    dispatch(wsCloseAction())
+                    dispatch(wsClose())
                 }
             }
 
-            if (socket && wsDisconnect === type) {
+            if (socket && WS_CONNECTION_DISCONNECT === type) {
                 console.log('disconnect')
                 window.clearTimeout(reconnectTimerRef)
                 isConnected = false
                 reconnectTimerRef = 0
-                dispatch(wsDisconnectAction())
+                dispatch(wsDisconnect())
                 socket.close()
             }
 
