@@ -25,7 +25,6 @@ export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) =>
     }, [])
 
     if (isLoading || ingredientsList.length === 0) {
-        console.log("No ingredientsMap !!!!");
         return null;
     }
 
