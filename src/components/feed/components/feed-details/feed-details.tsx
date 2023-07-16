@@ -7,10 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NESTED_ROUTES, ROUTES } from "../../../../utils/constants";
 import { TIngredient, TOrder, WebsocketStatus } from "../../../../utils/types";
 
-import { feedSelector, getIngredientsMap, ingredientsSelector } from "../../../../services/selectors";
+import { feedSelector, getIngredientsMap, ingredientsSelector, isLoadingIngredientsSelector } from "../../../../services/selectors";
 import { wsCloseAction, wsConnectAction } from "../../../../services/thunk/web-socket";
 import { useDispatch, useSelector } from "../../../../services/types/hooks";
-import { getIngredientsList } from "../../../../services/thunk/burger-ingredients";
 import { SOCKET_URL_ORDERS_ALL, SOCKET_URL_USER_ORDERS } from "../../../../utils/burger-api";
 
 type TFeedDetails = {
@@ -21,6 +20,7 @@ type TFeedDetails = {
 export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const dispatch = useDispatch();
     const ingredientsList: Array<TIngredient> | [] = useSelector(ingredientsSelector);
+    const isLoading = useSelector(isLoadingIngredientsSelector);
 
     const { allignCenter, route } = props;
 
@@ -29,10 +29,6 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const searchId = feedId ?? ordersId;
 
     useEffect(() => {
-        if (ingredientsList.length === 0) {
-            dispatch(getIngredientsList())
-        }
-
         dispatch(wsConnectAction(
             route === `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`
                 ? SOCKET_URL_USER_ORDERS
@@ -47,8 +43,13 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const { status, orders } = useSelector(feedSelector);
     const ingredientsMap = useSelector(getIngredientsMap);
 
-    if (status == WebsocketStatus.CONNECTING || ingredientsList.length === 0 || orders.length === 0) {
-        return null;
+    if (
+        status == WebsocketStatus.CONNECTING
+        || ingredientsList.length === 0
+        || orders.length === 0
+        || isLoading === true
+    ) {
+        return <p className={ Styles.loading }>Loading...</p>;
     }
 
     const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === searchId)

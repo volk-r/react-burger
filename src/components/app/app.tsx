@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Routes,
     Route,
@@ -23,11 +23,18 @@ import FeedPage from "../../pages/feed";
 import { FeedDetails } from "../feed/components/feed-details/feed-details";
 import FeedDetailsPage from "../../pages/feed-details";
 import AppHeader from "../header/header";
+import { useDispatch } from "../../services/types/hooks";
+import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 
 export default function App() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     let background = location.state?.background;
+
+    useEffect(() => {
+        dispatch(getIngredientsList())
+    }, [])
 
     const handleCloseModal = (route: string): void => {
         navigate( route , { replace: true });

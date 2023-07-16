@@ -1,5 +1,5 @@
-import React, {ReactElement, useEffect} from 'react';
-import { useDispatch, useSelector } from '../../services/types/hooks';
+import React, { ReactElement } from 'react';
+import { useSelector } from '../../services/types/hooks';
 import {
     hasErrorIngredientsSelector,
     ingredientsSelector,
@@ -7,17 +7,10 @@ import {
 } from "../../services/selectors";
 import { useParams } from 'react-router-dom';
 import styles from "./ingredient-details.module.css";
-import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 import { TIngredient } from "../../utils/types";
 
 
 export default function IngredientDetailsPage() {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getIngredientsList())
-    }, [])
-
     const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
     const isLoading = useSelector<boolean>(isLoadingIngredientsSelector);
     const hasError = useSelector<boolean>(hasErrorIngredientsSelector);

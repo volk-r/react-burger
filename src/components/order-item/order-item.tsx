@@ -3,30 +3,15 @@ import Styles from './order-item.module.css'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TIngredient, TOrderItemProps } from '../../utils/types'
 import { OrderStatus } from '../order-status/order-status'
-import { useDispatch, useSelector } from "../../services/types/hooks";
-import { getIngredientsMap, ingredientsSelector, isLoadingIngredientsSelector } from "../../services/selectors";
-import { getIngredientsList } from "../../services/thunk/burger-ingredients";
+import { useSelector } from "../../services/types/hooks";
+import { getIngredientsMap } from "../../services/selectors";
 
 const MAX_INGREDINETS = 6
 
 export const OrderItem: FC<TOrderItemProps> = React.memo(({item, showStatus}) => {
-    const isLoading = useSelector<boolean>(isLoadingIngredientsSelector);
-    const ingredientsList: Array<TIngredient> | [] = useSelector(ingredientsSelector);
-    const dispatch = useDispatch();
-
     const more = item.ingredients.length - MAX_INGREDINETS
     const ingredients = item.ingredients.slice(0, MAX_INGREDINETS).reverse()
     const ingredientsMap = useSelector(getIngredientsMap);
-
-    useEffect(() => {
-        if (ingredientsList.length === 0) {
-            dispatch(getIngredientsList())
-        }
-    }, [])
-
-    if (isLoading || ingredientsList.length === 0) {
-        return null;
-    }
 
     const totalPrice = item.ingredients.reduce((acc, item: TIngredient) => {
         acc += ingredientsMap[String(item)].price
