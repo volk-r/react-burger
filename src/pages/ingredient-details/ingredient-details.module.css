@@ -24,13 +24,6 @@
     padding-top: 15px;
 }
 
-.loading {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .errorBlock {
     position: absolute;
     background-color: red;

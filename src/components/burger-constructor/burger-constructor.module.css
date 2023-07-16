@@ -45,13 +45,6 @@
     justify-content: flex-end;
 }
 
-.loading {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .errorBlock {
     background-color: red;
     padding: 25px;

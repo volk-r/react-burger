@@ -8,7 +8,7 @@ import {
 import { useParams } from 'react-router-dom';
 import styles from "./ingredient-details.module.css";
 import { TIngredient } from "../../utils/types";
-
+import { Preload } from "../../components/preload";
 
 export default function IngredientDetailsPage() {
     const ingredients: Array<TIngredient> | [] = useSelector(ingredientsSelector);
@@ -31,7 +31,7 @@ export default function IngredientDetailsPage() {
 
     return (
         <>
-            {isLoading === true && <p className={ styles.loading }>Loading...</p>}
+            {isLoading === true && <Preload/>}
             {
                 isLoading === false
                 && hasError === true

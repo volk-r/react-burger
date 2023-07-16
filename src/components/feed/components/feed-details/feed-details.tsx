@@ -11,6 +11,7 @@ import { feedSelector, getIngredientsMap, ingredientsSelector, isLoadingIngredie
 import { wsCloseAction, wsConnectAction } from "../../../../services/thunk/web-socket";
 import { useDispatch, useSelector } from "../../../../services/types/hooks";
 import { SOCKET_URL_ORDERS_ALL, SOCKET_URL_USER_ORDERS } from "../../../../utils/burger-api";
+import { Preload } from "../../../preload";
 
 type TFeedDetails = {
     allignCenter?: boolean,
@@ -49,7 +50,7 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
         || orders.length === 0
         || isLoading === true
     ) {
-        return <p className={ Styles.loading }>Loading...</p>;
+        return <Preload/>;
     }
 
     const selectedOrder: TOrder | undefined = orders.find(({ _id }) => _id === searchId)

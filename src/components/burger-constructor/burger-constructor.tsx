@@ -2,7 +2,6 @@ import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import { BUN_COUNT, BUN_TYPE, ROUTES } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
-import WaitImage from "../../images/wait.gif";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -25,6 +24,7 @@ import { BurgerConstructorItem } from "../burger-constructor-item/burger-constru
 import { useLocation, useNavigate } from "react-router-dom";
 import { TConstructorIngredient } from "../../utils/types";
 import { useDispatch, useSelector } from '../../services/types/hooks';
+import {Preload} from "../preload";
 
 export default function BurgerConstructor() {
     const { bun, ingredients, isDisabledOrderButton } = useSelector(burgerConstructorIngredientsSelector);
@@ -170,7 +170,7 @@ export default function BurgerConstructor() {
                     {
                         isLoading === true
                         && hasError === false
-                        && <img src={ WaitImage } alt="Loading.." className={ BurgerConstructorStyles.loading } />
+                        && <Preload/>
                     }
                     {
                         isLoading === false
