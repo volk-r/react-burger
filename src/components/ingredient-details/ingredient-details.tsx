@@ -1,17 +1,23 @@
 import React from 'react';
 import IngredientDetailsStyles from "../ingredient-details/ingredient-details.module.css";
 import { useSelector } from '../../services/types/hooks';
-import { ingredientsSelector } from "../../services/selectors";
+import { ingredientsSelector, isLoadingIngredientsSelector } from "../../services/selectors";
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from "../../utils/constants";
 import { TIngredient } from "../../utils/types";
+import { Preload } from "../preload";
 
 export default function IngredientDetails() {
     const navigate = useNavigate();
     const { ingredientId } = useParams();
     const ingredients = useSelector(ingredientsSelector);
     const selectedItem: TIngredient | undefined = ingredients.find(({ _id }) => _id === ingredientId)
+    const isLoading = useSelector(isLoadingIngredientsSelector);
+
+    if (isLoading === true) {
+        return <Preload/>;
+    }
 
     if (!selectedItem) {
         navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true })
