@@ -3,8 +3,6 @@ import { TWSStoreActions } from "../types";
 import { TSocketData } from "../../utils/types";
 import {
     WS_CONNECT,
-    WS_CONNECTING,
-    WS_CONNECTION_DISCONNECT,
     TWSActions,
 } from "../actions/web-socket";
 import { getCookie } from "../../utils/utils";
@@ -32,7 +30,7 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
                 dispatch(wsConnecting())
             }
 
-            if (socket && WS_CONNECTING === type) {
+            if (socket && wsConnecting().type === type) {
                 socket.onopen = () => {
                     console.log('open')
                     dispatch(wsOpen())
@@ -64,7 +62,7 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
                 }
             }
 
-            if (socket && WS_CONNECTION_DISCONNECT === type) {
+            if (socket && wsDisconnect().type === type) {
                 console.log('disconnect')
                 window.clearTimeout(reconnectTimerRef)
                 isConnected = false
