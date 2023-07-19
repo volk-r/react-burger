@@ -6,6 +6,8 @@ import {
     RESET_ORDER_NUMBER,
 } from "../actions/order-details";
 import { AppDispatch } from "../types";
+import { CLEAR_CONSTRUCTOR } from "../actions/burger-constructor";
+import { RESET_INGREDIENTS_COUNT } from "../actions/burger-ingredients";
 
 export function getOrderNumber(ids: string[]) {
     return function(dispatch: AppDispatch) {
@@ -22,6 +24,12 @@ export function getOrderNumber(ids: string[]) {
                     payload: {
                         orderNumber: data,
                     }
+                })
+                dispatch({
+                    type: CLEAR_CONSTRUCTOR,
+                })
+                dispatch({
+                    type: RESET_INGREDIENTS_COUNT,
                 })
             }).catch( err => {
                 dispatch({

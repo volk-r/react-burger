@@ -3,6 +3,7 @@ import { TConstructorIngredient } from "../../utils/types";
 export const ADD_INGREDIENT_TO_CONSTRUCTOR: 'ADD_INGREDIENT_TO_CONSTRUCTOR' = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
 export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR: 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR' = 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR';
 export const UPDATE_INGREDIENT_POSITION: 'UPDATE_INGREDIENT_POSITION' = 'UPDATE_INGREDIENT_POSITION';
+export const CLEAR_CONSTRUCTOR: 'CLEAR_CONSTRUCTOR' = 'CLEAR_CONSTRUCTOR';
 
 export interface IBurgerConstructorAddAction {
     readonly type: typeof ADD_INGREDIENT_TO_CONSTRUCTOR;
@@ -26,8 +27,13 @@ export interface IBurgerConstructorUpdateAction {
     };
 }
 
+export interface IClearBurgerConstructorAction {
+    readonly type: typeof CLEAR_CONSTRUCTOR;
+}
+
 export type TBurgerConstructorActions =
     IBurgerConstructorAddAction
     | IBurgerConstructorRemoveAction
     | IBurgerConstructorUpdateAction
+    | IClearBurgerConstructorAction
 ;

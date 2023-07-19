@@ -5,6 +5,7 @@ export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIEN
 export const GET_INGREDIENTS_FAILED: 'GET_INGREDIENTS_FAILED' = 'GET_INGREDIENTS_FAILED';
 export const INCREASE_INGREDIENTS_ITEM: 'INCREASE_INGREDIENTS_ITEM' = 'INCREASE_INGREDIENTS_ITEM';
 export const DECREASE_INGREDIENTS_ITEM: 'DECREASE_INGREDIENTS_ITEM' = 'DECREASE_INGREDIENTS_ITEM';
+export const RESET_INGREDIENTS_COUNT: 'RESET_INGREDIENTS_COUNT' = 'RESET_INGREDIENTS_COUNT';
 
 export interface IGetIngredientsAction {
     readonly type: typeof GET_INGREDIENTS;
@@ -38,10 +39,15 @@ export interface IDecreaseIngredientsAction {
     };
 }
 
+export interface IResetIngredientsCountAction {
+    readonly type: typeof RESET_INGREDIENTS_COUNT;
+}
+
 export type TIngredientsActions =
     IGetIngredientsAction
     | IGetIngredientsSuccessAction
     | IGetIngredientsFailedAction
     | IIncreaseIngredientsAction
     | IDecreaseIngredientsAction
+    | IResetIngredientsCountAction
 ;

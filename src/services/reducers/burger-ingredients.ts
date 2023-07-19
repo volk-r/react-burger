@@ -3,7 +3,9 @@ import {
     GET_INGREDIENTS_FAILED,
     GET_INGREDIENTS_SUCCESS,
     INCREASE_INGREDIENTS_ITEM,
-    DECREASE_INGREDIENTS_ITEM, TIngredientsActions,
+    DECREASE_INGREDIENTS_ITEM,
+    RESET_INGREDIENTS_COUNT,
+    TIngredientsActions,
 } from '../actions/burger-ingredients';
 import { BUN_TYPE } from "../../utils/constants";
 import { TIngredient } from "../../utils/types";
@@ -75,6 +77,18 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsAct
                     ingredients: state.burgerIngredients.ingredients.map(item =>
                         item._id === action.payload.item._id ? { ...item, qty: item.qty ? --item.qty : 0 } : item
                     )
+                }
+            };
+        }
+        case RESET_INGREDIENTS_COUNT: {
+            return {
+                ...state,
+                burgerIngredients: {
+                    ...state.burgerIngredients,
+                    bun: {...state.burgerIngredients.bun, qty: 0 },
+                    ingredients: state.burgerIngredients.ingredients.map(item => {
+                        return { ...item, qty: 0 };
+                    })
                 }
             };
         }

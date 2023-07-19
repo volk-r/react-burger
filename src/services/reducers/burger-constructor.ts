@@ -1,7 +1,9 @@
 import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR, TBurgerConstructorActions,
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
     UPDATE_INGREDIENT_POSITION,
+    CLEAR_CONSTRUCTOR,
+    TBurgerConstructorActions,
 } from '../actions/burger-constructor';
 import { BUN_TYPE } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown.png";
@@ -74,6 +76,9 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgerCo
                     }
                 })
             }
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return initialState
         }
         default: {
             return state
