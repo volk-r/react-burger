@@ -1,17 +1,17 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import {ReactElement, useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState} from 'react';
 import { getUserData } from "../../services/thunk/authorization";
-import { useDispatch, useSelector } from "react-redux";
 import { authDataRequestSelector, userInfoSelector } from "../../services/selectors";
 import { ROUTES } from "../../utils/constants";
 import { IProtectedRouteElementProps } from "../../utils/interfaces";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 
 export function ProtectedRouteElement({ element, onlyUnAuth = false }: IProtectedRouteElementProps): any {
     const location = useLocation();
     const navigate = useNavigate();
     const currentPath = location.pathname;
 
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const [ isUserLoaded, setUserLoaded ] = useState<boolean>(false);
 
     const init = useCallback(

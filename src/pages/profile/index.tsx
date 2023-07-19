@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, RefObject } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 
 import {
     Input,
@@ -11,13 +11,13 @@ import {
 import { updateUserData } from "../../services/thunk/authorization";
 import { userInfoSelector } from "../../services/selectors";
 import { useForm } from "../../hooks/useForm";
-import {IFormValues, IUseForm} from "../../utils/interfaces";
+import { IFormValues, IUseForm } from "../../utils/interfaces";
 
 export default function ProfilePage() {
     const userData: IFormValues | null = useSelector(userInfoSelector);
     const passwordGag: string = '************';
     const { formValues, setFormValues, handleChange }: IUseForm = useForm({...userData, password: passwordGag});
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const nameRef = useRef<HTMLInputElement>(null)
     const onIconClick = (): void => {

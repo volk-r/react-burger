@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Routes,
     Route,
@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary'
 import { ProtectedRouteElement } from '../protected-route';
-import { ROUTES } from '../../utils/constants'
+import { NESTED_ROUTES, ROUTES } from '../../utils/constants'
 
 import HomePage from '../../pages/home'
 import LoginPage from '../../pages/login'
@@ -19,19 +19,31 @@ import { Profile } from '../profile';
 import IngredientDetailsPage from '../../pages/ingredient-details/';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import FeedPage from "../../pages/feed";
+import { FeedDetails } from "../feed/components/feed-details/feed-details";
+import FeedDetailsPage from "../../pages/feed-details";
+import AppHeader from "../header/header";
+import { useDispatch } from "../../services/types/hooks";
+import { getIngredientsList } from "../../services/thunk/burger-ingredients";
 
 export default function App() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     let background = location.state?.background;
 
-    const handleCloseModal = (): void => {
-        navigate( ROUTES.ROUTE_HOME_PAGE , { replace: true });
+    useEffect(() => {
+        dispatch(getIngredientsList())
+    }, [])
+
+    const handleCloseModal = (route: string): void => {
+        navigate( route , { replace: true });
     };
 
     return (
         <>
             <ErrorBoundary>
+                <AppHeader />
                 <Routes location={ background || location }>
                     <Route path={ ROUTES.ROUTE_HOME_PAGE } element={<HomePage />} />
                     <Route path={ ROUTES.ROUTE_LOGIN_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<LoginPage />} />} />
@@ -40,15 +52,35 @@ export default function App() {
                     <Route path={ ROUTES.ROUTE_RESET_PASSWORD_PAGE } element={<ProtectedRouteElement onlyUnAuth={ true } element={<ResetPasswordPage />}/>} />
                     <Route path={ ROUTES.ROUTE_PROFILE_ROOT } element={<ProtectedRouteElement element={<Profile />}/>} />
                     <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={<IngredientDetailsPage />} />
+                    <Route path={ ROUTES.ROUTE_FEED_PAGE } element={<FeedPage />} />
+                    <Route path={ ROUTES.ROUTE_FEED_DETAILS_PAGE } element={<FeedDetailsPage />} />
+                    <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`} element={<ProtectedRouteElement element={<FeedDetailsPage />} />} />
                     <Route path="*" element={<NotFound404 />} />
                 </Routes>
                 {background && (
                     <Routes>
                         <Route path={ ROUTES.ROUTE_INGREDIENT_DETAILS_PAGE } element={
-                            <Modal header="Детали ингредиента" onClose={ handleCloseModal } >
+                            <Modal header="Детали ингредиента" onClose={ () => {
+                                handleCloseModal(ROUTES.ROUTE_HOME_PAGE)
+                            }}>
                                 <IngredientDetails />
                             </Modal>
                         } />
+                        <Route path={ ROUTES.ROUTE_FEED_DETAILS_PAGE } element={
+                            <Modal header="" onClose={ () => {
+                                handleCloseModal(ROUTES.ROUTE_FEED_PAGE)
+                            }}>
+                                <FeedDetails route={ROUTES.ROUTE_FEED_PAGE} />
+                            </Modal>
+                        } />
+                        <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`}
+                           element={
+                                <Modal header="" onClose={ () => {
+                                    handleCloseModal(`${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE}`)
+                                }}>
+                                    <FeedDetails route={`${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE}`} />
+                                </Modal>
+                        }/>
                     </Routes>
                 )}
             </ErrorBoundary>

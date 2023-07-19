@@ -8,9 +8,11 @@ import {
 } from "../actions/burger-ingredients";
 import { BUN_TYPE } from "../../utils/constants";
 import { data } from '../../utils/data'
+import { AppDispatch } from "../types";
+import { TIngredient } from "../../utils/types";
 
 export function getIngredientsList() {
-    return function(dispatch) {
+    return function(dispatch: AppDispatch) {
         // TODO: for debug, when api not accesible
         // dispatch({
         //     type: GET_INGREDIENTS_SUCCESS,
@@ -25,7 +27,9 @@ export function getIngredientsList() {
         getIngredients().then( data  => {
             dispatch({
                 type: GET_INGREDIENTS_SUCCESS,
-                ingredients: { bun: data.filter((item) => item.type === BUN_TYPE).pop(), ingredients: data }
+                payload: {
+                    burgerIngredients: { bun: data.filter((item: TIngredient) => item.type === BUN_TYPE).pop(), ingredients: data }
+                }
             })
         }).catch( err => {
             dispatch({
@@ -35,12 +39,16 @@ export function getIngredientsList() {
     }
 }
 
-export const increaseIngrideintsCount = (item) => ({
+export const increaseIngrideintsCount = (item: TIngredient) => ({
     type: INCREASE_INGREDIENTS_ITEM,
-    item
+    payload: {
+        item
+    }
 });
 
-export const decreaseIngrideintsCount = (item) => ({
+export const decreaseIngrideintsCount = (item: TIngredient) => ({
     type: DECREASE_INGREDIENTS_ITEM,
-    item
+    payload: {
+        item
+    }
 });

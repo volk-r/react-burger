@@ -1,0 +1,8 @@
+.content {
+    width: 600px;
+    min-height: 538px;
+    transform: translate(79%, 10%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

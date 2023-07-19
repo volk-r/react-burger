@@ -1,7 +1,11 @@
 import { setCookie, getCookie, deleteCookie } from './utils';
 import { IFormValues } from "./interfaces"
+import { TApiUserData, TApiTokens, TApiUserRegister, TApiMessage } from "./burger-api-types";
 
 const API_URL = 'https://norma.nomoreparties.space/api';
+
+export const SOCKET_URL_ORDERS_ALL = 'wss://norma.nomoreparties.space/orders/all'
+export const SOCKET_URL_USER_ORDERS = 'wss://norma.nomoreparties.space/orders'
 
 const request = (endpoint: string, options?: RequestInit): Promise<any> => {
     return fetch(`${API_URL}/${endpoint}`, options)
@@ -82,7 +86,7 @@ export async function resetPassword(form: IFormValues): Promise<string> {
     return data.message;
 }
 
-export async function registerAccount(form: IFormValues): Promise<any> {
+export async function registerAccount(form: IFormValues): Promise<TApiUserRegister> {
     const parameters: RequestInit = {
         method: 'POST',
         headers: {
@@ -90,12 +94,12 @@ export async function registerAccount(form: IFormValues): Promise<any> {
         },
         body: JSON.stringify(form)
     };
-    const data = await request('auth/register', parameters);
+    const data: TApiUserRegister = await request('auth/register', parameters);
 
     return data;
 }
 
-export async function accountAuthorization(form: IFormValues): Promise<any> {
+export async function accountAuthorization(form: IFormValues): Promise<TApiUserRegister> {
     const parameters: RequestInit = {
         method: 'POST',
         headers: {
@@ -103,7 +107,7 @@ export async function accountAuthorization(form: IFormValues): Promise<any> {
         },
         body: JSON.stringify(form)
     };
-    const data = await request('auth/login', parameters);
+    const data: TApiUserRegister = await request('auth/login', parameters);
 
     return data;
 }
@@ -113,7 +117,7 @@ export const saveTokens = (refreshToken: string, accessToken: string) => {
     localStorage.setItem('refreshToken', refreshToken);
 }
 
-export async function refreshTokenRequest(): Promise<any> {
+export async function refreshTokenRequest(): Promise<TApiTokens> {
     const parameters: RequestInit = {
         method: 'POST',
         headers: {
@@ -123,12 +127,12 @@ export async function refreshTokenRequest(): Promise<any> {
             "token": localStorage.getItem('refreshToken')
         })
     };
-    const data = await request('auth/token', parameters);
+    const data: TApiTokens = await request('auth/token', parameters);
 
     return data;
 }
 
-export async function userData(newUseData?: IFormValues): Promise<any> {
+export async function userData(newUseData?: IFormValues): Promise<TApiUserData> {
     const accessToken = getCookie('accessToken');
 
     if (!accessToken) {
@@ -148,12 +152,12 @@ export async function userData(newUseData?: IFormValues): Promise<any> {
         parameters.body = JSON.stringify(newUseData);
     }
 
-    const data = await request('auth/user', parameters);
+    const data: TApiUserData = await request('auth/user', parameters);
 
     return data;
 }
 
-export async function closeSession(): Promise<any> {
+export async function closeSession(): Promise<TApiMessage> {
     const parameters: RequestInit = {
         method: 'POST',
         headers: {
@@ -163,7 +167,7 @@ export async function closeSession(): Promise<any> {
             "token": localStorage.getItem('refreshToken')
         })
     };
-    const data = await request('auth/logout', parameters);
+    const data: TApiMessage = await request('auth/logout', parameters);
 
     return data;
 }

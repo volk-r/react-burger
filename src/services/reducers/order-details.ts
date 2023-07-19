@@ -3,15 +3,22 @@ import {
     GET_ORDER_NUMBER_SUCCESS,
     GET_ORDER_NUMBER_FAILED,
     RESET_ORDER_NUMBER,
+    TOrderDetailsActions,
 } from "../actions/order-details";
 
-const initialState = {
+export type TOrderDetailsSate = {
+    orderNumber: number | null,
+    isLoading: boolean,
+    hasError: boolean,
+}
+
+const initialState: TOrderDetailsSate = {
     orderNumber: null,
     isLoading: false,
     hasError: false,
 }
 
-export const orderDetailsReducer = (state = initialState, action) => {
+export const orderDetailsReducer = (state = initialState, action: TOrderDetailsActions): TOrderDetailsSate => {
     switch (action.type) {
         case GET_ORDER_NUMBER: {
             return {
@@ -23,7 +30,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
         case GET_ORDER_NUMBER_SUCCESS: {
             return {
                 ...state,
-                orderNumber: action.orderNumber,
+                orderNumber: action.payload.orderNumber,
                 isLoading: false,
                 hasError: false,
             };

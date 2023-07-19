@@ -1,0 +1,24 @@
+.container {
+    width: 45%;
+    min-width: 20%;
+    height: 530px;
+    min-height: 200px;
+    background: #131316;
+}
+
+.items {
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    max-height: 600px;
+    overflow: auto;
+}
+
+.isDisabled {
+    cursor: text;
+    color: inherit;
+}
+
+.shadow {
+    text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}

@@ -2,7 +2,6 @@ import React, { useMemo, useCallback } from 'react';
 import Modal from "../modal/modal";
 import { BUN_COUNT, BUN_TYPE, ROUTES } from "../../utils/constants";
 import UnknownBun from "../../images/bun-unknown-large.png";
-import WaitImage from "../../images/wait.gif";
 
 import BurgerConstructorStyles from './burger-constructor.module.css'
 
@@ -15,7 +14,6 @@ import {
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
 import { ITEM_TYPES } from "../../utils/constants";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { burgerConstructorIngredientsSelector, orderSelector, userInfoSelector } from "../../services/selectors";
 import { getOrderNumber, resetOrderNumber } from "../../services/thunk/order-details";
@@ -25,11 +23,13 @@ import { changeIngrideintPosition } from "../../services/thunk/burger-constructo
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TConstructorIngredient } from "../../utils/types";
+import { useDispatch, useSelector } from '../../services/types/hooks';
+import { Preload } from "../preload";
 
 export default function BurgerConstructor() {
     const { bun, ingredients, isDisabledOrderButton } = useSelector(burgerConstructorIngredientsSelector);
     const { hasError, isLoading } = useSelector(orderSelector);
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const userData = useSelector(userInfoSelector);
     const location = useLocation();
@@ -40,7 +40,7 @@ export default function BurgerConstructor() {
 
     const [{isHover}, dropTarget] = useDrop({
         accept: ITEM_TYPES.MOVE_ITEM_TO_CONSTRUCTOR,
-        drop(item) {
+        drop(item: TConstructorIngredient) {
             dispatch(addItemToConstructor(item))
             dispatch(increaseIngrideintsCount(item));
         },
@@ -122,7 +122,7 @@ export default function BurgerConstructor() {
         <section ref={dropTarget} className={ BurgerConstructorStyles.container } style={{ borderColor }}>
             <p className="m-20"></p>
             <ul>
-                <li className={` ${ BurgerConstructorStyles.listItem } pl-59 mr-4 mb-1`}>
+                <li className={` ${ BurgerConstructorStyles.listItem } mr-4 mb-1`}>
                     <ConstructorElement
                         type="top"
                         isLocked={ true }
@@ -136,14 +136,14 @@ export default function BurgerConstructor() {
                 {
                     ingredients.length === 0
                         ?
-                        <li className={` ${ BurgerConstructorStyles.listItem } ml-6 mr-2`}>
+                        <li className={` ${ BurgerConstructorStyles.listItem } ${ BurgerConstructorStyles.listItemEmpty } ml-6 mr-2`}>
                             Просто добавь воды
                         </li>
                     : ingredients.map((item: TConstructorIngredient, index: number) => renderIngredient(item, index))
                 }
             </ul>
             <ul>
-                <li className={` ${ BurgerConstructorStyles.listItem } pl-59 mr-4`}>
+                <li className={` ${ BurgerConstructorStyles.listItem } mr-4`}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
@@ -170,7 +170,7 @@ export default function BurgerConstructor() {
                     {
                         isLoading === true
                         && hasError === false
-                        && <img src={ WaitImage } alt="Loading.." className={ BurgerConstructorStyles.loading } />
+                        && <Preload/>
                     }
                     {
                         isLoading === false

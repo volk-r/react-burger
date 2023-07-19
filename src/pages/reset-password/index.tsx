@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/types/hooks';
 
 import styles from '../login/login.module.css';
 import {
@@ -55,7 +55,6 @@ export default function ResetPasswordPage() {
 
     return (
         <>
-            <AppHeader />
             <main className={ styles.box }>
                 <div className={ styles.container }>
                     <p className="text text_type_main-medium mb-7">Восстановление пароля</p>

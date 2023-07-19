@@ -27,7 +27,7 @@ export default function AppHeader() {
                         <p className="text text_type_main-default">Конструктор</p>
                     </NavLink>
                     <NavLink
-                        to={{ pathname: ROUTES.ROUTE_ORDER_LIST_PAGE }}
+                        to={{ pathname: ROUTES.ROUTE_FEED_PAGE }}
                         className={setActiveLink}
                     >
                         <ListIcon type="secondary" />

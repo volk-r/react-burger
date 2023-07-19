@@ -24,9 +24,9 @@ export function setCookie(name: string, value: string, props: { expires?: number
       updatedCookie += '=' + propValue;
     }
   }
-  document.cookie = updatedCookie;
+  document.cookie = updatedCookie + ";path=/";
 }
 
 export function deleteCookie(name: string) {
-  setCookie(name, "", { expires: -1 });
+  setCookie(name, "", { expires: -1, path: '/' });
 }

@@ -22,9 +22,11 @@ import {
     accountAuthorization,
     closeSession,
 } from "../../utils/burger-api";
+import { IFormValues } from "../../utils/interfaces";
+import { AppDispatch } from "../types";
 
-export function authorization(form) {
-    return function (dispatch) {
+export function authorization(form: IFormValues) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: AUTHORIZATION_PROCESS
         })
@@ -48,8 +50,8 @@ export function authorization(form) {
     }
 }
 
-export function registration(form) {
-    return function (dispatch) {
+export function registration(form: IFormValues) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: AUTHORIZATION_PROCESS
         })
@@ -74,7 +76,7 @@ export function registration(form) {
 }
 
 export function getUserData() {
-    return function (dispatch) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: GET_USER_DATA
         })
@@ -101,16 +103,23 @@ export function getUserData() {
     }
 }
 
-const refreshToken = (afterRefresh) => (dispatch) => {
+const refreshToken = (afterRefresh: { (dispatch: AppDispatch): void; (dispatch: AppDispatch): void; }) => (dispatch: AppDispatch) => {
     refreshTokenRequest()
         .then((res) => {
             saveTokens(res.refreshToken, res.accessToken);
             dispatch(afterRefresh);
+        }).catch( error => {
+            dispatch({
+                type: GET_USER_DATA_FAILED,
+                payload: {
+                    message: error.message,
+                },
+            })
         })
 };
 
-export function updateUserData(newUseData) {
-    return function (dispatch) {
+export function updateUserData(newUseData: IFormValues) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: UPDATE_USER_DATA
         })
@@ -138,17 +147,18 @@ export function updateUserData(newUseData) {
 }
 
 export function closeCurrentSession() {
-    return function (dispatch) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: CLOSE_USER_SESSION
         })
 
-        closeSession().then( data => {
+        closeSession().then( () => {
             cleanupTokenData();
             dispatch({
                 type: CLOSE_USER_SESSION_SUCCESS,
             })
         }).catch( error => {
+            cleanupTokenData();
             dispatch({
                 type: CLOSE_USER_SESSION_FAILED,
                 payload: {
@@ -159,8 +169,8 @@ export function closeCurrentSession() {
     }
 }
 
-export function resetPassword(email) {
-    return function (dispatch) {
+export function resetPassword(email: string) {
+    return function (dispatch: AppDispatch) {
         cleanupTokenData();
         dispatch({
             type: RESET_PASSWORD_EMAIL,
