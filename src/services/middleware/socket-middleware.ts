@@ -1,6 +1,6 @@
 import { Middleware } from "redux"
 import { TWSStoreActions } from "../types";
-import { TSocketData } from "../../utils/types";
+import { TWSSocketData } from "../../utils/types";
 import {
     WS_CONNECT,
     TWSActions,
@@ -42,7 +42,7 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
 
                 socket.onmessage = (event: MessageEvent) => {
                     const {data} = event
-                    const parsedData: TSocketData = JSON.parse(data)
+                    const parsedData: TWSSocketData = JSON.parse(data)
                     dispatch(wsMessage(parsedData))
                 }
 

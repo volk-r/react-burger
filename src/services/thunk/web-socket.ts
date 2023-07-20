@@ -7,7 +7,7 @@ import {
     WS_CONNECTION_OPEN,
     WS_GET_MESSAGE,
 } from '../actions/web-socket';
-import { TSocketData } from "../../utils/types";
+import { TWSSocketData } from "../../utils/types";
 
 export const wsConnectAction = (url: string) => ({
     type: WS_CONNECT,
@@ -32,7 +32,7 @@ export const wsCloseAction = () => ({
     type: WS_CONNECTION_CLOSE,
 });
 
-export const wsMessageAction = (messages: TSocketData) => ({
+export const wsMessageAction = (messages: TWSSocketData) => ({
     type: WS_GET_MESSAGE,
     payload: {
         messages

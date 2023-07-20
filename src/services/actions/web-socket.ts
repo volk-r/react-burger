@@ -1,4 +1,4 @@
-import { TSocketData } from "../../utils/types";
+import { TWSSocketData } from "../../utils/types";
 
 export const WS_CONNECTING: "WS_CONNECTING" = "WS_CONNECTING";
 export const WS_CONNECT: "WS_CONNECT" = "WS_CONNECT";
@@ -41,7 +41,7 @@ export interface IWSConnectionCloseAction {
 export interface IWSGetMessageAction {
     readonly type: typeof WS_GET_MESSAGE;
     readonly payload: {
-        readonly messages: TSocketData,
+        readonly messages: TWSSocketData,
     };
 }
 
