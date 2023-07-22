@@ -39,3 +39,5 @@ export const NESTED_ROUTES = {
     PROFILE_ORDER_LIST_PAGE     : "orders",
     PROFILE_ORDER_DETAILS_PAGE  : 'orders/:ordersId',
 }
+
+export const TEST_EMAIL = "yandex_practicum@mail.ru";
