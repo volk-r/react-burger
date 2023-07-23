@@ -4,11 +4,15 @@ import {
     TEST_PASSWORD
 } from "../../../src/utils/constants";
 
-describe("Order functional works correctly", () => {
+describe("Home page works correctly", () => {
     beforeEach(() => {
+        cy.visit("/");
         cy.intercept("POST", `${API_URL}/orders`).as("postOrder");
         cy.intercept("POST", `${API_URL}/auth/login`).as("login");
         cy.intercept("GET", `${API_URL}/ingredients`).as("getIngredients");
+
+        cy.get("[class^=burger-constructor_container]").as("constructor");
+        cy.get('[class *= "burger-ingredients-list_box"]').as('ingredientList');
     });
 
     it("should login in test account", () => {
@@ -20,15 +24,12 @@ describe("Order functional works correctly", () => {
     });
 
     it("should open and close ingredients popup", () => {
-        cy.visit("/");
         cy.get("#ingredients-container");
         cy.get("[class^=burger-ingredients-list_box]").first().click();
         cy.get("[data-cy='close']").click();
     });
 
     it("should make order", () => {
-        cy.visit("/");
-
         cy.get("#section_bun")
             .next('div')
             .find('[class^="burger-ingredients-list_box"]')
@@ -47,7 +48,6 @@ describe("Order functional works correctly", () => {
             .last()
             .as("sauce");
 
-        cy.get("[class^=burger-constructor_container]").as("constructor");
         cy.get("button").contains("Оформить заказ").as("submit");
 
         cy.get("@bun").trigger("dragstart");
@@ -70,6 +70,47 @@ describe("Order functional works correctly", () => {
 
         cy.get("[class^='order-details_orderNumber']");
         cy.get("[data-cy='close']").click();
+    });
+
+    it('can remove ingredients', () => {
+        cy.get('@ingredientList').eq(0).as('first');
+        cy.get('@ingredientList').eq(2).as('third');
+
+        cy.get('[class *= "burger-constructor_listContainer"] [class*="burger-constructor_listItem"]').as('constructorList');
+
+        cy.get('@constructorList')
+            .should(
+            'have.length',
+            1
+        );
+
+        cy.get('@first').trigger('dragstart');
+        cy.get('@constructor').trigger('drop');
+
+        cy.get('@constructorList').should(
+            'have.length',
+            1
+        );
+
+        cy.get('@third').trigger('dragstart');
+        cy.get('@constructor').trigger('drop');
+        cy.get('@third').trigger('dragstart');
+        cy.get('@constructor').trigger('drop');
+
+        cy.get('@constructorList').should(
+            'have.length',
+            2
+        );
+
+        cy.get('@constructorList')
+            .eq(1)
+            .find('.constructor-element__action')
+            .click();
+
+        cy.get('@constructorList').should(
+            'have.length',
+            1
+        );
     });
 });
 
