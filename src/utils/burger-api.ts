@@ -2,7 +2,7 @@ import { setCookie, getCookie, deleteCookie } from './utils';
 import { IFormValues } from "./interfaces"
 import { TApiUserData, TApiTokens, TApiUserRegister, TApiMessage } from "./burger-api-types";
 
-const API_URL = 'https://norma.nomoreparties.space/api';
+export const API_URL = 'https://norma.nomoreparties.space/api';
 
 export const SOCKET_URL_ORDERS_ALL = 'wss://norma.nomoreparties.space/orders/all'
 export const SOCKET_URL_USER_ORDERS = 'wss://norma.nomoreparties.space/orders'

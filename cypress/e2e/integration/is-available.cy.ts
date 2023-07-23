@@ -3,3 +3,5 @@ describe('service is available', function() {
         cy.visit('http://localhost:3000');
     });
 });
+
+export {}

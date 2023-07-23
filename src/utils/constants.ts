@@ -41,3 +41,4 @@ export const NESTED_ROUTES = {
 }
 
 export const TEST_EMAIL = "yandex_practicum@mail.ru";
+export const TEST_PASSWORD = "123456";
