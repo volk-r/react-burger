@@ -16,7 +16,7 @@ export type TBurgerConstructorState = {
     isDisabledOrderButton: boolean,
 }
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
     bun: {
         uuid: "0",
         _id: "0",
