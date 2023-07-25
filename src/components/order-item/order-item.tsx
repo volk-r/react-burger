@@ -14,7 +14,10 @@ export const OrderItem: FC<TOrderItemProps> = ({item, showStatus}) => {
     const ingredientsMap = useSelector(getIngredientsMap);
 
     const totalPrice = item.ingredients.reduce((acc, item) => {
-        acc += ingredientsMap[String(item)].price
+        if (item) {
+            acc += ingredientsMap[String(item)].price
+        }
+
         return acc
     }, 0)
 
@@ -31,7 +34,7 @@ export const OrderItem: FC<TOrderItemProps> = ({item, showStatus}) => {
             }
             <div className={` ${Styles.between} mt-6`}>
                 <div className={Styles.thumbs}>
-                    {ingredients.map((ingredient, index) => (
+                    {ingredients.map((ingredient, index) => ingredient && (
                         <div key={index} className={Styles.gradient}>
                             <div className={Styles.thumb}>
                                 <img src={ingredientsMap[String(ingredient)].image_mobile} alt={item.name}/>
