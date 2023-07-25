@@ -70,7 +70,7 @@ export default function App() {
                             <Modal header="" onClose={ () => {
                                 handleCloseModal(ROUTES.ROUTE_FEED_PAGE)
                             }}>
-                                <FeedDetails route={ROUTES.ROUTE_FEED_PAGE} />
+                                <FeedDetails />
                             </Modal>
                         } />
                         <Route path={ `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`}
@@ -78,7 +78,7 @@ export default function App() {
                                 <Modal header="" onClose={ () => {
                                     handleCloseModal(`${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE}`)
                                 }}>
-                                    <FeedDetails route={`${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_LIST_PAGE}`} />
+                                    <FeedDetails />
                                 </Modal>
                         }/>
                     </Routes>
