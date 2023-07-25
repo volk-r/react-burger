@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NESTED_ROUTES, ROUTES } from "../../../../utils/constants";
 import { TOrder, WebsocketStatus } from "../../../../utils/types";
 
-import { feedSelector, getIngredientsMap, ingredientsSelector, isLoadingIngredientsSelector } from "../../../../services/selectors";
+import { feedSelector, getIngredientsMap, isLoadingIngredientsSelector } from "../../../../services/selectors";
 import { wsCloseAction, wsConnectAction } from "../../../../services/thunk/web-socket";
 import { useDispatch, useSelector } from "../../../../services/types/hooks";
 import { SOCKET_URL_ORDERS_ALL, SOCKET_URL_USER_ORDERS } from "../../../../utils/burger-api";
@@ -44,7 +44,7 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const ingredientsMap = useSelector(getIngredientsMap);
 
     if (
-        status == WebsocketStatus.CONNECTING
+        status === WebsocketStatus.CONNECTING
         || orders.length === 0
         || isLoading === true
     ) {

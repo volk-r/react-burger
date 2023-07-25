@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import Styles from './order-item.module.css'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
-import { TIngredient, TOrderItemProps } from '../../utils/types'
+import { TOrderItemProps } from '../../utils/types'
 import { OrderStatus } from '../order-status/order-status'
 import { useSelector } from "../../services/types/hooks";
 import { getIngredientsMap } from "../../services/selectors";

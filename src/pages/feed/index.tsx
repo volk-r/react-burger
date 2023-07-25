@@ -21,7 +21,7 @@ export default function FeedPage() {
         }
     }, [dispatch])
 
-    if (status == WebsocketStatus.CONNECTING) { return <Preload/>; }
+    if (status === WebsocketStatus.CONNECTING) { return <Preload/>; }
 
     return (
         <main className={ styles.box }>

@@ -7,7 +7,6 @@ import {
     DECREASE_INGREDIENTS_ITEM,
 } from "../actions/burger-ingredients";
 import { BUN_TYPE } from "../../utils/constants";
-import { data } from '../../utils/data'
 import { AppDispatch } from "../types";
 import { TIngredient } from "../../utils/types";
 
