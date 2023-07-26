@@ -15,7 +15,7 @@ export default function OrdersListPage() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const { status, orders, total, totalToday } = useSelector(feedSelector);
+    const { status, orders } = useSelector(feedSelector);
 
     useEffect(() => {
         dispatch(wsConnectAction(SOCKET_URL_USER_ORDERS));
@@ -25,7 +25,7 @@ export default function OrdersListPage() {
         }
     }, [dispatch])
 
-    if (status == WebsocketStatus.CONNECTING) { return null }
+    if (status === WebsocketStatus.CONNECTING) { return null }
 
     return (
         <>

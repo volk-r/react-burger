@@ -3,11 +3,11 @@ import Styles from ".//feed-details.module.css";
 import { OrderStatus } from '../../../order-status/order-status'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { useNavigate, useParams } from 'react-router-dom';
-import { NESTED_ROUTES, ROUTES } from "../../../../utils/constants";
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { ROUTES } from "../../../../utils/constants";
 import { TOrder, WebsocketStatus } from "../../../../utils/types";
 
-import { feedSelector, getIngredientsMap, ingredientsSelector, isLoadingIngredientsSelector } from "../../../../services/selectors";
+import { feedSelector, getIngredientsMap, isLoadingIngredientsSelector } from "../../../../services/selectors";
 import { wsCloseAction, wsConnectAction } from "../../../../services/thunk/web-socket";
 import { useDispatch, useSelector } from "../../../../services/types/hooks";
 import { SOCKET_URL_ORDERS_ALL, SOCKET_URL_USER_ORDERS } from "../../../../utils/burger-api";
@@ -15,25 +15,34 @@ import { Preload } from "../../../preload";
 
 type TFeedDetails = {
     allignCenter?: boolean,
-    route: string,
 }
 
 export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const dispatch = useDispatch();
     const isLoading = useSelector(isLoadingIngredientsSelector);
+    const location = useLocation();
 
-    const { allignCenter, route } = props;
+    const { allignCenter } = props;
 
     const navigate = useNavigate();
     const { feedId, ordersId } = useParams();
     const searchId = feedId ?? ordersId;
 
     useEffect(() => {
-        dispatch(wsConnectAction(
-            route === `${ROUTES.ROUTE_PROFILE_PAGE}${NESTED_ROUTES.PROFILE_ORDER_DETAILS_PAGE}`
-                ? SOCKET_URL_USER_ORDERS
-                : SOCKET_URL_ORDERS_ALL
-        ));
+        let URL = null
+
+        if (location.pathname.indexOf(ROUTES.ROUTE_PROFILE_PAGE) !== -1) {
+            URL = SOCKET_URL_USER_ORDERS;
+        }
+        else if (location.pathname.indexOf(ROUTES.ROUTE_FEED_PAGE) !== -1) {
+            URL = SOCKET_URL_ORDERS_ALL;
+        } else {
+            dispatch(wsCloseAction())
+
+            return;
+        }
+
+        dispatch(wsConnectAction(URL));
 
         return () => {
             dispatch(wsCloseAction())
@@ -44,7 +53,7 @@ export const FeedDetails: FC<TFeedDetails> = ( props) => {
     const ingredientsMap = useSelector(getIngredientsMap);
 
     if (
-        status == WebsocketStatus.CONNECTING
+        status === WebsocketStatus.CONNECTING
         || orders.length === 0
         || isLoading === true
     ) {

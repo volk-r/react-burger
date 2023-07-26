@@ -12,7 +12,7 @@ export type TOrderDetailsSate = {
     hasError: boolean,
 }
 
-const initialState: TOrderDetailsSate = {
+export const initialState: TOrderDetailsSate = {
     orderNumber: null,
     isLoading: false,
     hasError: false,

@@ -24,7 +24,7 @@ export type TAuthorizationState = {
     resetPasswordEmail: string | null,
 }
 
-const initialState: TAuthorizationState = {
+export const initialState: TAuthorizationState = {
     user              : null,
     request           : false,
     requestFailed     : false,

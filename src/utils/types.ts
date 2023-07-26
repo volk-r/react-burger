@@ -60,7 +60,7 @@ export type TOrder = {
     number: number;
 }
 
-export type TSocketData = {
+export type TWSSocketData = {
     success: boolean;
     message?: string;
     orders?: TOrder[];

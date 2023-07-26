@@ -1,4 +1,5 @@
 import { TConstructorIngredient } from "../../utils/types";
+import { ITestAction } from "./test";
 
 export const ADD_INGREDIENT_TO_CONSTRUCTOR: 'ADD_INGREDIENT_TO_CONSTRUCTOR' = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
 export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR: 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR' = 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR';
@@ -36,4 +37,5 @@ export type TBurgerConstructorActions =
     | IBurgerConstructorRemoveAction
     | IBurgerConstructorUpdateAction
     | IClearBurgerConstructorAction
+    | ITestAction
 ;

@@ -27,6 +27,15 @@
     margin: 0;
 }
 
+.closeButton {
+    align-items: center;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+}
+
 .header {
     justify-content: flex-end;
 }

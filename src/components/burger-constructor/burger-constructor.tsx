@@ -153,7 +153,7 @@ export default function BurgerConstructor() {
                     />
                 </li>
             </ul>
-            <section className={` ${ BurgerConstructorStyles.priceContainer } mt-7 mr-4 mb-5`}>
+            <section className={`${ BurgerConstructorStyles.priceContainer } mt-7 mr-4 mb-5`}>
                 <p className="text text_type_digits-medium">
                     {totalPrice.toString()}
                 </p>

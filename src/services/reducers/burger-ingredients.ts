@@ -19,7 +19,7 @@ type TIngredientsState = {
     },
 }
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
     ingredientsRequest: false,
     ingredientsFailed: false,
     burgerIngredients: { bun: {}, ingredients: [] },

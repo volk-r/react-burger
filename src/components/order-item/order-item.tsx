@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import Styles from './order-item.module.css'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
-import { TIngredient, TOrderItemProps } from '../../utils/types'
+import { TOrderItemProps } from '../../utils/types'
 import { OrderStatus } from '../order-status/order-status'
 import { useSelector } from "../../services/types/hooks";
 import { getIngredientsMap } from "../../services/selectors";
@@ -14,7 +14,10 @@ export const OrderItem: FC<TOrderItemProps> = ({item, showStatus}) => {
     const ingredientsMap = useSelector(getIngredientsMap);
 
     const totalPrice = item.ingredients.reduce((acc, item) => {
-        acc += ingredientsMap[String(item)].price
+        if (item) {
+            acc += ingredientsMap[String(item)].price
+        }
+
         return acc
     }, 0)
 
@@ -31,7 +34,7 @@ export const OrderItem: FC<TOrderItemProps> = ({item, showStatus}) => {
             }
             <div className={` ${Styles.between} mt-6`}>
                 <div className={Styles.thumbs}>
-                    {ingredients.map((ingredient, index) => (
+                    {ingredients.map((ingredient, index) => ingredient && (
                         <div key={index} className={Styles.gradient}>
                             <div className={Styles.thumb}>
                                 <img src={ingredientsMap[String(ingredient)].image_mobile} alt={item.name}/>

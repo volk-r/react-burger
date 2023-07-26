@@ -32,7 +32,7 @@ export default function FeedActivity(props: { orders: TOrder[]; total: number; t
                     </div>
                 </div>
             </section>
-            <section className={` ${ Styles.priceContainer }`}>
+            <section className={`${ Styles.priceContainer }`}>
                 <p className="p-1 mt-9 text text_type_main-medium">Выполнено за все время:</p>
                 <p className={` ${ Styles.shadow } text text_type_digits-large`}>
                     {total}

@@ -16,7 +16,7 @@ export type TWSState = {
     connectionError: string | null
 }
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
     status: WebsocketStatus.OFFLINE,
     orders: [],
     total: 0,

@@ -33,7 +33,9 @@ export default function Modal(props: IModalProps) {
                 <div className={ ModalStyles.content }>
                     <div className={ ModalStyles.headerBlock }>
                         <h3 className={`${ModalStyles.header} text text_type_main-large m-2 pr-2 pt-1`}>{ header }</h3>
-                        <CloseIcon type="primary" onClick={ onClose } />
+                        <button className={ModalStyles.closeButton} onClick={ onClose } data-cy="close">
+                            <CloseIcon type="primary"  />
+                        </button>
                     </div>
                     <div className={`${ ModalStyles.childContent } `}>
                         { children }

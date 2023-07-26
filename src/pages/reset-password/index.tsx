@@ -8,7 +8,6 @@ import {
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import AppHeader from '../../components/header/header';
 import { resetPassword } from '../../utils/burger-api';
 import { ErrorOnForm } from '../../components/error-on-form';
 import { resetPasswordEmailSelector } from '../../services/selectors';
@@ -51,7 +50,7 @@ export default function ResetPasswordPage() {
         if (!resetPasswordEmail) {
             navigate( ROUTES.ROUTE_FORGOT_PASSWORD_PAGE , { replace: true });
         }
-    }, [resetPasswordEmail])
+    }, [resetPasswordEmail, navigate])
 
     return (
         <>
