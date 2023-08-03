@@ -16,8 +16,8 @@ import {
     UPDATE_USER_DATA,
     UPDATE_USER_DATA_FAILED,
     UPDATE_USER_DATA_SUCCESS,
+    TAuthorizationActions,
 } from "../actions/authorization";
-import { TEST_ACTION } from "../actions/test";
 import { TEST_EMAIL } from "../../utils/constants";
 
 describe("authorization reducer", () => {
@@ -27,7 +27,7 @@ describe("authorization reducer", () => {
     };
 
     it("should return the initial state", () => {
-        expect(authorizationReducer(initialState, { type: TEST_ACTION })).toEqual(initialState);
+        expect(authorizationReducer(undefined, {} as TAuthorizationActions)).toEqual(initialState);
     });
 
     describe("should handle login process", () => {

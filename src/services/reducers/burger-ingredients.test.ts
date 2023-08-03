@@ -1,4 +1,3 @@
-import { TEST_ACTION } from "../actions/test";
 import { ingredientsReducer, initialState } from "./burger-ingredients";
 import {
     GET_INGREDIENTS,
@@ -7,8 +6,9 @@ import {
     INCREASE_INGREDIENTS_ITEM,
     DECREASE_INGREDIENTS_ITEM,
     RESET_INGREDIENTS_COUNT,
+    TIngredientsActions,
 } from "../actions/burger-ingredients";
-import {BUN_TYPE} from "../../utils/constants";
+import { BUN_TYPE } from "../../utils/constants";
 
 const MOCK_BUN = {
     "uuid": "643d69a5c3f7b9001cfa093",
@@ -87,7 +87,7 @@ const mockState = {
 };
 describe("ingredients reducer", () => {
     it("should return the initial state", () => {
-        expect(ingredientsReducer(mockState, { type: TEST_ACTION })).toEqual(mockState);
+        expect(ingredientsReducer(mockState, {} as TIngredientsActions)).toEqual(mockState);
     });
 
     it("should reset state", () => {

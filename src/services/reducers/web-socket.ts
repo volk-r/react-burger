@@ -58,7 +58,7 @@ export const wsReducer = (state = initialState, action: TWSActions): TWSState =>
                 return {
                     ...state,
                     connectionError: null,
-                    orders: data.orders!.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+                    orders: data.orders!.sort((a: TOrder, b: TOrder) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
                     total: data.total!,
                     totalToday: data.totalToday!,
                 };

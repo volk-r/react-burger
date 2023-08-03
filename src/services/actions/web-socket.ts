@@ -1,5 +1,4 @@
 import { TWSSocketData } from "../../utils/types";
-import { ITestAction } from "./test";
 
 export const WS_CONNECTING: "WS_CONNECTING" = "WS_CONNECTING";
 export const WS_CONNECT: "WS_CONNECT" = "WS_CONNECT";
@@ -54,5 +53,4 @@ export type TWSActions =
     | IWSConnectionErrorAction
     | IWSConnectionCloseAction
     | IWSGetMessageAction
-    | ITestAction
 ;

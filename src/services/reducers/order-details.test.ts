@@ -2,17 +2,17 @@ import {
     orderDetailsReducer,
     initialState
 } from "./order-details";
-import { TEST_ACTION } from "../actions/test";
 import {
     GET_ORDER_NUMBER,
     GET_ORDER_NUMBER_SUCCESS,
     GET_ORDER_NUMBER_FAILED,
     RESET_ORDER_NUMBER,
+    TOrderDetailsActions,
 } from "../actions/order-details";
 
 describe("order details reducer", () => {
     it("should return the initial state", () => {
-        expect(orderDetailsReducer(initialState, { type: TEST_ACTION })).toEqual(initialState);
+        expect(orderDetailsReducer(undefined, {} as  TOrderDetailsActions)).toEqual(initialState);
     });
 
     it("should reset state", () => {

@@ -1,5 +1,4 @@
 import { TIngredient } from "../../utils/types";
-import { ITestAction } from "./test";
 
 export const GET_INGREDIENTS: 'GET_INGREDIENTS' = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -51,5 +50,4 @@ export type TIngredientsActions =
     | IIncreaseIngredientsAction
     | IDecreaseIngredientsAction
     | IResetIngredientsCountAction
-    | ITestAction
 ;

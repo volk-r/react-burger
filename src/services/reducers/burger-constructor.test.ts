@@ -2,12 +2,12 @@ import {
     burgerConstructorReducer,
     initialState
 } from "./burger-constructor";
-import { TEST_ACTION } from "../actions/test";
 import {
     ADD_INGREDIENT_TO_CONSTRUCTOR,
     CLEAR_CONSTRUCTOR,
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
     UPDATE_INGREDIENT_POSITION,
+    TBurgerConstructorActions,
 } from "../actions/burger-constructor";
 
 const MOCK_BUNS = [
@@ -93,7 +93,7 @@ const MOCK_INGREDIENTS = [
 
 describe("burgerConstructor reducer", () => {
     it("should return the initial state", () => {
-        expect(burgerConstructorReducer(initialState, { type: TEST_ACTION })).toEqual(initialState);
+        expect(burgerConstructorReducer(undefined, {} as TBurgerConstructorActions )).toEqual(initialState);
     });
 
     it("should reset state", () => {

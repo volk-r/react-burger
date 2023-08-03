@@ -1,5 +1,4 @@
 import { TUser } from "../../utils/types";
-import { ITestAction } from "./test";
 
 export const AUTHORIZATION_PROCESS = 'AUTHORIZATION_PROCESS' as const;
 export const AUTHORIZATION_PROCESS_SUCCESS: 'AUTHORIZATION_PROCESS_SUCCESS' = 'AUTHORIZATION_PROCESS_SUCCESS';
@@ -105,5 +104,4 @@ export type TAuthorizationActions =
     | ICloseUserSessionSuccessAction
     | ICloseUserSessionFailedAction
     | IResetPasswordEmailAction
-    | ITestAction
 ;

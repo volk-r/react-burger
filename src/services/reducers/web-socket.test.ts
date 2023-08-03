@@ -2,8 +2,8 @@ import {
     wsReducer,
     initialState
 } from "./web-socket";
-import { TEST_ACTION } from "../actions/test";
 import {
+    TWSActions,
     WS_CONNECTING,
     WS_CONNECTION_CLOSE,
     WS_CONNECTION_ERROR,
@@ -14,7 +14,7 @@ import { WebsocketStatus } from "../../utils/types";
 
 describe("ws reducer", () => {
     it("should return the initial state", () => {
-        expect(wsReducer(initialState, { type: TEST_ACTION })).toEqual(initialState);
+        expect(wsReducer(undefined, {} as TWSActions)).toEqual(initialState);
     });
 
     it("should handle start websocket connection", () => {

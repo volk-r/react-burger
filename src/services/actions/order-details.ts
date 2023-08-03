@@ -1,5 +1,3 @@
-import { ITestAction } from "./test";
-
 export const GET_ORDER_NUMBER: 'GET_ORDER_NUMBER' = 'GET_ORDER_NUMBER';
 export const GET_ORDER_NUMBER_SUCCESS: 'GET_ORDER_NUMBER_SUCCESS' = 'GET_ORDER_NUMBER_SUCCESS';
 export const GET_ORDER_NUMBER_FAILED: 'GET_ORDER_NUMBER_FAILED' = 'GET_ORDER_NUMBER_FAILED';
@@ -29,5 +27,4 @@ export type TOrderDetailsActions =
     | IGetOrderNumberSuccessAction
     | IGetOrderNumberFailedAction
     | IResetOrderNumberAction
-    | ITestAction
 ;
