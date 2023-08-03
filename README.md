@@ -2,7 +2,7 @@
 
 Учебный проект на курсе Яндекс.Практикума React-разработчик. Написан на TypeScript. Инициализирован с помощью CRA.
 
-[DEMO](http://torns-burgers.nomoredomains.xyz/)
+![homePage.png](src%2Fimages%2FhomePage.png)
 
 ## Запуск
 
